@@ -14,7 +14,7 @@ public class Opponent {
     private Scanner scanner;
 
     public Opponent() {
-        this.scanner = new Scanner(System.in);
+        this.scanner = ScannerCreator.getScanner(); // Re factorized to call class
 
         chooseOption();
 
@@ -68,7 +68,7 @@ public class Opponent {
             printOpponentMenu(); // As long as we are inside the loop, we will keep printing the message
 
             try {
-                choice = choice = scanner.nextInt();
+                choice = scanner.nextInt();
 
                 while (!(1 <= choice && choice <= 3)) {
                     System.out.println("Come on man. Type something between 1 - 3 for a proper option.");
@@ -83,12 +83,12 @@ public class Opponent {
             switch (choice) {
                 case 1 -> {
                     System.out.println("Place holder. Method here");
-                    closeScanner();
+                    ScannerCreator.closeScanner();
                     exit = false;
                 }
                 case 2 -> {
                     System.out.println("Place holder. Another method here");
-                    closeScanner();
+                    ScannerCreator.closeScanner();
                     exit = false;
                 }
                 case 3 -> { // File reading for the instructions associated with this menu. txt should be inside the project directory
@@ -121,10 +121,5 @@ public class Opponent {
             }
         }
         return choice;
-    }
-
-    // We close the Scanner object once we're done with it
-    private void closeScanner() {
-        scanner.close();
     }
 }

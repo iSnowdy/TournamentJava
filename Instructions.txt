@@ -1,0 +1,17 @@
+Depending on the type of opponent you choose, you will experience different things.
+
+If you prefer to fight a fellow human:
+
+	- You will face against another person. Both of you, after deciding on who
+	who goes first, will face against each other
+	- After each one of you selects a figther or creates one, you will start
+	fighting via a minigame. Whoever goes down first, is the loser
+	- A more detailed explanation can be inquired later on
+
+Elif you prefer to fight the Nasty Java Console:
+
+	- Instead of a human, you are going to face my creation: The Arrow Demon >:D
+	- Depending on the overall rank of the fight, the difficulty will be adjusted
+	- All actions that the Console takes are randomized. So be prepared for the unexpected!
+
+------- END. Line Counter: 15 ------- 
