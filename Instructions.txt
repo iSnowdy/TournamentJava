@@ -15,3 +15,29 @@ Elif you prefer to fight the Nasty Java Console:
 	- All actions that the Console takes are randomized. So be prepared for the unexpected!
 
 ------- END. Line Counter: 15 ------- 
+------- START. Line Counter: 16 ------- (17 - 40)
+Your Fighter statistics play an important role when clasing against other fighters.
+
+	- Vitality: It will dictate the amount of Health Points (HP) that your Fighter has.
+	The more Vitality Points (or HP) your fighter has, the harder it will be for it to 
+	fall in combat.
+	- Strength: It will dictate the amount of Damage per Hit that your Fighter can
+	inflict to the opponent.
+	- Dexterity: Dexterity has two bonuses. (1) Increase the time limit that you have
+	to input your Arrow Keys during a Fighting Minigame. (2) A small chance, depending 
+	on your Dexterity points, to dodge a blow coming from your opponent (negates taken
+	damage that round).
+
+You will be able to gain stat points throughout the game. Both victories and losses will grant
+you a certain number of stat points. Keep in mind that defeats will yield a higher amount.
+However if you lose fights, you are also going to lose Rank Points. 
+
+So don't try anything funny!
+
+Now you are going to either pick an already built Fighter or build a customized one. If you 
+choose to do the latter, then your Fighter will start with 1 stat point in each statistic
+and you will be responsible for allocating the points. 
+
+Do not worry, in both cases you will have the same total stat points.
+
+------- END. Line Counter: 15 ------- 

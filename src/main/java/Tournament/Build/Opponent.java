@@ -13,7 +13,7 @@ public class Opponent {
     private boolean exit = true;
     private Scanner scanner;
 
-    public Opponent() {
+    public Opponent() { // Constructor
         this.scanner = ScannerCreator.getScanner(); // Re factorized to call class
 
         chooseOption();
@@ -63,10 +63,8 @@ public class Opponent {
     }
 
     private int chooseOption() {
-
         while (exit) {
             printOpponentMenu(); // As long as we are inside the loop, we will keep printing the message
-
             try {
                 choice = scanner.nextInt();
 
