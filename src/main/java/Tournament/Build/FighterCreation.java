@@ -12,10 +12,24 @@ public class FighterCreation extends Statistics {
     private int choice;
     private boolean exit = true;
 
-    // Tener 2 constructores. Uno para instanciar en general y otro para
-    // heredar las estadisticas de Statistics y asi poder acceder a ellas y
-    // modificarlas?
+    /*
 
+     Tener 2 constructores. Uno para instanciar en general y otro para
+     heredar las estadisticas de Statistics y asi poder acceder a ellas y
+     modificarlas?
+     Una vez modificadas en esta clase, se guardarían en un JSON que correspondería al jugador ese y solo ese
+     Luego, cuando el juego avance, en la primera pelea se cargaría en otra clase ese JSON con las estadisticas
+     Esas estadisticas se iran modificando a medida que avance el juego, pero desde otra clase. No esta.
+     Esta en concreto es solo para la creacion inicial del PJ / seleccion de uno predefinido
+
+     Dividir Statistics entre 2: una interfaz con los metodos para controlar la ganancia/subida de stats y
+     luego una clase abstract que contenga las stats
+
+
+     Usar ArrayList para almacenar datos para el Log? Nombre luchadores, jugadores, stats, wins/losses
+     O HashMap Jugador:Luchador
+
+    */
 
     public FighterCreation() { // Constructor
         this.scanner = ScannerCreator.getScanner();

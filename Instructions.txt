@@ -14,7 +14,7 @@ Elif you prefer to fight the Nasty Java Console:
 	- Depending on the overall rank of the fight, the difficulty will be adjusted
 	- All actions that the Console takes are randomized. So be prepared for the unexpected!
 
-------- END. Line Counter: 15 ------- 
+------- END. Line Counter: 15 -------  (0 - 15)
 ------- START. Line Counter: 16 ------- (17 - 40)
 Your Fighter statistics play an important role when clasing against other fighters.
 
