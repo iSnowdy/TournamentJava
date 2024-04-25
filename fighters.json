@@ -1,0 +1,44 @@
+{
+    "Fighters": [
+        {
+            "Name": "Fighter1",
+            "Rank": "One",
+            "Type": "Vitality",
+            "Vitality": 10,
+            "Strength": 5,
+            "Dexterity": 2
+        },
+        {
+            "Name": "Fighter2",
+            "Rank": "Two",
+            "Type": "Strength",
+            "Vitality": 7,
+            "Strength": 12,
+            "Dexterity": 1
+        },
+        {
+            "Name": "Fighter3",
+            "Rank": "Three",
+            "Type": "Dexterity",
+            "Vitality": 3,
+            "Strength": 6,
+            "Dexterity": 15
+        },
+        {
+            "Name": "Fighter4",
+            "Rank": "Four",
+            "Type": "Mixed",
+            "Vitality": 7,
+            "Strength": 12,
+            "Dexterity": 6
+        },
+        {
+            "Name": "Fighter5",
+            "Rank": "Five",
+            "Type": "Vagabond",
+            "Vitality": 1,
+            "Strength": 1,
+            "Dexterity": 1
+        }
+    ]
+}
