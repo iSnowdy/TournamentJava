@@ -14,10 +14,13 @@ public abstract class Statistics {
 
     // Abstract classes that will be implemented by child classes
 
+    /* Added to interface
     abstract int increaseVitality();
     abstract int increaseStrength();
     abstract int increaseDexterity();
+     */
     abstract void showStats();
+
 
     // Constructor
 
