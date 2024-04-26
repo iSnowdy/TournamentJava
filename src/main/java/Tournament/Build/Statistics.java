@@ -3,9 +3,9 @@ package Tournament.Build;
 public abstract class Statistics {
 
     // Attributes
-    protected int vitality;
-    protected int strength;
-    protected int dexterity;
+    private static int vitality = 1;
+    private static int strength = 1;
+    private static int dexterity = 1;
     protected int availableStatPoints;
     protected int totalStatPoints;
 

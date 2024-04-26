@@ -5,7 +5,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Scanner;
 
-public class FighterCreation extends Statistics {
+public class FighterCreation extends Statistics implements StatsManager {
     protected final String fighterName;
     protected final String fighterType;
     private Scanner scanner;
@@ -33,12 +33,6 @@ public class FighterCreation extends Statistics {
 
     public FighterCreation() { // Constructor
         this.scanner = ScannerCreator.getScanner();
-        super();
-    }
-
-    public getStats(int vitality, int strength, int dexterity, int availableStatPoints, int totalStatPoints) {
-        this.vitality = vitality;
-        this.strength =
     }
 
     protected void printFighterWelcomeMessage() {
@@ -111,5 +105,11 @@ public class FighterCreation extends Statistics {
         }
     return choice;
     }
+
+    private void loadFighter() {
+
+    }
+
+
 
 }

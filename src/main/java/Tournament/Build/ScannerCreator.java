@@ -21,5 +21,4 @@ public class ScannerCreator {
     public static void closeScanner() {
         scanner.close();
     }
-
 }

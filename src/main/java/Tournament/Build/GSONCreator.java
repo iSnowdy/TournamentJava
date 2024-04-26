@@ -8,6 +8,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Objects;
 
 public class GSONCreator {
     /*
@@ -58,12 +59,12 @@ public class GSONCreator {
         }
     }
 
-    public void readFile(String name, JsonObject jsonObject) { // Reads specific Fighter
+    public void readFile(String name, JsonObject jsonObject) { // Reads a specific Fighter
         int counter = 0;
         try {
             for (int i = 0; i < jsonObject.getAsJsonArray("Fighters").size(); i ++) {
                 JsonObject fighter = jsonObject.getAsJsonArray("Fighters").get(i).getAsJsonObject();
-                if (fighter.get("Name").getAsString() == name ) {
+                if (Objects.equals(fighter.get("Name").getAsString(), name)) {
                     System.out.println("Fighter " + name + " details are:\n");
                     System.out.println("=====================================");
                     for (String key : fighter.keySet()) {
@@ -82,4 +83,25 @@ public class GSONCreator {
     }
     // Although we could also read specific values such as Vitality, Strength & Dexterity, it would be easier
     // to implement those methods using attributes in another class, not loading them from the JSON file. I think. Probably xd
+
+    public void getFighterByRank(String rank, JsonObject jsonObject) {
+        int counter = 0;
+        try {
+            for (int i = 0; i < jsonObject.getAsJsonArray("Fighters").size(); i ++) {
+                JsonObject fighter00 =jsonObject.getAsJsonArray("Fighters").get(i).getAsJsonObject();
+                System.out.println("=====================================");
+                if (Objects.equals(fighter00.get("Rank").getAsString(), rank)) {
+                    System.out.println("Fighter of Rank " + rank + " details are: \n");
+                    for (String key : fighter00.keySet()) {
+                        System.out.println(key + ": " + fighter00.get(key));
+                    }
+                    System.out.println();
+                }
+                System.out.println("=====================================");
+            }
+        } catch (Exception exception04) {
+            System.err.println("Error while parsing\n" + exception04.getMessage());
+            exception04.printStackTrace();
+        }
+    }
 }
