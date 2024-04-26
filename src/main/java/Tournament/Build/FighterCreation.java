@@ -1,16 +1,23 @@
 package Tournament.Build;
 
+import com.google.gson.JsonObject;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Objects;
 import java.util.Scanner;
 
 public class FighterCreation extends Statistics implements StatsManager {
+    private GSONCreator gsonCreator; // To be able to use JSON-related methods
+    private JsonObject jsonObject;
     protected final String fighterName;
     protected final String fighterType;
     private Scanner scanner;
     private int choice;
     private boolean exit = true;
+    private String rank;
+    private final String filePath = "fighterstest.json";
 
     /*
 
@@ -107,9 +114,34 @@ public class FighterCreation extends Statistics implements StatsManager {
     }
 
     private void loadFighter() {
+        System.out.println("You have decided to load an already existing Fighter");
+        System.out.println("You are able to decide the Rank of the Fighter you would like to load. However," +
+                "take into account that the higher the Rank, the harder the fights will be.\n" +
+                "Finally, when fighting against higher ranked Fighters, if you suffer a defeat, you will lose\n" +
+                "all of your Rank Points");
 
+        do {
+            System.out.println("The current available Fighters are:\n");
+            gsonCreator.readFile(filePath); // We call the method to read the whole JSON first
+
+            System.out.println("Out of those fighters, what Fighter Rank are you willing to load?");
+            String rank = scanner.nextLine();
+            System.out.println("Confirm Selection. Are you sure you want to load this Fighter? Type Y/N");
+            String decision = scanner.nextLine();
+            if (Objects.equals(decision.toLowerCase(), "Y")) {
+                jsonObject = gsonCreator.loadFile(filePath);
+                gsonCreator.getFighterByRank(rank, jsonObject);
+                this.rank = rank;
+                exit = false;
+                // Here we must implement somehow a way to load the characteristics of this Fighter and
+                // assign it to the user
+            }
+        } while (exit);
     }
 
+    public String getRank() {
+        return rank;
+    }
 
 
 }

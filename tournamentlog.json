@@ -1,0 +1,52 @@
+{
+    "UserInfo": [
+        {
+            "UserName": "John",
+            "FighterName": "Doe",
+            "Wins": 0,
+            "Loses": 2,
+            "Opponents": [
+                {
+                    "OpponentName": "David",
+                    "WinsVS": 0,
+                    "LosesVS": 1,
+                    "FighterRank:": "One"
+                }
+            ]
+        },
+        {
+            "UserName": "David",
+            "FighterName": "Jack",
+            "Wins": 2,
+            "Loses": 3,
+            "Opponents": [
+                {
+                    "OpponentName": "John",
+                    "WinsVS": 1,
+                    "LosesVS": 0,
+                    "FighterRank:": "Two"
+                }
+            ]
+        },
+        {
+            "UserName": "Chan",
+            "FighterName": "Chin",
+            "Wins": 5,
+            "Loses": 0,
+            "Opponents": [
+                {
+                    "OpponentName": "John",
+                    "WinsVS": 1,
+                    "LosesVS": 0,
+                    "FighterRank:": "Two"
+                },
+                {
+                    "OpponentName": "David",
+                    "WinsVS": 1,
+                    "LosesVS": 0,
+                    "FighterRank:": "One"
+                }
+            ]
+        }
+    ]
+}

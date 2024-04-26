@@ -27,6 +27,8 @@ public class GSONCreator {
         this.gson = new GsonBuilder().setPrettyPrinting().create(); // Line breaks, blanks, spaces, etc
     }
 
+
+
     public JsonObject loadFile(String filePath) { // return the JSON
         try {
             FileReader fileReader = new FileReader(filePath);
@@ -42,6 +44,7 @@ public class GSONCreator {
         try {
             FileWriter fileWriter = new FileWriter(filePath);
             gson.toJson(jsonObject, fileWriter);
+            fileWriter.close();
         } catch (IOException exception01) {
             System.err.println("Error while saving the JSON File.\n" + exception01.getMessage());
             exception01.printStackTrace();
@@ -53,6 +56,7 @@ public class GSONCreator {
             FileReader fileReader = new FileReader(filePath);
             System.out.println("Reading JSON... \n\n");
             System.out.println(gson.toJson(fileReader, JsonObject.class));
+            fileReader.close();
         } catch (IOException exception02) {
             System.err.println("Error while reading the entirety JSON file\n" + exception02.getMessage());
             exception02.printStackTrace();

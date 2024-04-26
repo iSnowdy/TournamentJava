@@ -105,6 +105,7 @@ public class Opponent {
                             lineNumber ++;
                         }
                         bufferedReader.close();
+                        fileReader.close();
                     } catch (IOException exception02) {
                         System.err.println("Error while reading the file. Details: " + exception02.getMessage());
                         System.out.println("Information: \n");
