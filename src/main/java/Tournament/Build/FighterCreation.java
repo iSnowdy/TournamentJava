@@ -81,13 +81,14 @@ public class FighterCreation extends Statistics implements StatsManager {
                     choice = scanner.nextInt();
                 }
             } catch (Exception exception01) { //
-                System.out.println("Wrong input type. Please tpye in a number between 1 - 3");
+                System.out.println("Wrong input type. Please type in a number between 1 - 3");
                 scanner.next();
                 continue;
             }
             switch (choice) {
                 case 1 -> {
                     System.out.println("Place holder. Method here");
+                    createFighter();
                     ScannerCreator.closeScanner();
                     exit = false;
                 }
@@ -156,6 +157,10 @@ public class FighterCreation extends Statistics implements StatsManager {
     }
 
     private void createFighter() {
+        int vitPoints = 0;
+        int strPoints = 0;
+        int dexPoints = 0;
+
         System.out.println("You have decided to create a Fighter from scratch");
         System.out.println("You will be given a fixed amount of Statistics (stats) points to" +
                 "distribute amongst all three different types of stats. Choose wisely where to put" +
@@ -166,10 +171,30 @@ public class FighterCreation extends Statistics implements StatsManager {
         setTotalStatPoints(10);
         setAvailableStatPoints(7); // 3 points are already in each stat
 
-        while (getAvailableStatPoints() != 0) {
-            System.out.println("You currently have " + getAvailableStatPoints() + " available points.");
+        while (getAvailableStatPoints() != 0) { // Needs to be tested
 
+            System.out.println("You currently have " + getAvailableStatPoints() + " available points.");
+            System.out.println("How many points would you like to invest in Vitality? ");
+            vitPoints = scanner.nextInt();
+            setAvailableStatPoints(availableStatPoints - vitPoints);
+            System.out.println("You know have " + getAvailableStatPoints() + " available points");
+
+            System.out.println("How many points would you like to invest in Strength? ");
+            strPoints = scanner.nextInt();
+            setAvailableStatPoints(availableStatPoints - strPoints);
+            System.out.println("You know have " + getAvailableStatPoints() + " available points");
+
+            System.out.println("How many points would you like to invest in Dexterity? ");
+            dexPoints = scanner.nextInt();
+            setAvailableStatPoints(availableStatPoints - dexPoints);
+            System.out.println("You know have " + getAvailableStatPoints() + " available points");
+
+            ScannerCreator.closeScanner();
         }
+
+        // We add the Fighter to the JSON File. But it is still not created inside the program! (Fighter class)
+        gsonCreator.addNewFighter(fighterName, rank, vitPoints + 1, strPoints + 1, dexPoints + 1);
+        // Heavily consider changing the way parameters are given. I don't like adding that + 1 there
 
     }
 

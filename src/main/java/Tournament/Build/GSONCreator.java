@@ -164,9 +164,6 @@ public class GSONCreator {
         JsonObject jsonObject = gsonCreator.loadFile(filePath);
         JsonObject newFighter = new JsonObject();
 
-        FighterCreation fighterCreation = new FighterCreation();
-        fighterCreation.setFighterType(name);
-
         newFighter.addProperty("Name", name);
         newFighter.addProperty("Rank", rank);
         newFighter.addProperty("Type", ""); // Think about this. How to input the proper Type
@@ -178,6 +175,7 @@ public class GSONCreator {
 
         // Verification if the Fighter exists already
         if (!gsonCreator.fighterExists(newFighter, fighterArray)) { // if false -> add
+            FighterCreation fighterCreation = new FighterCreation();
             String type = fighterCreation.setFighterType(name);
             newFighter.addProperty("Type", type);
             fighterArray.add(newFighter);
