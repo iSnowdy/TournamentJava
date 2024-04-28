@@ -110,4 +110,25 @@ public class GSONCreator {
             exception04.printStackTrace();
         }
     }
+
+    public int[] getFighterStats(String name, JsonObject jsonObject) { // Retrieves the stats of a specific Fighter
+        int[] fighterStats = new int[3];
+        int size = jsonObject.getAsJsonArray("Fighters").size();
+
+        try {
+            for (int i = 0; i < size; i ++) {
+                JsonObject fighter = jsonObject.getAsJsonArray("Fighters").get(i).getAsJsonObject();
+                if (Objects.equals(fighter.get("Name").getAsString(), name)) {
+                    fighterStats[0] = fighter.get("Vitality").getAsInt();
+                    fighterStats[1] = fighter.get("Strength").getAsInt();
+                    fighterStats[2] = fighter.get("Dexterity").getAsInt();
+                }
+            }
+        } catch (Exception exception03) {
+            System.err.println("Error while trying to load " + name + " stats.\n" + exception03.getMessage());
+            exception03.printStackTrace();
+        }
+
+        return fighterStats;
+    }
 }

@@ -7,8 +7,8 @@ import java.util.Scanner;
 
 public class Opponent {
     // We assign final to the userName(s) attributes so that once initialized they cannot be modified
-    protected final String userName1;
-    protected final String username2;
+    private final String userName1;
+    private final String username2;
     private int choice;
     private boolean exit = true;
     private Scanner scanner;
@@ -120,5 +120,12 @@ public class Opponent {
             }
         }
         return choice;
+    }
+
+    public String getUserName1() {
+        return userName1;
+    }
+    public String getUsername2() {
+        return username2;
     }
 }

@@ -5,11 +5,13 @@ import com.google.gson.JsonObject;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Objects;
 import java.util.Scanner;
 
 public class FighterCreation extends Statistics implements StatsManager {
     private GSONCreator gsonCreator; // To be able to use JSON-related methods
+    private Opponent opponent;
     private JsonObject jsonObject;
     protected final String fighterName;
     protected final String fighterType;
@@ -18,6 +20,7 @@ public class FighterCreation extends Statistics implements StatsManager {
     private boolean exit = true;
     private String rank;
     private final String filePath = "fighterstest.json";
+    private HashMap hashMap;
 
     /*
 
@@ -38,8 +41,19 @@ public class FighterCreation extends Statistics implements StatsManager {
 
     */
 
-    public FighterCreation() { // Constructor
+
+    public FighterCreation() {
         this.scanner = ScannerCreator.getScanner();
+        this.hashMap = new HashMap<>();
+
+        chooseOption();
+
+        System.out.println("Now that you have acquired a Fighter, lets name it: ");
+        fighterName = scanner.nextLine();
+        System.out.println("Your username and Fighter name will be added to the Log");
+        hashMap.put(opponent.getUserName1(), fighterName);
+
+
     }
 
     protected void printFighterWelcomeMessage() {
@@ -78,6 +92,7 @@ public class FighterCreation extends Statistics implements StatsManager {
                 }
                 case 2 -> {
                     System.out.println("Place holder. Another method here");
+                    loadFighter();
                     ScannerCreator.closeScanner();
                     exit = false;
                 }
@@ -138,6 +153,57 @@ public class FighterCreation extends Statistics implements StatsManager {
             }
         } while (exit);
     }
+
+    private void createFighter() {
+        System.out.println("You have decided to create a Fighter from scratch");
+    }
+
+    public HashMap getHashMap() {
+        for (Object username : hashMap.keySet()) {
+            System.out.println("Username: " + username + " | Fighter: " + hashMap.get(username));
+            break; // So we only print the last entry of the HashMap; which is the first print of the List
+        }
+        return hashMap;
+    }
+
+    // According to the ratio between the stats, a Fighter Type will be adjudicated
+    public String setFighterType(String fighterName) { // Take as a parameter if it is the first or second user?
+        jsonObject = gsonCreator.loadFile(filePath);
+        int[] fighterStats = gsonCreator.getFighterStats(fighterName, jsonObject); // Must check if the jObject offered is correct
+        int vitality = fighterStats[0];
+        int strength = fighterStats[1];
+        int dexterity = fighterStats[2];
+        String fighterType;
+
+        String stats =
+                "Fighter " + fighterName + " stats are:\n" +
+                        "Vitality: " + vitality + "\n" +
+                        "Strength: " + strength + "\n" +
+                        "Dexterity: " + dexterity + "\n";
+
+        int totalPoints = vitality + strength + dexterity;
+        // Differences between all the stats (absolute)
+        double vitalityRatio = (double)vitality / totalPoints;
+        double strengthRatio = (double)strength / totalPoints;
+        double dexterityRatio = (double)dexterity / totalPoints;
+        // Now we determine the FighterType according to the difference between the stats
+        if (vitalityRatio >= 0.6) {
+            return fighterType = "Tank";
+        } else if (strengthRatio >= 0.6) {
+            return fighterType = "Glass Cannon";
+        } else if (dexterityRatio >= 0.6) {
+            return fighterType = "Agile";
+        } else if (vitalityRatio >= 0.4) {
+            return fighterType = "Vitality Oriented";
+        } else if (strengthRatio >= 0.4) {
+            return fighterType = "Strength Oriented";
+        } else if (dexterityRatio >= 0.4) {
+            return fighterType = "Dexterity Oriented";
+        } else {
+            return fighterType = "Balanced";
+        }
+    }
+
 
     public String getRank() {
         return rank;

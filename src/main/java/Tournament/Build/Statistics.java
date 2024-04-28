@@ -24,11 +24,7 @@ public abstract class Statistics {
 
     // Constructor
 
-    public Statistics (int vitality, int strength, int dexterity) {
-        this.vitality = vitality;
-        this.strength = strength;
-        this.dexterity = dexterity;
-    }
+    public Statistics() {}
 
     // Getters & Setters
 
