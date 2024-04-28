@@ -21,6 +21,7 @@ public class FighterCreation extends Statistics implements StatsManager {
     private String rank;
     private final String filePath = "fighterstest.json";
     private HashMap hashMap;
+    Statistics stats;
 
     /*
 
@@ -156,6 +157,20 @@ public class FighterCreation extends Statistics implements StatsManager {
 
     private void createFighter() {
         System.out.println("You have decided to create a Fighter from scratch");
+        System.out.println("You will be given a fixed amount of Statistics (stats) points to" +
+                "distribute amongst all three different types of stats. Choose wisely where to put" +
+                "your stats as you won't be able to respec later on");
+        System.out.println("Your Fighter will start with all stats at 1");
+
+        // I'm not sure if this should be here or not. The attribute is inherited from the Statistics class
+        setTotalStatPoints(10);
+        setAvailableStatPoints(7); // 3 points are already in each stat
+
+        while (getAvailableStatPoints() != 0) {
+            System.out.println("You currently have " + getAvailableStatPoints() + " available points.");
+
+        }
+
     }
 
     public HashMap getHashMap() {
@@ -170,6 +185,7 @@ public class FighterCreation extends Statistics implements StatsManager {
     public String setFighterType(String fighterName) { // Take as a parameter if it is the first or second user?
         jsonObject = gsonCreator.loadFile(filePath);
         int[] fighterStats = gsonCreator.getFighterStats(fighterName, jsonObject); // Must check if the jObject offered is correct
+
         int vitality = fighterStats[0];
         int strength = fighterStats[1];
         int dexterity = fighterStats[2];

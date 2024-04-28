@@ -1,8 +1,6 @@
 package Tournament.Build;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
+import com.google.gson.*;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -54,8 +52,9 @@ public class GSONCreator {
     public void readFile(String filePath) { // Reads the whole JSON
         try {
             FileReader fileReader = new FileReader(filePath);
+            JsonObject jsonObject = gson.fromJson(fileReader, JsonObject.class);
             System.out.println("Reading JSON... \n\n");
-            System.out.println(gson.toJson(fileReader, JsonObject.class));
+            System.out.println(gson.toJson(jsonObject)); // Must print the object, not the fileReader too KEK
             fileReader.close();
         } catch (IOException exception02) {
             System.err.println("Error while reading the entirety JSON file\n" + exception02.getMessage());
@@ -130,5 +129,66 @@ public class GSONCreator {
         }
 
         return fighterStats;
+    }
+
+    // Method to see if the Fighter has already been added to the JSON file
+    public boolean fighterExists(JsonObject newFighter, JsonArray allFighters) {
+        for (int i = 0; i < allFighters.size(); i++) {
+            JsonObject fighter = allFighters.get(i).getAsJsonObject();
+            if (fighter.get("Name").getAsString().equals(newFighter.get("Name").getAsString())) {
+                System.out.println("Fighter already exists");
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void removeFighter(String fighterName, JsonObject jsonObject) {// Retrieves the stats of a specific Fighter
+        JsonArray fightersArray = jsonObject.getAsJsonArray("Fighters");
+
+        for (int i = 0; i < fightersArray.size(); i++) {
+            JsonObject fighterObject = fightersArray.get(i).getAsJsonObject();
+            if (fighterObject.get("Name").getAsString().equals(fighterName)) {
+                fightersArray.remove(i);
+                System.out.println("Fighter has been successfully removed from the JSON File");
+                break;
+                // Once it has been found & removed, we leave the iteration
+                // Maybe modify later on so it removes all instances?
+            }
+        }
+    }
+
+    public void addNewFighter(String name, String rank, int vitality, int strength, int dexterity) {
+        String filePath = "fighterstest.json";
+        GSONCreator gsonCreator = new GSONCreator();
+        JsonObject jsonObject = gsonCreator.loadFile(filePath);
+        JsonObject newFighter = new JsonObject();
+
+        FighterCreation fighterCreation = new FighterCreation();
+        fighterCreation.setFighterType(name);
+
+        newFighter.addProperty("Name", name);
+        newFighter.addProperty("Rank", rank);
+        newFighter.addProperty("Type", ""); // Think about this. How to input the proper Type
+        newFighter.addProperty("Vitality", vitality);
+        newFighter.addProperty("Strength", strength);
+        newFighter.addProperty("Dexterity", dexterity);
+
+        JsonArray fighterArray = jsonObject.getAsJsonArray("Fighters");
+
+        // Verification if the Fighter exists already
+        if (!gsonCreator.fighterExists(newFighter, fighterArray)) { // if false -> add
+            String type = fighterCreation.setFighterType(name);
+            newFighter.addProperty("Type", type);
+            fighterArray.add(newFighter);
+            System.out.println("Fighter has been successfully added to the JSON File");
+        } else { // if true -> exists; remove
+            gsonCreator.removeFighter(name, jsonObject);
+            System.out.println("Fighter exists already. Elimination completed");
+        }
+        // Is the removal really needed?
+
+        gsonCreator.saveFile(jsonObject, filePath); // Crucial to save the changes made to the file
+        gsonCreator.readFile(filePath); // Print it. Maybe not needed
     }
 }
