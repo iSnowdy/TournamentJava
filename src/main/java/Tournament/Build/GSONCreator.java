@@ -63,7 +63,7 @@ public class GSONCreator {
         }
     }
 
-    public void readFile(String name, JsonObject jsonObject) { // Reads a specific Fighter
+    /*public void readFile(String name, JsonObject jsonObject) { // Reads a specific Fighter
         int counter = 0;
         try {
             for (int i = 0; i < jsonObject.getAsJsonArray("Fighters").size(); i ++) {
@@ -84,25 +84,27 @@ public class GSONCreator {
                     + counter + "\n" + exception03.getMessage());
             exception03.printStackTrace();
         }
-    }
+    }*/
+    // That block probably rendered useless after adding the next method, since it covers all possible Strings
     // Although we could also read specific values such as Vitality, Strength & Dexterity, it would be easier
     // to implement those methods using attributes in another class, not loading them from the JSON file. I think. Probably xd
 
-    public void getFighterByRank(String rank, JsonObject jsonObject) {
-        int counter = 0;
+
+    public static void getFighterByString(String string, String desiredString, JsonObject jsonObject) {
+        int counter = 0; // Maybe we don't need it
         try {
+            System.out.println("=====================================\n");
             for (int i = 0; i < jsonObject.getAsJsonArray("Fighters").size(); i ++) {
-                JsonObject fighter00 =jsonObject.getAsJsonArray("Fighters").get(i).getAsJsonObject();
-                System.out.println("=====================================");
-                if (Objects.equals(fighter00.get("Rank").getAsString(), rank)) {
-                    System.out.println("Fighter of Rank " + rank + " details are: \n");
-                    for (String key : fighter00.keySet()) {
-                        System.out.println(key + ": " + fighter00.get(key));
+                JsonObject fighter = jsonObject.getAsJsonArray("Fighters").get(i).getAsJsonObject();
+                if (Objects.equals(fighter.get(string).getAsString(), desiredString)) { // Example: string = Rank, desiredString = One
+                    System.out.println("Fighter of " + string + " details are: \n");
+                    for (String key : fighter.keySet()) {
+                        System.out.println(key + ": " + fighter.get(key));
                     }
                     System.out.println();
                 }
-                System.out.println("=====================================");
             }
+            System.out.println("=====================================\n");
         } catch (Exception exception04) {
             System.err.println("Error while parsing\n" + exception04.getMessage());
             exception04.printStackTrace();

@@ -130,7 +130,7 @@ public class FighterCreation extends Statistics implements StatsManager {
             String decision = scanner.nextLine();
             if (Objects.equals(decision.toLowerCase(), "Y")) {
                 jsonObject = gsonCreator.loadFile(filePath);
-                gsonCreator.getFighterByRank(rank, jsonObject);
+                gsonCreator.getFighterByString("Rank", rank, jsonObject);
                 this.rank = rank;
                 exit = false;
                 // Here we must implement somehow a way to load the characteristics of this Fighter and
