@@ -89,14 +89,14 @@ public class GSONCreator {
     // to implement those methods using attributes in another class, not loading them from the JSON file. I think. Probably xd
 
 
-    public static void getFighterByString(String string, String desiredString, JsonObject jsonObject) {
+    public void getFighterByString(String desiredFeature, String feature, JsonObject jsonObject) {
         int counter = 0; // Maybe we don't need it
         try {
             System.out.println("=====================================\n");
             for (int i = 0; i < jsonObject.getAsJsonArray("Fighters").size(); i ++) {
                 JsonObject fighter = jsonObject.getAsJsonArray("Fighters").get(i).getAsJsonObject();
-                if (Objects.equals(fighter.get(string).getAsString(), desiredString)) { // Example: string = Rank, desiredString = One
-                    System.out.println("Fighter of " + string + " details are: \n");
+                if (Objects.equals(fighter.get(desiredFeature).getAsString(), feature)) { // Example: string = Rank, desiredString = One
+                    System.out.println("Fighter of " + desiredFeature + " details are: \n");
                     for (String key : fighter.keySet()) {
                         System.out.println(key + ": " + fighter.get(key));
                     }

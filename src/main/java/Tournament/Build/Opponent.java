@@ -11,7 +11,7 @@ public class Opponent {
     private final String username2;
     private int choice;
     private boolean exit = true;
-    private Scanner scanner;
+    private final Scanner scanner;
 
     public Opponent() { // Constructor
         this.scanner = ScannerCreator.getScanner(); // Re factorized to call class
@@ -69,11 +69,11 @@ public class Opponent {
                 choice = scanner.nextInt();
 
                 while (!(1 <= choice && choice <= 3)) {
-                    System.out.println("Come on man. Type something between 1 - 3 for a proper option.");
+                    System.out.println("Come on man. Type something between 1 - 3 for a proper option");
                     choice = scanner.nextInt();
                 }
             } catch (Exception exception01) { // We try to handle any input that is not an int
-                System.out.println("Wrong input type. Please tpye in a number between 1 - 3");
+                System.out.println("Wrong input type. Please type in a number between 1 - 3");
                 scanner.next(); // Like this we clear the input. It is important since it sometimes saves up old inputs and can mess things
                 continue; // Skip all the code following to the catch every time we enter here. Like this we will be sure we won't get wrong inputs
             }

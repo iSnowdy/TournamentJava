@@ -10,7 +10,7 @@ import java.util.Objects;
 import java.util.Scanner;
 
 public class FighterCreation extends Statistics implements StatsManager {
-    private GSONCreator gsonCreator; // To be able to use JSON-related methods
+    private final GSONCreator gsonCreator; // To be able to use JSON-related methods
     private Opponent opponent;
     private JsonObject jsonObject;
     protected final String fighterName;
@@ -46,11 +46,13 @@ public class FighterCreation extends Statistics implements StatsManager {
     public FighterCreation() {
         this.scanner = ScannerCreator.getScanner();
         this.hashMap = new HashMap<>();
+        this.gsonCreator = new GSONCreator();
 
         chooseOption();
 
         System.out.println("Now that you have acquired a Fighter, lets name it: ");
-        fighterName = scanner.nextLine();
+        this.fighterName = scanner.nextLine();
+        this.fighterType = setFighterType(fighterName);
         System.out.println("Your username and Fighter name will be added to the Log");
         hashMap.put(opponent.getUserName1(), fighterName);
 
@@ -176,17 +178,17 @@ public class FighterCreation extends Statistics implements StatsManager {
             System.out.println("You currently have " + getAvailableStatPoints() + " available points.");
             System.out.println("How many points would you like to invest in Vitality? ");
             vitPoints = scanner.nextInt();
-            setAvailableStatPoints(availableStatPoints - vitPoints);
+            setAvailableStatPoints(getAvailableStatPoints() - vitPoints);
             System.out.println("You know have " + getAvailableStatPoints() + " available points");
 
             System.out.println("How many points would you like to invest in Strength? ");
             strPoints = scanner.nextInt();
-            setAvailableStatPoints(availableStatPoints - strPoints);
+            setAvailableStatPoints(getAvailableStatPoints() - strPoints);
             System.out.println("You know have " + getAvailableStatPoints() + " available points");
 
             System.out.println("How many points would you like to invest in Dexterity? ");
             dexPoints = scanner.nextInt();
-            setAvailableStatPoints(availableStatPoints - dexPoints);
+            setAvailableStatPoints(getAvailableStatPoints() - dexPoints);
             System.out.println("You know have " + getAvailableStatPoints() + " available points");
 
             ScannerCreator.closeScanner();
@@ -206,10 +208,17 @@ public class FighterCreation extends Statistics implements StatsManager {
         return hashMap;
     }
 
+    // Abstract method from Statistics
+    @Override
+    public int[] getStats(String fighterName, String filePath) {
+        jsonObject = gsonCreator.loadFile(filePath);
+
+        return gsonCreator.getFighterStats(fighterName, jsonObject);
+    }
+
     // According to the ratio between the stats, a Fighter Type will be adjudicated
     public String setFighterType(String fighterName) { // Take as a parameter if it is the first or second user?
-        jsonObject = gsonCreator.loadFile(filePath);
-        int[] fighterStats = gsonCreator.getFighterStats(fighterName, jsonObject); // Must check if the jObject offered is correct
+        int[] fighterStats = getStats(fighterName, filePath);
 
         int vitality = fighterStats[0];
         int strength = fighterStats[1];
@@ -248,6 +257,14 @@ public class FighterCreation extends Statistics implements StatsManager {
 
     public String getRank() {
         return rank;
+    }
+
+    public String getFighterName() {
+        return fighterName;
+    }
+
+    public String getFighterType() {
+        return fighterType;
     }
 
 
