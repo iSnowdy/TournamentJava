@@ -176,14 +176,10 @@ public class MainMenu {
                 }
             }
         }
-
-
     }
 
     private void showStats (String desiredFeature, String feature) {
         JsonObject jsonObject = gsonCreator.loadFile(filePath);
         gsonCreator.getFighterByString(desiredFeature, feature, jsonObject);
     }
-
-
 }

@@ -7,6 +7,8 @@ import java.util.Scanner;
 public abstract class Statistics implements StatsManager {
 
     // Attributes
+    // Because the static attributes are private, they will only be able to be accessed from other classes
+    // with static Getters and Setters. Normal ones won't do
     private static int vitality = 1;
     private static int strength = 1;
     private static int dexterity = 1;
@@ -84,6 +86,8 @@ public abstract class Statistics implements StatsManager {
 
     // Level-Up Methods
 
+    // These methods must be static if stat points are static, its methods must also be static
+    // Or change somehow the attributes to not be static
     @Override
     public int increaseVitality(String fighterName) {
         int vitPoints = 0;

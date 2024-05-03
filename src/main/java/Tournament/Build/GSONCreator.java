@@ -17,15 +17,20 @@ public class GSONCreator {
         - Modify
         - Print specific String/int of the .json file?
         - Save changes made to the file itself (so we don't keep the changes in the Object memory)
+
+
+    Consider re factoring all of these methods to static. It should be a good practice since:
+
+        - It is used in a lot of classes across the project
+        - We would not need to create a new object of GSON every time we use it (which is the main purpose of this class)
+        - We would be able to access this class in static methods
      */
 
-    private Gson gson;
+    private static Gson gson;
 
     public GSONCreator() {
         this.gson = new GsonBuilder().setPrettyPrinting().create(); // Line breaks, blanks, spaces, etc
     }
-
-
 
     public JsonObject loadFile(String filePath) { // return the JSON
         try {
