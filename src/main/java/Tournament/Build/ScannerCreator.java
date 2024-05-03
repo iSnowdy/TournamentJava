@@ -14,11 +14,23 @@ public class ScannerCreator {
         // private so that only this class can directly access to the created Scannner object
     }
 
-    protected static Scanner getScanner() {
+    public static Scanner getScanner() {
         return scanner;
     }
 
     public static void closeScanner() {
         scanner.close();
+    }
+
+    public static int nextInt() {
+        return scanner.nextInt();
+    }
+
+    public static String nextLine() {
+        return scanner.nextLine();
+    }
+
+    public static String next() { // I don't really know if this works because it is returning a String but should be empty?
+        return scanner.next();
     }
 }

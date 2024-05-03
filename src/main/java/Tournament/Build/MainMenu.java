@@ -1,27 +1,22 @@
 package Tournament.Build;
-
 import com.google.gson.JsonObject;
 
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+
 
 public class MainMenu {
     private int choice;
     private boolean exit = true;
-    private final String filePath = "fighterstest.json";
-
-
-    private final Scanner scanner;
-    private final GSONCreator gsonCreator;
+    private final String plainFilePath = "Instructions.txt";
     private Statistics statistics; // To load up the stats and print 'em
     private FighterCreation fighterCreation;
     private Opponent opponent;
     private Log log; // Maybe not necessary
 
     public MainMenu() { // Do we need any input parameters?
-        this.scanner = ScannerCreator.getScanner();
-        this.gsonCreator = new GSONCreator();
     }
-
 
 
     // Methods
@@ -44,15 +39,15 @@ public class MainMenu {
             printMainMenu();
 
             try {
-                choice = scanner.nextInt();
+                choice = ScannerCreator.nextInt();
 
                 while (!(1 <= choice && choice <= 6)) {
                     System.out.println("You see the numbers? Yeah, those. Type 1 - 6 for a correct option");
-                    choice = scanner.nextInt();
+                    choice = ScannerCreator.nextInt();
                 }
             } catch (Exception exception00) {
-                System.out.println("Wrong input type. Please type a number between 1 - 6");
-                scanner.next();
+                System.out.println("Wrong input type. Please type a number between 1 - 6\n");
+                ScannerCreator.next();
                 continue;
             }
             switch (choice) {
@@ -90,11 +85,11 @@ public class MainMenu {
                 case 6 -> {
                     String output;
                     System.out.println("Wait wait wait. Let's talk about this. Are you sure you want to leave? Type Y/N");
-                    scanner.next();
-                    output = scanner.nextLine();
+                    ScannerCreator.next();
+                    output = ScannerCreator.nextLine();
                     if (output.equalsIgnoreCase("y")) {
                         System.out.println("Are you extremely sure!? Type Y/N ");
-                        output = scanner.nextLine();
+                        output = ScannerCreator.nextLine();
                         if (output.equalsIgnoreCase("y")) {
                             System.out.println("Alright then... But come back soon!");
                             System.out.println("Exit method here");
@@ -118,68 +113,218 @@ public class MainMenu {
             System.out.println("Currently your Fighter Status is...\n");
             showStats("Name", fighterCreation.getFighterName());
             System.out.println("What stat are you willing to Level Up?\n");
-            System.out.println("1. Vitality" +
-                               "2. Strength" +
-                               "3. Dexterity" +
-                               "4. Exit");
+            System.out.println("1. Vitality\n" +
+                               "2. Strength\n" +
+                               "3. Dexterity\n" +
+                               "4. Exit\n");
 
             try {
-                choice = scanner.nextInt();
+                choice = ScannerCreator.nextInt();
 
                 while (!(1 <= choice && choice <= 3)) {
                     System.out.println("Type a number between 1 - 4");
-                    choice = scanner.nextInt();
+                    choice = ScannerCreator.nextInt();
                 }
             } catch (Exception exception01) {
-                System.out.println("Wrong input type. Please type a number between 1 - 4");
-                scanner.next();
+                System.out.println("Wrong input type. Please type a number between 1 - 4\n");
+                ScannerCreator.next();
                 continue;
             }
             switch (choice) {
                 case 1 -> {
                     System.out.println("Redirecting...");
-                    int points = statistics.increaseVitality(fighterCreation.getFighterName());
+                    int points = statistics.increaseStat(fighterCreation.getFighterName(), StatType.VITALITY); // Accessing ENUM
                     System.out.println("You have increased your Vitality by " + points + " points. Would you like to further increase your Stats? Y/N");
-                    output = scanner.nextLine();
+                    output = ScannerCreator.nextLine();
                     if (output.equalsIgnoreCase("y")) {
                         levelUp();
                     } else {
                         printMainMenu();
                     }
+                    ScannerCreator.closeScanner();
                 }
                 case 2 -> {
                     System.out.println("Redirecting...");
-                    int points = statistics.increaseStrength(fighterCreation.getFighterName());
+                    int points = statistics.increaseStat(fighterCreation.getFighterName(), StatType.STRENGTH);
                     System.out.println("You have increased your Strength by " + points + " points. Would you like to further increase your Stats? Y/N");
-                    output = scanner.nextLine();
+                    output = ScannerCreator.nextLine();
                     if (output.equalsIgnoreCase("y")) {
                         levelUp();
                     } else {
                         printMainMenu();
                     }
+                    ScannerCreator.closeScanner();
                 }
                 case 3 -> {
                     System.out.println("Redirecting...");
-                    int points = statistics.increaseDexterity(fighterCreation.getFighterName());
+                    int points = statistics.increaseStat(fighterCreation.getFighterName(), StatType.DEXTERITY);
                     System.out.println("You have increased your Dexterity by " + points + " points. Would you like to further increase your Stats? Y/N");
-                    output = scanner.nextLine();
+                    output = ScannerCreator.nextLine();
                     if (output.equalsIgnoreCase("y")) {
                         levelUp();
                     } else {
                         printMainMenu();
                     }
+                    ScannerCreator.closeScanner();
                 }
                 case 4 -> {
                     System.out.println("Going back to the Main Menu");
+                    ScannerCreator.closeScanner();
                     printMainMenu();
                     exit = false;
                 }
             }
         }
     }
-
     private void showStats (String desiredFeature, String feature) {
-        JsonObject jsonObject = gsonCreator.loadFile(filePath);
-        gsonCreator.getFighterByString(desiredFeature, feature, jsonObject);
+        JsonObject jsonObject = GSONCreator.loadFile(GSONCreator.filepathJSON1);
+        GSONCreator.getFighterByString(desiredFeature, feature, jsonObject);
+    }
+    private void showLog() {}
+
+    private void showInstructions() {
+        while (exit) {
+            System.out.println("Select the Instructions that you would like to read: ");
+            System.out.println( "1. Opponent Type\n" +
+                                "2. Stats Explanation\n" +
+                                "3. Tournament Format Explanation\n" +
+                                "4. MiniGames\n" +
+                                "5. Exit\n");
+
+            try {
+                choice = ScannerCreator.nextInt();
+
+                while (!(1 <= choice && choice <= 5)) {
+                    System.out.println("Type a number between 1 - 5");
+                    choice = ScannerCreator.nextInt();
+                }
+            } catch (Exception exception02) {
+                System.out.println("Wrong input type. Please type a number between 1 - 5\n");
+                ScannerCreator.next();
+                continue;
+            }
+
+            switch (choice) {
+                case 1 -> {
+                    System.out.println("------------------------------------------------------------------------------------");
+
+                    int endLine = 15; // Modify if anything is added to the instructions.txt
+
+                    try {
+                        FileReader fileReader = new FileReader(this.plainFilePath);
+                        BufferedReader bufferedReader = new BufferedReader(fileReader);
+                        String line;
+                        int lineNumber = 0;
+
+                        while ((line = bufferedReader.readLine()) != null && lineNumber < endLine) {
+                            System.out.println(line);
+                            lineNumber ++;
+                        }
+                        bufferedReader.close();
+                        fileReader.close();
+                    } catch (IOException exception03) {
+                        System.err.println("Error while reading the file. Details: " + exception03.getMessage());
+                        System.out.println("Information: \n");
+                        exception03.printStackTrace();
+                    }
+                    System.out.println("------------------------------------------------------------------------------------");
+                    ScannerCreator.closeScanner();
+                    this.printMainMenu();
+                }
+                case 2 -> {
+                    System.out.println("------------------------------------------------------------------------------------");
+
+                    int startLine = 20; // Modify if anything is added to the instructions.txt
+                    int endLine = 42;
+
+                    try {
+                        FileReader fileReader = new FileReader(this.plainFilePath);
+                        BufferedReader bufferedReader = new BufferedReader(fileReader);
+                        String line;
+                        int lineNumber = 0;
+
+                        while ((line = bufferedReader.readLine()) != null && lineNumber < startLine) {
+                            lineNumber ++;
+                        }
+                        while ((line = bufferedReader.readLine()) != null && lineNumber < endLine) {
+                            lineNumber ++;
+                            System.out.println(line);
+                        }
+                        bufferedReader.close();
+                    } catch (IOException exception04) {
+                        System.err.println("Error while reading the file. Details: " + exception04.getMessage());
+                        System.out.println("Information: \n");
+                        exception04.printStackTrace();
+                    }
+                    System.out.println("------------------------------------------------------------------------------------");
+                    ScannerCreator.closeScanner();
+                    this.printMainMenu();
+                }
+                case 3 -> {
+                    System.out.println("------------------------------------------------------------------------------------");
+
+                    int startLine = 47; // Modify if anything is added to the instructions.txt
+                    int endLine = 71;
+
+                    try {
+                        FileReader fileReader = new FileReader(this.plainFilePath);
+                        BufferedReader bufferedReader = new BufferedReader(fileReader);
+                        String line;
+                        int lineNumber = 0;
+
+                        while ((line = bufferedReader.readLine()) != null && lineNumber < startLine) {
+                            lineNumber ++;
+                        }
+                        while ((line = bufferedReader.readLine()) != null && lineNumber < endLine) {
+                            lineNumber ++;
+                            System.out.println(line);
+                        }
+                        bufferedReader.close();
+                    } catch (IOException exception05) {
+                        System.err.println("Error while reading the file. Details: " + exception05.getMessage());
+                        System.out.println("Information: \n");
+                        exception05.printStackTrace();
+                    }
+                    System.out.println("------------------------------------------------------------------------------------");
+                    ScannerCreator.closeScanner();
+                    this.printMainMenu();
+                }
+                case 4 -> {
+                    System.out.println("------------------------------------------------------------------------------------");
+
+                    int startLine = 76; // Modify if anything is added to the instructions.txt
+                    int endLine = 96;
+
+                    try {
+                        FileReader fileReader = new FileReader(this.plainFilePath);
+                        BufferedReader bufferedReader = new BufferedReader(fileReader);
+                        String line;
+                        int lineNumber = 0;
+
+                        while ((line = bufferedReader.readLine()) != null && lineNumber < startLine) {
+                            lineNumber ++;
+                        }
+                        while ((line = bufferedReader.readLine()) != null && lineNumber < endLine) {
+                            lineNumber ++;
+                            System.out.println(line);
+                        }
+                        bufferedReader.close();
+                    } catch (IOException exception06) {
+                        System.err.println("Error while reading the file. Details: " + exception06.getMessage());
+                        System.out.println("Information: \n");
+                        exception06.printStackTrace();
+                    }
+                    System.out.println("------------------------------------------------------------------------------------");
+                    ScannerCreator.closeScanner();
+                    this.printMainMenu();
+                }
+                case 5 -> {
+                    System.out.println("Going back to the Main Menu");
+                    ScannerCreator.closeScanner();
+                    printMainMenu();
+                    exit = false;
+                }
+            }
+        }
     }
 }

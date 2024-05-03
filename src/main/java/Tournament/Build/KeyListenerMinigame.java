@@ -13,6 +13,7 @@ public class KeyListenerMinigame extends JFrame implements KeyListener {
     private int keyPressCounter;
     private int maxInputs;
     private String input;
+    private final Cron cron;
 
     public KeyListenerMinigame(int maxInputs, String input) {
         this.arrowBuffer = new StringBuilder();
@@ -25,8 +26,17 @@ public class KeyListenerMinigame extends JFrame implements KeyListener {
         createTextField();
         createTextLabel(input);
         // Consider somehow positioning the cursor on the TextField on pop up
-        Cron cron = new Cron(10);
-        cron.countDownTimer(); // It is not closing the Window when the count down is done
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowOpened(WindowEvent event) { // Method that is invoked when a window is opened
+                textField.requestFocusInWindow();
+            }
+        });
+        // Cron Set Up
+        this.cron = new Cron(10, this);
+        cron.countDownTimer();
+
+        // "this" is the way to reference the current Window running in this method so Cron can access and close it
     }
 
     // Methods to create the Visuals
@@ -70,9 +80,9 @@ public class KeyListenerMinigame extends JFrame implements KeyListener {
     public void keyPressed(KeyEvent event) {
         int keyCode = event.getKeyCode();
         if (keyCode == KeyEvent.VK_UP ||
-            keyCode == KeyEvent.VK_DOWN ||
-            keyCode == KeyEvent.VK_RIGHT ||
-            keyCode == KeyEvent.VK_LEFT) {
+                keyCode == KeyEvent.VK_DOWN ||
+                keyCode == KeyEvent.VK_RIGHT ||
+                keyCode == KeyEvent.VK_LEFT) {
             System.out.println("You have pressed: " + KeyEvent.getKeyText(keyCode));
         }
         // Only the pressed Key Inputs will be printed
@@ -99,12 +109,39 @@ public class KeyListenerMinigame extends JFrame implements KeyListener {
         return arrowBuffer;
     }
 
-    private void processArrowInputs () {
+    /*private void processArrowInputs () {
         if (this.arrowBuffer.length() > maxInputs) {
             System.out.println("All arrows pressed: " + this.arrowBuffer.toString());
             this.keyPressCounter = 0;
             this.arrowBuffer.setLength(0); // Restart the buffer
             dispose(); // To close the Window
+        } else {
+            System.out.println("Arrow pressed: " + this.arrowBuffer.toString());
+        }
+    }*/
+    private void processArrowInputs () {
+        if (this.arrowBuffer.length() >= maxInputs * 2) { // 2 because there are empty spaces in between each arrow
+            int matches = 0;
+            for (int i = 0; i < maxInputs * 2; i += 2) {
+                char userArrow = arrowBuffer.charAt(i);
+                char requiredArrow = input.charAt(i);
+                if (userArrow == requiredArrow) {
+                    matches++;
+                }
+            }
+
+            if (matches == maxInputs) {
+                System.out.println("Congratulations! You have pressed all inputs correctly");
+                System.out.println("Your Fighter will now be able to attack your opponent");
+                cron.shutDownTimer();
+            } else {
+                System.out.println("You have not successfully completed the MiniGame");
+                cron.shutDownTimer();
+            }
+            // Clean up the buffer
+            keyPressCounter = 0;
+            arrowBuffer.setLength(0);
+            dispose();
         }
     }
 
@@ -116,8 +153,4 @@ public class KeyListenerMinigame extends JFrame implements KeyListener {
         System.out.println("The user's input to fulfill is: ");
         return input;
     }
-
-    /*public static void main(String[] args) {
-        KeyListenerMinigame listenerMinigame = new KeyListenerMinigame(5, "→ ↑ ↓ ↓ ↑");
-    }*/
 }

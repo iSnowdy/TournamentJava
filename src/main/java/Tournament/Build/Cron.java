@@ -8,9 +8,11 @@ import javax.swing.*;
 public class Cron extends JFrame {
     private final ScheduledExecutorService SCHEDULER = Executors.newScheduledThreadPool(1);
     private final int TIMER;
+    private final JFrame windowCloser; // Only like this will we be able to close other classes windows from Cron
 
-    public Cron(int TIMER) {
+    public Cron(int TIMER, JFrame windowCloser) {
         this.TIMER = TIMER;
+        this.windowCloser = windowCloser;
     }
 
     public void countDownTimer() {
@@ -25,10 +27,15 @@ public class Cron extends JFrame {
                 if (countDownStart <= 0) {
                     System.out.println("Time is up!");
                     SCHEDULER.shutdown();
-                    dispose(); // This is not working :D
+                    windowCloser.dispose();
                 }
             }
         };
         SCHEDULER.scheduleAtFixedRate(RUNNABLE, 0, 1, TimeUnit.SECONDS);
+    }
+
+    public void shutDownTimer() {
+        SCHEDULER.shutdown();
+        System.out.println("Stopping the Count Down");
     }
 }

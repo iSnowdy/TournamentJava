@@ -3,7 +3,7 @@ Depending on the type of opponent you choose, you will experience different thin
 If you prefer to fight a fellow human:
 
 	- You will face against another person. Both of you, after deciding on who
-	who goes first, will face against each other
+	goes first, will face against each other
 	- After each one of you selects a figther or creates one, you will start
 	fighting via a minigame. Whoever goes down first, is the loser
 	- A more detailed explanation can be inquired later on
@@ -15,7 +15,8 @@ Elif you prefer to fight the Nasty Java Console:
 	- All actions that the Console takes are randomized. So be prepared for the unexpected!
 
 ------- END. Line Counter: 15 -------  (0 - 15)
-------- START. Line Counter: 16 ------- (17 - 40)
+------- START. Line Counter: 20 ------- (20 - 42)
+
 Your Fighter statistics play an important role when clasing against other fighters.
 
 	- Vitality: It will dictate the amount of Health Points (HP) that your Fighter has.
@@ -30,7 +31,7 @@ Your Fighter statistics play an important role when clasing against other fighte
 
 You will be able to gain stat points throughout the game. Both victories and losses will grant
 you a certain number of stat points. Keep in mind that defeats will yield a higher amount.
-However if you lose fights, you are also going to lose Rank Points. 
+However, if you lose fights, you are also going to lose Rank Points.
 
 So don't try anything funny!
 
@@ -40,4 +41,60 @@ and you will be responsible for allocating the points.
 
 Do not worry, in both cases you will have the same total stat points.
 
-------- END. Line Counter: 15 ------- 
+------- END. Line Counter: 42 -------  (20 - 42)
+------- START. Line Counter: 47 ------- (47 - 71)
+
+Your objective in this Game is to climb the Ranks of the Martial Arts Tournament. For that
+you must fight against other Fights; be it a fellow human or a CPU.
+
+With every win you achieve in the Tournament, besides winning Stat Points, you will also be
+rewarded with Ranking Points. It is with those points that your Rank will be calculated and
+modified in accordance to the total amount. However, keep in mind that a loss will deduct
+points from your Ranking.
+
+You will be matched against equal Rank opponents (if you are fighting against the Java
+Console/CPU) by default. If specific, you can be placed to fight a higher Ranked Fighter.
+
+If you decide to fight a higher Ranked Fighter and win, you will be awarded an increased
+amount of Ranking Points. On the other hand if you suffer a loss, you will end up losing
+all of your Ranking Points; dropping to the Bottom Category once again. PS: Your Stat Points
+won't be lost.
+
+The Rankings for this Tournament are the following, from bottom to top:
+
+    5. Clown
+    4. Almost-a-Human
+    3. Expert Fighter
+    2. Sensei
+    1. Maa
+
+Good luck on your journey through the Ranks!
+
+------- END. Line Counter: 41 -------  (47 - 71)
+------- START. Line Counter: 76 ------- (76 - x)
+
+There are 2 types of MiniGames in this Game:
+
+    1. Rock-Papers-Scissors. It will determine who is attacking first.
+    2. Key Listener MiniGame.
+
+ They Key Listener MiniGame is what will determine whether your Fighter will be able to
+ attack or not.
+
+ Every time it is your turn to fight, a Key Listener MiniGame will start. You will be
+ provided with a pre-determined combination of Arrow-Key Inputs and you must replicate
+ them. If you get any of them wrong or the timer reaches 0, it is your loss on that turn,
+ and you won't be able to attack the opponent Fighter.
+
+ Furthermore, if you end up messing the Key Listener MiniGame, you will also receive damage
+ from your opponent.
+
+ The pre-determinate combination of Arrow-Key Inputs to achieve is subject to your Fighter
+ Rank. The higher the rank, the harder the combination will be. And the timer is also subject
+ to this.
+
+ With that being said, come on, what are you waiting for? Start Fighting!
+
+ ------- END. Line Counter: 76 -------  (76 - 96)
+ ------- START. Line Counter: 101 ------- (101 - )
+

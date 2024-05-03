@@ -7,21 +7,17 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Objects;
-import java.util.Scanner;
 
-public class FighterCreation extends Statistics implements StatsManager {
-    private final GSONCreator gsonCreator; // To be able to use JSON-related methods
+public class FighterCreation extends Statistics {
     private Opponent opponent;
     private JsonObject jsonObject;
     protected final String fighterName;
     protected final String fighterType;
-    private Scanner scanner;
     private int choice;
     private boolean exit = true;
     private String rank;
-    private final String filePath = "fighterstest.json";
     private HashMap hashMap;
-    Statistics stats;
+
 
     /*
      Tener 2 constructores. Uno para instanciar en general y otro para
@@ -42,18 +38,15 @@ public class FighterCreation extends Statistics implements StatsManager {
 
 
     public FighterCreation() {
-        this.scanner = ScannerCreator.getScanner();
         this.hashMap = new HashMap<>();
-        this.gsonCreator = new GSONCreator();
 
         chooseOption();
 
         System.out.println("Now that you have acquired a Fighter, lets name it: ");
-        this.fighterName = scanner.nextLine();
+        this.fighterName = ScannerCreator.nextLine();
         this.fighterType = setFighterType(fighterName);
         System.out.println("Your username and Fighter name will be added to the Log");
         hashMap.put(opponent.getUserName1(), fighterName);
-
 
     }
 
@@ -74,15 +67,15 @@ public class FighterCreation extends Statistics implements StatsManager {
         while (exit) {
             printFighterWelcomeMessage();
             try {
-                choice = scanner.nextInt();
+                choice = ScannerCreator.nextInt();
 
                 while (!(1 <= choice && choice <= 3)) {
                     System.out.println("Come on man. Type something between 1 - 3 for a proper option.");
-                    choice = scanner.nextInt();
+                    choice = ScannerCreator.nextInt();
                 }
             } catch (Exception exception01) { //
-                System.out.println("Wrong input type. Please type in a number between 1 - 3");
-                scanner.next();
+                System.out.println("Wrong input type. Please type in a number between 1 - 3\n");
+                ScannerCreator.next();
                 continue;
             }
             switch (choice) {
@@ -101,8 +94,8 @@ public class FighterCreation extends Statistics implements StatsManager {
                 case 3 -> { // File reading for the instructions associated with this menu. txt should be inside the project directory
                     System.out.println("------------------------------------------------------------------------------------");
 
-                    int startLine = 17; // Modify if anything is added to the instructions.txt
-                    int endLine = 40;
+                    int startLine = 20; // Modify if anything is added to the instructions.txt
+                    int endLine = 42;
 
                     try {
                         FileReader fileReader = new FileReader("Instructions.txt");
@@ -124,6 +117,7 @@ public class FighterCreation extends Statistics implements StatsManager {
                         exception02.printStackTrace();
                     }
                     System.out.println("------------------------------------------------------------------------------------");
+                    ScannerCreator.closeScanner();
                 }
             }
         }
@@ -139,15 +133,15 @@ public class FighterCreation extends Statistics implements StatsManager {
 
         do {
             System.out.println("The current available Fighters are:\n");
-            gsonCreator.readFile(filePath); // We call the method to read the whole JSON first
+            GSONCreator.readFile(GSONCreator.filepathJSON1); // We call the method to read the whole JSON first
 
             System.out.println("Out of those fighters, what Fighter Rank are you willing to load?");
-            String rank = scanner.nextLine();
+            String rank = ScannerCreator.nextLine();
             System.out.println("Confirm Selection. Are you sure you want to load this Fighter? Type Y/N");
-            String decision = scanner.nextLine();
+            String decision = ScannerCreator.nextLine();
             if (Objects.equals(decision.toLowerCase(), "Y")) {
-                jsonObject = gsonCreator.loadFile(filePath);
-                gsonCreator.getFighterByString("Rank", rank, jsonObject);
+                jsonObject = GSONCreator.loadFile(GSONCreator.filepathJSON1);
+                GSONCreator.getFighterByString("Rank", rank, jsonObject);
                 this.rank = rank;
                 exit = false;
                 // Here we must implement somehow a way to load the characteristics of this Fighter and
@@ -162,12 +156,13 @@ public class FighterCreation extends Statistics implements StatsManager {
         int dexPoints = 0;
 
         System.out.println("You have decided to create a Fighter from scratch");
-        System.out.println("You will be given a fixed amount of Statistics (stats) points to" +
-                "distribute amongst all three different types of stats. Choose wisely where to put" +
+        System.out.println("You will be given a fixed amount of Statistics (stats) points to " +
+                "distribute amongst all three different types of stats. Choose wisely where to put " +
                 "your stats as you won't be able to respec later on");
         System.out.println("Your Fighter will start with all stats at 1");
 
         // I'm not sure if this should be here or not. The attribute is inherited from the Statistics class
+        // This probably doesn't work since it is not changing the attribute from the superclass
         setTotalStatPoints(10);
         setAvailableStatPoints(7); // 3 points are already in each stat
 
@@ -175,17 +170,17 @@ public class FighterCreation extends Statistics implements StatsManager {
 
             System.out.println("You currently have " + getAvailableStatPoints() + " available points.");
             System.out.println("How many points would you like to invest in Vitality? ");
-            vitPoints = scanner.nextInt();
+            vitPoints = ScannerCreator.nextInt();
             setAvailableStatPoints(getAvailableStatPoints() - vitPoints);
             System.out.println("You know have " + getAvailableStatPoints() + " available points");
 
             System.out.println("How many points would you like to invest in Strength? ");
-            strPoints = scanner.nextInt();
+            strPoints = ScannerCreator.nextInt();
             setAvailableStatPoints(getAvailableStatPoints() - strPoints);
             System.out.println("You know have " + getAvailableStatPoints() + " available points");
 
             System.out.println("How many points would you like to invest in Dexterity? ");
-            dexPoints = scanner.nextInt();
+            dexPoints = ScannerCreator.nextInt();
             setAvailableStatPoints(getAvailableStatPoints() - dexPoints);
             System.out.println("You know have " + getAvailableStatPoints() + " available points");
 
@@ -193,7 +188,7 @@ public class FighterCreation extends Statistics implements StatsManager {
         }
 
         // We add the Fighter to the JSON File. But it is still not created inside the program! (Fighter class)
-        gsonCreator.addNewFighter(fighterName, rank, vitPoints + 1, strPoints + 1, dexPoints + 1);
+        GSONCreator.addNewFighter(fighterName, rank, vitPoints + 1, strPoints + 1, dexPoints + 1);
         // Heavily consider changing the way parameters are given. I don't like adding that + 1 there
 
     }
@@ -209,14 +204,13 @@ public class FighterCreation extends Statistics implements StatsManager {
     // Abstract method from Statistics
     @Override
     public int[] getStats(String fighterName, String filePath) {
-        jsonObject = gsonCreator.loadFile(filePath);
-
-        return gsonCreator.getFighterStats(fighterName, jsonObject);
+        jsonObject = GSONCreator.loadFile(GSONCreator.filepathJSON1);
+        return GSONCreator.getFighterStats(fighterName, jsonObject);
     }
 
     // According to the ratio between the stats, a Fighter Type will be adjudicated
     public String setFighterType(String fighterName) { // Take as a parameter if it is the first or second user?
-        int[] fighterStats = getStats(fighterName, filePath);
+        int[] fighterStats = getStats(fighterName, GSONCreator.filepathJSON1);
 
         int vitality = fighterStats[0];
         int strength = fighterStats[1];
@@ -253,14 +247,6 @@ public class FighterCreation extends Statistics implements StatsManager {
     }
 
     // Re factoring must be done on these methods down here
-    @Override
-    public int availableStatPoints() {
-        return -1;
-    }
-    @Override
-    public int increaseTotalStatPoints() {
-        return -1;
-    }
 
     public String getRank() {
         return rank;
@@ -273,6 +259,4 @@ public class FighterCreation extends Statistics implements StatsManager {
     public String getFighterType() {
         return fighterType;
     }
-
-
 }

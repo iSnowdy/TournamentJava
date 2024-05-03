@@ -3,7 +3,6 @@ package Tournament.Build;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Scanner;
 
 public class Opponent {
     // We assign final to the userName(s) attributes so that once initialized they cannot be modified
@@ -11,10 +10,8 @@ public class Opponent {
     private final String username2;
     private int choice;
     private boolean exit = true;
-    private final Scanner scanner;
 
     public Opponent() { // Constructor
-        this.scanner = ScannerCreator.getScanner(); // Re factorized to call class
 
         chooseOption();
 
@@ -44,7 +41,7 @@ public class Opponent {
 
     private String getUserName (String inputMessage) {
         System.out.println(inputMessage); // Probably refactor later on?
-        return scanner.nextLine();
+        return ScannerCreator.nextLine();
     }
 
     protected int getChoice () {
@@ -66,15 +63,15 @@ public class Opponent {
         while (exit) {
             printOpponentMenu(); // As long as we are inside the loop, we will keep printing the message
             try {
-                choice = scanner.nextInt();
+                choice = ScannerCreator.nextInt();
 
                 while (!(1 <= choice && choice <= 3)) {
                     System.out.println("Come on man. Type something between 1 - 3 for a proper option");
-                    choice = scanner.nextInt();
+                    choice = ScannerCreator.nextInt();
                 }
             } catch (Exception exception01) { // We try to handle any input that is not an int
-                System.out.println("Wrong input type. Please type in a number between 1 - 3");
-                scanner.next(); // Like this we clear the input. It is important since it sometimes saves up old inputs and can mess things
+                System.out.println("Wrong input type. Please type in a number between 1 - 3\n");
+                ScannerCreator.next(); // Like this we clear the input. It is important since it sometimes saves up old inputs and can mess things
                 continue; // Skip all the code following to the catch every time we enter here. Like this we will be sure we won't get wrong inputs
             }
 
