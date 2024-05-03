@@ -27,12 +27,13 @@ public class GSONCreator {
      */
 
     private static Gson gson;
+    protected static String filepathJSON1 = "fighterstest.json";
 
     public GSONCreator() {
         this.gson = new GsonBuilder().setPrettyPrinting().create(); // Line breaks, blanks, spaces, etc
     }
 
-    public JsonObject loadFile(String filePath) { // return the JSON
+    public static JsonObject loadFile(String filePath) { // return the JSON
         try {
             FileReader fileReader = new FileReader(filePath);
             return gson.fromJson(fileReader, JsonObject.class);
@@ -43,7 +44,7 @@ public class GSONCreator {
         }
     }
 
-    public void saveFile(JsonObject jsonObject, String filePath) { // Given the JSON we want to save and the Filepath ...
+    public static void saveFile(JsonObject jsonObject, String filePath) { // Given the JSON we want to save and the Filepath ...
         try {
             FileWriter fileWriter = new FileWriter(filePath);
             gson.toJson(jsonObject, fileWriter);
@@ -54,7 +55,7 @@ public class GSONCreator {
         }
     }
     // Polymorphism
-    public void readFile(String filePath) { // Reads the whole JSON
+    public static void readFile(String filePath) { // Reads the whole JSON
         try {
             FileReader fileReader = new FileReader(filePath);
             JsonObject jsonObject = gson.fromJson(fileReader, JsonObject.class);
@@ -94,7 +95,7 @@ public class GSONCreator {
     // to implement those methods using attributes in another class, not loading them from the JSON file. I think. Probably xd
 
 
-    public void getFighterByString(String desiredFeature, String feature, JsonObject jsonObject) {
+    public static void getFighterByString(String desiredFeature, String feature, JsonObject jsonObject) {
         int counter = 0; // Maybe we don't need it
         try {
             System.out.println("=====================================\n");
@@ -115,7 +116,7 @@ public class GSONCreator {
         }
     }
 
-    public int[] getFighterStats(String name, JsonObject jsonObject) { // Retrieves the stats of a specific Fighter
+    public static int[] getFighterStats(String name, JsonObject jsonObject) { // Retrieves the stats of a specific Fighter
         int[] fighterStats = new int[3];
         int size = jsonObject.getAsJsonArray("Fighters").size();
 
@@ -137,7 +138,7 @@ public class GSONCreator {
     }
 
     // Method to see if the Fighter has already been added to the JSON file
-    public boolean fighterExists(JsonObject newFighter, JsonArray allFighters) {
+    public static boolean fighterExists(JsonObject newFighter, JsonArray allFighters) {
         for (int i = 0; i < allFighters.size(); i++) {
             JsonObject fighter = allFighters.get(i).getAsJsonObject();
             if (fighter.get("Name").getAsString().equals(newFighter.get("Name").getAsString())) {
@@ -148,7 +149,7 @@ public class GSONCreator {
         return false;
     }
 
-    public void removeFighter(String fighterName, JsonObject jsonObject) {// Retrieves the stats of a specific Fighter
+    public static void removeFighter(String fighterName, JsonObject jsonObject) {// Retrieves the stats of a specific Fighter
         JsonArray fightersArray = jsonObject.getAsJsonArray("Fighters");
 
         for (int i = 0; i < fightersArray.size(); i++) {
@@ -163,7 +164,7 @@ public class GSONCreator {
         }
     }
 
-    public void addNewFighter(String name, String rank, int vitality, int strength, int dexterity) {
+    public static void addNewFighter(String name, String rank, int vitality, int strength, int dexterity) {
         String filePath = "fighterstest.json";
         GSONCreator gsonCreator = new GSONCreator();
         JsonObject jsonObject = gsonCreator.loadFile(filePath);

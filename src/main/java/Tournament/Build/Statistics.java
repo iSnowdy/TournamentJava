@@ -12,14 +12,12 @@ public abstract class Statistics implements StatsManager {
     private static int vitality = 1;
     private static int strength = 1;
     private static int dexterity = 1;
-    protected int availableStatPoints;
-    protected int totalStatPoints;
-    final String filePath = "fighterstest.json";
+    protected static int availableStatPoints;
+    protected static int totalStatPoints;
 
-    private final Scanner scanner;
-    private final GSONCreator gsonCreator;
+
     private FighterCreation fighterCreation;
-
+    private static Scanner scanner = ScannerCreator.getScanner();
 
 
     // Abstract classes that will be implemented by child classes
@@ -34,52 +32,45 @@ public abstract class Statistics implements StatsManager {
     // Constructor
 
     public Statistics(GSONCreator gsonCreator) {
-        this.scanner = ScannerCreator.getScanner();
-        this.gsonCreator = gsonCreator;
-
     }
 
     // Getters & Setters
 
-    public int getVitality() {
+    public static int getVitality() {
         return vitality;
     }
-
-    public void setVitality(int vitality) {
-        this.vitality = vitality;
+    public static void setVitality(int vitPoints) {
+        vitality += vitPoints;
     }
 
-    public int getStrength() {
+    public static int getStrength() {
         return strength;
     }
-
-    public void setStrength(int strength) {
-        this.strength = strength;
+    public static void setStrength(int strPoints) {
+        strength += strPoints;
     }
 
-    public int getDexterity() {
+    public static int getDexterity() {
         return dexterity;
     }
-
-    public void setDexterity(int dexterity) {
-        this.dexterity = dexterity;
+    public static void setDexterity(int dexPoints) {
+        dexterity += dexPoints;
     }
 
-    public int getAvailableStatPoints() {
-        return availableStatPoints;
-    }
-
-    public void setAvailableStatPoints(int availableStatPoints) {
-        this.availableStatPoints = availableStatPoints;
-    }
-
-    public int getTotalStatPoints() {
+    public static int getTotalStatPoints() {
         return totalStatPoints;
     }
-
-    public void setTotalStatPoints(int totalStatPoints) {
-        this.totalStatPoints = totalStatPoints;
+    public static void setTotalStatPoints(int points) {
+        totalStatPoints = points;
     }
+
+    public static int getAvailableStatPoints() {
+        return availableStatPoints;
+    }
+    public static void setAvailableStatPoints(int points) { // Consider changing the return
+        availableStatPoints += points;
+    }
+
 
 
     // Specific methods
@@ -88,8 +79,9 @@ public abstract class Statistics implements StatsManager {
 
     // These methods must be static if stat points are static, its methods must also be static
     // Or change somehow the attributes to not be static
+    // Check Override error
     @Override
-    public int increaseVitality(String fighterName) {
+    public static int increaseVitality(String fighterName) {
         int vitPoints = 0;
         int availableStatPoints = getAvailableStatPoints();
         int vitality = getVitality();
@@ -97,8 +89,8 @@ public abstract class Statistics implements StatsManager {
         boolean exit = true;
 
         System.out.println("Currently, your Fighter stats are... ");
-        JsonObject jsonObject = gsonCreator.loadFile(filePath);
-        int[] fighterStats = gsonCreator.getFighterStats(fighterName, jsonObject);
+        JsonObject jsonObject = GSONCreator.loadFile(GSONCreator.filepathJSON1);
+        int[] fighterStats = GSONCreator.getFighterStats(fighterName, jsonObject);
 
         String stats =
                 "Fighter " + fighterName + " stats are:\n" +
@@ -130,7 +122,7 @@ public abstract class Statistics implements StatsManager {
     }
 
     @Override
-    public int increaseStrength(String fighterName) {
+    public static int increaseStrength(String fighterName) {
         int strPoints = 0;
         int availableStatPoints = getAvailableStatPoints();
         int strength = getStrength();
@@ -138,8 +130,8 @@ public abstract class Statistics implements StatsManager {
         boolean exit = true;
 
         System.out.println("Currently, your Fighter stats are... ");
-        JsonObject jsonObject = gsonCreator.loadFile(filePath);
-        int[] fighterStats = gsonCreator.getFighterStats(fighterName, jsonObject);
+        JsonObject jsonObject = GSONCreator.loadFile(GSONCreator.filepathJSON1);
+        int[] fighterStats = GSONCreator.getFighterStats(fighterName, jsonObject);
 
         String stats =
                 "Fighter " + fighterName + " stats are:\n" +
@@ -171,7 +163,7 @@ public abstract class Statistics implements StatsManager {
     }
 
     @Override
-    public int increaseDexterity(String fighterName) {
+    public static int increaseDexterity(String fighterName) {
         int dexPoints = 0;
         int availableStatPoints = getAvailableStatPoints();
         int dexterity = getDexterity();
@@ -179,8 +171,8 @@ public abstract class Statistics implements StatsManager {
         boolean exit = true;
 
         System.out.println("Currently, your Fighter stats are... ");
-        JsonObject jsonObject = gsonCreator.loadFile(filePath);
-        int[] fighterStats = gsonCreator.getFighterStats(fighterName, jsonObject);
+        JsonObject jsonObject = GSONCreator.loadFile(GSONCreator.filepathJSON1);
+        int[] fighterStats = GSONCreator.getFighterStats(fighterName, jsonObject);
 
         String stats =
                 "Fighter " + fighterName + " stats are:\n" +

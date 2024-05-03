@@ -252,6 +252,16 @@ public class FighterCreation extends Statistics implements StatsManager {
         }
     }
 
+    // Re factoring must be done on these methods down here
+    @Override
+    public int availableStatPoints() {
+        return -1;
+    }
+    @Override
+    public int increaseTotalStatPoints() {
+        return -1;
+    }
+
     public String getRank() {
         return rank;
     }
