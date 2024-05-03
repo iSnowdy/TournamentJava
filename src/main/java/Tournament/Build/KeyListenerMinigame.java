@@ -25,6 +25,8 @@ public class KeyListenerMinigame extends JFrame implements KeyListener {
         createTextField();
         createTextLabel(input);
         // Consider somehow positioning the cursor on the TextField on pop up
+        Cron cron = new Cron(10);
+        cron.countDownTimer(); // It is not closing the Window when the count down is done
     }
 
     // Methods to create the Visuals
@@ -114,4 +116,8 @@ public class KeyListenerMinigame extends JFrame implements KeyListener {
         System.out.println("The user's input to fulfill is: ");
         return input;
     }
+
+    /*public static void main(String[] args) {
+        KeyListenerMinigame listenerMinigame = new KeyListenerMinigame(5, "→ ↑ ↓ ↓ ↑");
+    }*/
 }

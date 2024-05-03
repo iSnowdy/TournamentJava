@@ -3,8 +3,9 @@ package Tournament.Build;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import javax.swing.*;
 
-public class Cron {
+public class Cron extends JFrame {
     private final ScheduledExecutorService SCHEDULER = Executors.newScheduledThreadPool(1);
     private final int TIMER;
 
@@ -13,17 +14,18 @@ public class Cron {
     }
 
     public void countDownTimer() {
+        System.out.println("Starting Count Down...\n");
         final Runnable RUNNABLE = new Runnable() {
             int countDownStart = TIMER;
             @Override
             public void run() {
-                System.out.println("Starting Count Down...\n");
                 System.out.println(countDownStart);
                 countDownStart --;
 
                 if (countDownStart <= 0) {
                     System.out.println("Time is up!");
                     SCHEDULER.shutdown();
+                    dispose(); // This is not working :D
                 }
             }
         };
