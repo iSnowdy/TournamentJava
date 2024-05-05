@@ -9,6 +9,7 @@ import java.io.IOException;
 public class MainMenu {
     private int choice;
     private boolean exit = true;
+    public boolean exitRequest = false;
     private final String plainFilePath = "Instructions.txt";
     private Statistics statistics; // To load up the stats and print 'em
     private FighterCreation fighterCreation;
@@ -326,5 +327,9 @@ public class MainMenu {
                 }
             }
         }
+    }
+    void exitProgram() {
+        System.out.println("Heard that! Hope to see you soon again! :D\nPreparing to exit the program...\n");
+        this.exitRequest = true; // Then in the Main .java do a while(!)
     }
 }

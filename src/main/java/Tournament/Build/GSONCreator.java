@@ -26,12 +26,11 @@ public class GSONCreator {
         - We would be able to access this class in static methods
      */
 
-    private static Gson gson;
+    private static Gson gson = new GsonBuilder().setPrettyPrinting().create(); // Line breaks, blanks, spaces, etc
     protected static String filepathJSON1 = "fighterstest.json";
+    protected static String filepathJSON2 = "tournamentlog.json";
 
-    public GSONCreator() {
-        this.gson = new GsonBuilder().setPrettyPrinting().create(); // Line breaks, blanks, spaces, etc
-    }
+    public GSONCreator() {}
 
     public static JsonObject loadFile(String filePath) { // return the JSON
         try {
@@ -166,8 +165,7 @@ public class GSONCreator {
 
     public static void addNewFighter(String name, String rank, int vitality, int strength, int dexterity) {
         String filePath = "fighterstest.json";
-        GSONCreator gsonCreator = new GSONCreator();
-        JsonObject jsonObject = gsonCreator.loadFile(filePath);
+        JsonObject jsonObject = GSONCreator.loadFile(GSONCreator.filepathJSON1);
         JsonObject newFighter = new JsonObject();
 
         newFighter.addProperty("Name", name);
@@ -180,19 +178,19 @@ public class GSONCreator {
         JsonArray fighterArray = jsonObject.getAsJsonArray("Fighters");
 
         // Verification if the Fighter exists already
-        if (!gsonCreator.fighterExists(newFighter, fighterArray)) { // if false -> add
+        if (!GSONCreator.fighterExists(newFighter, fighterArray)) { // if false -> add
             FighterCreation fighterCreation = new FighterCreation();
             String type = fighterCreation.setFighterType(name);
             newFighter.addProperty("Type", type);
             fighterArray.add(newFighter);
             System.out.println("Fighter has been successfully added to the JSON File");
         } else { // if true -> exists; remove
-            gsonCreator.removeFighter(name, jsonObject);
+            GSONCreator.removeFighter(name, jsonObject);
             System.out.println("Fighter exists already. Elimination completed");
         }
         // Is the removal really needed?
 
-        gsonCreator.saveFile(jsonObject, filePath); // Crucial to save the changes made to the file
-        gsonCreator.readFile(filePath); // Print it. Maybe not needed
+        GSONCreator.saveFile(jsonObject, filePath); // Crucial to save the changes made to the file
+        GSONCreator.readFile(filePath); // Print it. Maybe not needed
     }
 }
