@@ -4,8 +4,8 @@ If you prefer to fight a fellow human:
 
 	- You will face against another person. Both of you, after deciding on who
 	goes first, will face against each other
-	- After each one of you selects a figther or creates one, you will start
-	fighting via a minigame. Whoever goes down first, is the loser
+	- After each one of you selects a Fighter or creates one, you will start
+	fighting via a MiniGame. Whoever goes down first, is the loser
 	- A more detailed explanation can be inquired later on
 
 Elif you prefer to fight the Nasty Java Console:
@@ -17,7 +17,7 @@ Elif you prefer to fight the Nasty Java Console:
 ------- END. Line Counter: 15 -------  (0 - 15)
 ------- START. Line Counter: 20 ------- (20 - 42)
 
-Your Fighter statistics play an important role when clasing against other fighters.
+Your Fighter statistics play an important role when clashing against other fighters.
 
 	- Vitality: It will dictate the amount of Health Points (HP) that your Fighter has.
 	The more Vitality Points (or HP) your fighter has, the harder it will be for it to 
@@ -25,7 +25,7 @@ Your Fighter statistics play an important role when clasing against other fighte
 	- Strength: It will dictate the amount of Damage per Hit that your Fighter can
 	inflict to the opponent.
 	- Dexterity: Dexterity has two bonuses. (1) Increase the time limit that you have
-	to input your Arrow Keys during a Fighting Minigame. (2) A small chance, depending 
+	to input your Arrow Keys during a Fighting MiniGame. (2) A small chance, depending
 	on your Dexterity points, to dodge a blow coming from your opponent (negates taken
 	damage that round).
 
@@ -48,16 +48,16 @@ Your objective in this Game is to climb the Ranks of the Martial Arts Tournament
 you must fight against other Fights; be it a fellow human or a CPU.
 
 With every win you achieve in the Tournament, besides winning Stat Points, you will also be
-rewarded with Ranking Points. It is with those points that your Rank will be calculated and
+rewarded with (10) Ranking Points. It is with those points that your Rank will be calculated and
 modified in accordance to the total amount. However, keep in mind that a loss will deduct
 points from your Ranking.
 
 You will be matched against equal Rank opponents (if you are fighting against the Java
-Console/CPU) by default. If specific, you can be placed to fight a higher Ranked Fighter.
+Console/CPU) by default. However, you can also choose to fighter a higher Ranked Fighter.
 
 If you decide to fight a higher Ranked Fighter and win, you will be awarded an increased
-amount of Ranking Points. On the other hand if you suffer a loss, you will end up losing
-all of your Ranking Points; dropping to the Bottom Category once again. PS: Your Stat Points
+amount of Ranking Points (5 per Rank Difference). On the other hand if you suffer a loss, you will end up losing
+all of your Ranking Points (if there is a >= 2 Rank Difference); dropping to the Bottom Category once again. PS: Your Stat Points
 won't be lost.
 
 The Rankings for this Tournament are the following, from bottom to top:
@@ -75,7 +75,7 @@ Good luck on your journey through the Ranks!
 
 There are 2 types of MiniGames in this Game:
 
-    1. Rock-Papers-Scissors. It will determine who is attacking first.
+    1. Rock-Paper-Scissors. It will determine who is attacking first.
     2. Key Listener MiniGame.
 
  They Key Listener MiniGame is what will determine whether your Fighter will be able to

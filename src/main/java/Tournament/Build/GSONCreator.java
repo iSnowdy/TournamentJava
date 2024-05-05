@@ -193,4 +193,44 @@ public class GSONCreator {
         GSONCreator.saveFile(jsonObject, filePath); // Crucial to save the changes made to the file
         GSONCreator.readFile(filePath); // Print it. Maybe not needed
     }
+
+    // This will loop through any JSON in the Project and return the index of the Object of the Array we are
+    // looping through. The search parameter can be any
+    public static int getIndex(String desiredFeature, String feature, int desiredJSON) {
+        switch (desiredJSON) {
+            case 1 -> {
+                JsonObject jsonObject = GSONCreator.loadFile(GSONCreator.filepathJSON1);
+                try {
+                    for (int i = 0; i < jsonObject.getAsJsonArray("Fighters").size(); i ++) {
+                        JsonObject fighter = jsonObject.getAsJsonArray("Fighters").get(i).getAsJsonObject();
+                        if (Objects.equals(fighter.get(desiredFeature).getAsString(), feature)) {
+                            return i;
+                        }
+                    }
+                } catch (Exception exception05) {
+                    System.err.println("Error while parsing\n" + exception05.getMessage());
+                    exception05.printStackTrace();
+                }
+            }
+            case 2 -> {
+                JsonObject jsonObject = GSONCreator.loadFile(GSONCreator.filepathJSON2);
+                try {
+                    for (int i = 0; i < jsonObject.getAsJsonArray("UserInfo").size(); i ++) {
+                        JsonObject user = jsonObject.getAsJsonArray("UserInfo").get(i).getAsJsonObject();
+                        if(Objects.equals(user.get(desiredFeature).getAsString(), feature)) {
+                            return i;
+                        }
+                    }
+                } catch (Exception exception06) {
+                    System.err.println("Error while parsing\n" + exception06.getMessage());
+                    exception06.printStackTrace();
+                }
+            }
+            default -> {
+                System.out.println("Wrong JSON File. Please try another one");
+                return -1;
+            }
+        }
+        return -1;
+    }
 }

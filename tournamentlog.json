@@ -5,6 +5,7 @@
             "FighterName": "Doe",
             "Wins": 0,
             "Loses": 2,
+            "Ranking Points": 0,
             "Opponents": [
                 {
                     "OpponentName": "David",
@@ -19,6 +20,7 @@
             "FighterName": "Jack",
             "Wins": 2,
             "Loses": 3,
+            "Ranking Points": 15,
             "Opponents": [
                 {
                     "OpponentName": "John",
@@ -33,6 +35,7 @@
             "FighterName": "Chin",
             "Wins": 5,
             "Loses": 0,
+            "Ranking Points": 50,
             "Opponents": [
                 {
                     "OpponentName": "John",

@@ -13,15 +13,32 @@ public abstract class Statistics implements StatsManager {
     protected int availableStatPoints;
     protected int totalStatPoints;
     private FighterCreation fighterCreation;
+    private Ranking ranking;
+    private Opponent opponent;
+    private String fighterName;
+    private String username;
+    private final String fighterRank = "Clown"; // Think later about this. Rank should be established here
+    private int rankPoints;
 
 
     // Abstract class that will eventually be implemented by child classes
-    abstract int[] getStats(String fighterName, String filePath); // Abstract method to be implemented on Fighter
+    abstract int[] getStats(String fighterName); // Abstract method to be implemented on Fighter
+    abstract void showStats();
 
-    // Constructor
+    // Constructors
 
     public Statistics() {
     }
+
+    public Statistics(String fighterName, String username, int vitality, int strength, int dexterity, int rankPoints) {
+        this.fighterName = fighterCreation.getFighterName();
+        this.username = opponent.getUserName1();
+        this.vitality = vitality;
+        this.strength = strength;
+        this.dexterity = dexterity;
+        this.rankPoints = ranking.getRankingPoints(this.username);
+    }
+
 
     // Getters & Setters
 
@@ -49,8 +66,8 @@ public abstract class Statistics implements StatsManager {
     public int getTotalStatPoints() {
         return totalStatPoints;
     }
-    public void setTotalStatPoints(int points) {
-        totalStatPoints = points;
+    public void setTotalStatPoints(int availableStatPoints) {
+        totalStatPoints += availableStatPoints;
     }
 
     public int getAvailableStatPoints() {

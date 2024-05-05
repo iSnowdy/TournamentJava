@@ -6,6 +6,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 public class FighterCreation extends Statistics {
@@ -16,7 +17,8 @@ public class FighterCreation extends Statistics {
     private int choice;
     private boolean exit = true;
     private String rank;
-    private HashMap hashMap;
+    private final Map<String, String> namesCorr;
+    // Consider a HashMap/Set for Rank:Time for the Cron
 
 
     /*
@@ -38,7 +40,7 @@ public class FighterCreation extends Statistics {
 
 
     public FighterCreation() {
-        this.hashMap = new HashMap<>();
+        this.namesCorr = new HashMap<>();
 
         chooseOption();
 
@@ -46,7 +48,7 @@ public class FighterCreation extends Statistics {
         this.fighterName = ScannerCreator.nextLine();
         this.fighterType = setFighterType(fighterName);
         System.out.println("Your username and Fighter name will be added to the Log");
-        hashMap.put(opponent.getUserName1(), fighterName);
+        namesCorr.put(opponent.getUserName1(), fighterName);
 
     }
 
@@ -193,24 +195,27 @@ public class FighterCreation extends Statistics {
 
     }
 
-    public HashMap getHashMap() {
-        for (Object username : hashMap.keySet()) {
-            System.out.println("Username: " + username + " | Fighter: " + hashMap.get(username));
+    public Map<String, String> getHashMap() {
+        for (Object username : namesCorr.keySet()) {
+            System.out.println("Username: " + username + " | Fighter: " + namesCorr.get(username));
             break; // So we only print the last entry of the HashMap; which is the first print of the List
         }
-        return hashMap;
+        return namesCorr;
     }
 
     // Abstract method from Statistics
     @Override
-    public int[] getStats(String fighterName, String filePath) {
+    public int[] getStats(String fighterName) {
         jsonObject = GSONCreator.loadFile(GSONCreator.filepathJSON1);
         return GSONCreator.getFighterStats(fighterName, jsonObject);
     }
 
+    @Override
+    void showStats() {}
+
     // According to the ratio between the stats, a Fighter Type will be adjudicated
     public String setFighterType(String fighterName) { // Take as a parameter if it is the first or second user?
-        int[] fighterStats = getStats(fighterName, GSONCreator.filepathJSON1);
+        int[] fighterStats = getStats(fighterName);
 
         int vitality = fighterStats[0];
         int strength = fighterStats[1];

@@ -8,6 +8,7 @@ import java.io.IOException;
 
 public class MainMenu {
     private int choice;
+    private String name;
     private boolean exit = true;
     public boolean exitRequest = false;
     private final String plainFilePath = "Instructions.txt";
@@ -21,10 +22,13 @@ public class MainMenu {
 
 
     // Methods
+    // No need to really show the current user. But if an option that is specific to username is triggered, then
+    // we must ask that person's username
+
 
     private void printMainMenu() {
         System.out.println("=================================================");
-        System.out.println("|        Welcome, " + opponent.getUserName1() + ", to the Main Menu      |"); // Somehow need to be changed so it shows the CURRENT user
+        System.out.println("|        Welcome, " + opponent.getUserName1() + ", to the Main Menu      |");
         System.out.println("=================================================");
         System.out.println("|        1. This... is... Spa- I mean Fight!    |");
         System.out.println("|        2. Level Up                            |");

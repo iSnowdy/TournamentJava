@@ -1,3 +1,8 @@
 - Polimorfismo: añadir diferentes tipos de ataques. Un ataque normal, ataques especiales basados en %
 - Añadir atacar y defender. No sólo atacar. Defender restará daño recibido
--
+- Almacenar victorias/derrotas en int individuales pero tambien en un array de numeros. De forma que al comprobar
+una racha de victorias/derrotas, sea posible otorgar algun tipo de recompensa/penalizacion especial
+- En el menu no se puede controlar qué usuario es el que está realmente. Entonces, cuando se seleccione una opción que
+es especifica para cada usuario, se deberá de pedir el nombre del usuario o del luchador, dependiendo de lo que se requiera.
+Por si el usuario no se acuerda de alguno de los dos Strings, pues ha de ser exactamente igual al del JSON para no generar errores,
+se deberá de imprimir de alguna forma la informacion de ese usuario

@@ -32,6 +32,7 @@ public class Log {
         newUserInfo.addProperty("FighterName", fighterName);
         newUserInfo.addProperty("Wins", 1); // Must change this later on to getWins from Fighter class
         newUserInfo.addProperty("Loses", 1); // Same change needed here
+        newUserInfo.addProperty("Ranking Points", 0);
         // Consider also adding FighterRank to the UserInfo
 
         // How should we add this here hmm...
