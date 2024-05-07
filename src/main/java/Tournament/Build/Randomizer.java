@@ -23,4 +23,15 @@ public class Randomizer {
         int randomIndex = random.nextInt(options.length);
         return options[randomIndex];
     }
+
+    public boolean generate10Probability() {
+        double randomNumber = random.nextDouble();
+        return randomNumber < 0.1; // So if the random was less than 0.1, meaning 10%, it will be true
+    }
+
+    public boolean dodgeChance(int dexterity) {
+        double randomNumber = random.nextDouble();;
+        randomNumber *= (dexterity/10.0);
+        return randomNumber < 0.3; // So if the random + dexterity added is less than 0.3, it will be true
+    }
 }

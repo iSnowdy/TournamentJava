@@ -1,15 +1,18 @@
 package Tournament.Build;
 
 import java.io.*;
+import java.util.Scanner;
 
 public class FeedBack { // Consider making this static
     private String line;
-    private final String fileName = "FeedBack.txt";
+    private final String filePath = "FeedBack.txt";
 
     private FileReader fileReader = null;
     private BufferedReader bufferedReader = null;
     private FileWriter fileWriter = null;
     private PrintWriter printWriter = null;
+    private final Scanner sc = new Scanner(System.in);
+
 
     public FeedBack() {}
 
@@ -21,7 +24,7 @@ public class FeedBack { // Consider making this static
 
     private void createTXT() {
         try {
-            File newFile = new File(fileName);
+            File newFile = new File(filePath);
             if (newFile.createNewFile()) {
                 System.out.println("The File has been created in " + newFile.getAbsolutePath() +
                 " with the name " + newFile.getName());
@@ -34,28 +37,29 @@ public class FeedBack { // Consider making this static
         }
     }
 
-    private void addToTXT() {
+    private void addToTXT(String userName) { // This *should* work... Should KEKW
         try {
-            fileWriter = new FileWriter(fileName);
-            printWriter = new PrintWriter(fileWriter);
+            System.out.println("Please write in a line your thoughts about this MiniGame. It will greatly help to improve" +
+                    "the program later on. Any kind of advice is appreciated.\nThank you.");
 
-            /*
-            Few things to note:
-            Scanner line = new Scanner(new File("filePath"));
-            ^ Offers the possibility to input directly to the .txt
-
-            String read = "";
-            Scanner sc = new Scanner(System.in);
+            fileWriter = new FileWriter(filePath);
+            printWriter = new PrintWriter(fileWriter, true); // True to append at the end
+            printWriter.println(userName);
             String line;
             while (sc.hasNextLine()) {
-                line = sc.nextLine();
+                line = ScannerCreator.nextLine();
                 if (line.isEmpty()) {
                     break;
                 }
-                read += line + "\n";
+                printWriter.println(line);
             }
-            System.out.println(read);
-             */
+            printWriter.println(userName);
+
+            printWriter.close();
+            fileWriter.close();
+            fileReader.close();
+
+            System.out.println("FeedBack has been successfully added. Thank you very much :) Hope to see you back!");
         } catch (IOException exception) {
             System.out.println("Error while trying to add the FeedBack .txt");
             exception.printStackTrace();
@@ -64,7 +68,7 @@ public class FeedBack { // Consider making this static
 
     public void printTXT() {
         try {
-            fileReader = new FileReader(fileName);
+            fileReader = new FileReader(filePath);
             bufferedReader = new BufferedReader(fileReader);
             String lineToRead;
 
@@ -84,13 +88,32 @@ public class FeedBack { // Consider making this static
         }
     }
 
-    public void printTXT(int startLine, int endLine) {
+    public void printTXT(String userName) { // Reads the specific FeedBack from a user
+        try {
+            fileReader = new FileReader(filePath);
+            bufferedReader = new BufferedReader(fileReader);
 
+            String line;
+            boolean keyWord = false; // Given a keyword (userName), it will act as a start and stop point to read the file
+
+            while ((line = bufferedReader.readLine()) != null) {
+                if (line.startsWith(userName) && !keyWord) {
+                    keyWord = true; // The line with the keyWord has been found!
+                    continue; // So if it is found, then skip to the next block of code
+                }
+
+                if (keyWord) {
+                    if (line.startsWith(userName)) {
+                        keyWord = false; // If it is found, then get out of the loop
+                        break;
+                    } else {
+                        System.out.println(line); // If not, then keep printing shit
+                    }
+                }
+            }
+        } catch (IOException exception2) {
+            exception2.printStackTrace();
+            System.out.println("Error while reading FeedBack.txt");
+        }
     }
-
-    public String getLine() {
-        return line;
-    }
-
-
 }

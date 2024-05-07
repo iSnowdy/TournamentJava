@@ -16,13 +16,13 @@ public class Log {
     // Overloaded method
     void showLog(String username) {
         JsonObject jsonObject = GSONCreator.loadFile(GSONCreator.filepathJSON2);
-        GSONCreator.getFighterByString("Name", username, jsonObject); // username /= figherName. This must be changed later on
+        GSONCreator.getLogByString("UserName", username, jsonObject); // username /= fighterName. This must be changed later on
     }
 
     // This is supposed to add the user info once he/she participates in at least 1 fight
     // And will only be used once. Then after that, the updateLog method will take over
     // So a condition must be added later on the class this will be used to differentiate 1st instance vs updates
-    void addToLog(String username, String fighterName) { // Add another method to addToLog with fightername
+    void addToLog(String username, String fighterName, int wins, int loses, int rankingPoints) { // Parameters for Opponent missing
         JsonObject jsonObject = GSONCreator.loadFile(GSONCreator.filepathJSON2);
         JsonObject newUserInfo = new JsonObject();
         JsonObject newOpponentInfo = new JsonObject();
@@ -30,9 +30,9 @@ public class Log {
 
         newUserInfo.addProperty("UserName", username);
         newUserInfo.addProperty("FighterName", fighterName);
-        newUserInfo.addProperty("Wins", 1); // Must change this later on to getWins from Fighter class
-        newUserInfo.addProperty("Loses", 1); // Same change needed here
-        newUserInfo.addProperty("Ranking Points", 0);
+        newUserInfo.addProperty("Wins", wins); // Must change this later on to getWins from Fighter class
+        newUserInfo.addProperty("Loses", loses); // Same change needed here
+        newUserInfo.addProperty("Ranking Points", rankingPoints);
         // Consider also adding FighterRank to the UserInfo
 
         // How should we add this here hmm...
@@ -49,8 +49,6 @@ public class Log {
         // Adding UserInfo (+ Opponent now) to the whole Array
         jsonObject.getAsJsonArray("UserInfo").add(newUserInfo); // Watch out for NullPointers Exceptions
         GSONCreator.saveFile(jsonObject, GSONCreator.filepathJSON2);
-
-        GSONCreator.readFile(GSONCreator.filepathJSON2);
     }
 
     void addToLog(String username) {}

@@ -12,31 +12,30 @@ public abstract class Statistics implements StatsManager {
     private int dexterity;
     protected int availableStatPoints;
     protected int totalStatPoints;
-    private FighterCreation fighterCreation;
-    private Ranking ranking;
-    private Opponent opponent;
-    private String fighterName;
-    private String username;
+    private String fighterName1;
+    private String fighterName2;
+    private String userName1;
+    private String userName2;
     private final String fighterRank = "Clown"; // Think later about this. Rank should be established here
     private int rankPoints;
 
 
     // Abstract class that will eventually be implemented by child classes
     abstract int[] getStats(String fighterName); // Abstract method to be implemented on Fighter
-    abstract void showStats();
+    // abstract void showStats();
 
     // Constructors
 
     public Statistics() {
     }
 
-    public Statistics(String fighterName, String username, int vitality, int strength, int dexterity, int rankPoints) {
-        this.fighterName = fighterCreation.getFighterName();
-        this.username = opponent.getUserName1();
+    public Statistics(String userName1, String fighterName1, int vitality, int strength, int dexterity, int rankPoints) {
+        this.userName1 = userName1;
+        this.fighterName1 = fighterName1;
         this.vitality = vitality;
         this.strength = strength;
         this.dexterity = dexterity;
-        this.rankPoints = ranking.getRankingPoints(this.username);
+        this.rankPoints = rankPoints;
     }
 
 
@@ -105,7 +104,7 @@ public abstract class Statistics implements StatsManager {
 
         System.out.println("Currently, your Fighter stats are... ");
         JsonObject jsonObject = GSONCreator.loadFile(GSONCreator.filepathJSON1);
-        int[] fighterStats = GSONCreator.getFighterStats(fighterName, jsonObject);
+        int[] fighterStats = GSONCreator.getFighterStats("FighterName",fighterName, jsonObject);
 
         String stats =
                 "Fighter " + fighterName + " stats are:\n" +

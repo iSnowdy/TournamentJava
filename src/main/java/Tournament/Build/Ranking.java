@@ -69,15 +69,23 @@ public class Ranking {
         return user.get("Ranking Points").getAsInt();
     }
 
-    // Updates the Rankings Points to the JSON File
-    public void setRankingPoints(String username, int rankingPoints) {
+    // Updates the Rankings Points to the JSON File and also returns the String
+    public String setRankingPoints(String username, int rankingPoints) {
         JsonObject jsonObject = GSONCreator.loadFile(GSONCreator.filepathJSON2);
         JsonObject user = jsonObject.getAsJsonArray("UserName").get(GSONCreator.getIndex("UserName", username, 2)).getAsJsonObject();
 
         user.addProperty("Ranking Points", rankingPoints);
         System.out.println("The Ranking Points for " + username + " has been updated to " + rankingPoints);
+
+        for (Map.Entry<String, Integer> entry : this.rankingCorrelation.entrySet()) {
+            if (rankingPoints >= entry.getValue()) {
+                this.fighterRank = entry.getKey();
+                // Iterate the LinkedHashMap and if the points are higher or equal to any coincidence
+                // it is assigned to that coincidence. Then, break upon the first match
+            }
+        }
+        return fighterRank;
     }
-    // Implement a method to actually set the Ranking Name as a String not an int KEKW
     public String getFighterRank() {
         return fighterRank;
     }

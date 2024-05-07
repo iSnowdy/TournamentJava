@@ -6,46 +6,34 @@ import java.io.IOException;
 
 public class Opponent {
     // We assign final to the userName(s) attributes so that once initialized they cannot be modified
-    private final String userName1;
-    private final String username2;
+    private String userName1 = "default";
+    private String userName2 = "CPU";
     private int choice;
     private boolean exit = true;
 
     public Opponent() { // Constructor
-
         chooseOption();
+    }
 
-        if (choice == 1 ) {
-            this.userName1 = getUserName("Welcome Player 1! \n" +
-                    "Please type in your name. For the record: it will be registered in the logs together with your results :) \n" +
-                    "Player 1 Name: ");
-            this.username2 = "CPU";
-        } else if (choice == 2) {
-            this.userName1 = getUserName("Welcome Player 1! \n" +
-                    "Please type in your name. For the record: it will be registered in the logs together with your results :) \n" +
-                    "Player 1 Name: ");
-            this.username2 = getUserName("Hello there Player2! \n" +
-                    "Please type in your name. For the record: it will be registered in the logs together with your results :) \n" +
-                    "Player 2 Name: ");
-        } else {
-            System.out.println("Invalid choice input. Please try again");
-            this.userName1 = null;
-            this.username2 = null;
-            chooseOption();
-        }
+    private void createSingleUser() {
+        this.userName1 = getUserName("Welcome Player 1! \n" +
+                "Please type in your name. For the record: it will be registered in the logs together with your results :) \n" +
+                "Player 1 Name: ");
+        this.userName2 = "CPU";
+    }
 
-        // With this if-else we will handle the amount of players
-
-        System.out.println("And now that we know each other, lets rock & roll!");
+    private void createTwoUsers() {
+        this.userName1 = getUserName("Welcome Player 1! \n" +
+                "Please type in your name. For the record: it will be registered in the logs together with your results :) \n" +
+                "Player 1 Name: ");
+        this.userName2 = getUserName("Hello there Player2! \n" +
+                "Please type in your name. For the record: it will be registered in the logs together with your results :) \n" +
+                "Player 2 Name: ");
     }
 
     private String getUserName (String inputMessage) {
-        System.out.println(inputMessage); // Probably refactor later on?
+        System.out.println(inputMessage);
         return ScannerCreator.nextLine();
-    }
-
-    protected int getChoice () {
-        return choice; // This getter will give us the choice option for other classes
     }
 
     // Menu to show the user the available options
@@ -64,26 +52,25 @@ public class Opponent {
             printOpponentMenu(); // As long as we are inside the loop, we will keep printing the message
             try {
                 choice = ScannerCreator.nextInt();
+                ScannerCreator.nextLine();
 
                 while (!(1 <= choice && choice <= 3)) {
-                    System.out.println("Come on man. Type something between 1 - 3 for a proper option");
+                    System.out.println("Come on man. Type something between 1 - 3 for a proper option.");
                     choice = ScannerCreator.nextInt();
                 }
-            } catch (Exception exception01) { // We try to handle any input that is not an int
+            } catch (Exception exception01) { //
                 System.out.println("Wrong input type. Please type in a number between 1 - 3\n");
-                ScannerCreator.next(); // Like this we clear the input. It is important since it sometimes saves up old inputs and can mess things
-                continue; // Skip all the code following to the catch every time we enter here. Like this we will be sure we won't get wrong inputs
+                ScannerCreator.next();
+                continue;
             }
 
             switch (choice) {
                 case 1 -> {
-                    System.out.println("Place holder. Method here");
-                    ScannerCreator.closeScanner();
+                    this.createTwoUsers();
                     exit = false;
                 }
                 case 2 -> {
-                    System.out.println("Place holder. Another method here");
-                    ScannerCreator.closeScanner();
+                    this.createSingleUser();
                     exit = false;
                 }
                 case 3 -> { // File reading for the instructions associated with this menu. txt should be inside the project directory
@@ -112,7 +99,6 @@ public class Opponent {
 
                     // We have no interest in returning choice = 3 since it does not affect the Constructor
                     // Similar logic to closing the Scanner. We can't close it since option 3 is intended to loop
-
                 }
             }
         }
@@ -122,7 +108,7 @@ public class Opponent {
     public String getUserName1() {
         return userName1;
     }
-    public String getUsername2() {
-        return username2;
+    public String getUserName2() {
+        return userName2;
     }
 }

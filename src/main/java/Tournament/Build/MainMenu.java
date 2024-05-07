@@ -4,6 +4,7 @@ import com.google.gson.JsonObject;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Objects;
 
 
 public class MainMenu {
@@ -12,12 +13,36 @@ public class MainMenu {
     private boolean exit = true;
     public boolean exitRequest = false;
     private final String plainFilePath = "Instructions.txt";
-    private Statistics statistics; // To load up the stats and print 'em
+
+    // Objects
+    private final Log log;
+    private final Opponent opponent;
     private FighterCreation fighterCreation;
-    private Opponent opponent;
-    private Log log; // Maybe not necessary
+    private Fighter fighter1;
+
+
 
     public MainMenu() { // Do we need any input parameters?
+        this.log = new Log();
+        this.opponent = new Opponent();
+        String username1 = opponent.getUserName1();
+        String username2 = opponent.getUserName2();
+
+        // This is a way to handle if we are going to be playing against one or two players
+        if (!Objects.equals(username1, "default") && !Objects.equals(username2, "CPU")) {
+            System.out.println(username1);
+            System.out.println(username2);
+            System.out.println("Two users");
+            this.fighterCreation = new FighterCreation(opponent.getUserName1(), opponent.getUserName2());
+            chooseOption();
+        } else if (!Objects.equals(username1, "default") || !Objects.equals(username2, "CPU")) {
+            System.out.println(username1);
+            System.out.println(username2);
+            System.out.println("One user");
+            this.fighterCreation = new FighterCreation(opponent.getUserName1());
+            chooseOption();
+        }
+        System.out.println(fighterCreation.getFighterName());
     }
 
 
@@ -26,9 +51,9 @@ public class MainMenu {
     // we must ask that person's username
 
 
-    private void printMainMenu() {
+    public void printMainMenu() {
         System.out.println("=================================================");
-        System.out.println("|        Welcome, " + opponent.getUserName1() + ", to the Main Menu      |");
+        System.out.println("|        Welcome, " + fighterCreation.getUserName1() + " and Fighter: " + fighterCreation.getFighterName() + ", to the Main Menu      |");
         System.out.println("=================================================");
         System.out.println("|        1. This... is... Spa- I mean Fight!    |");
         System.out.println("|        2. Level Up                            |");
@@ -39,7 +64,7 @@ public class MainMenu {
         System.out.println("=================================================");
     }
 
-    private int chooseOption() {
+    public void chooseOption() {
         while (exit) {
             printMainMenu();
 
@@ -49,6 +74,7 @@ public class MainMenu {
                 while (!(1 <= choice && choice <= 6)) {
                     System.out.println("You see the numbers? Yeah, those. Type 1 - 6 for a correct option");
                     choice = ScannerCreator.nextInt();
+                    ScannerCreator.nextLine();
                 }
             } catch (Exception exception00) {
                 System.out.println("Wrong input type. Please type a number between 1 - 6\n");
@@ -56,49 +82,52 @@ public class MainMenu {
                 continue;
             }
             switch (choice) {
+                // Fight methods here
                 case 1 -> {
+                    if (fighter1 == null) {
+                        int[] stats = fighterCreation.getStats(fighterCreation.fighterName);
+                        fighter1 = new Fighter(fighterCreation.getUserName1(), fighterCreation.getFighterName(),
+                                stats[0], stats[1], stats[2], 0, fighterCreation.getRank());
+                    }
                     System.out.println("Blood for the Blood God, Skulls for the Skull Throne!");
-                    System.out.println("Place holder. Fight method here");
-                    ScannerCreator.closeScanner();
+
+                    System.out.println(fighter1.toString());
+
                     exit = false;
                 }
                 case 2 -> {
                     System.out.println("Let's get those Stats up!");
-                    System.out.println("Level up stats method here");
-                    ScannerCreator.closeScanner();
+                    levelUp();
+                    ScannerCreator.nextLine();
                     exit = false;
                 }
                 case 3 -> {
                     System.out.println("This is your Fighter's current status...");
-                    showStats("Name", fighterCreation.getFighterName());
-                    // Although I'm filtering here by Name, it could be any variable of the JSON File
-                    ScannerCreator.closeScanner();
+                    showStats("FighterName", this.fighterCreation.getFighterName());
+                    // Although I'm filtering here by FighterName, it could be any variable of the JSON File
+                    chooseOption();
                     exit = false;
                 }
                 case 4 -> {
                     System.out.println("Showing Log now...");
-                    System.out.println("Getting lazy");
-                    ScannerCreator.closeScanner();
-                    exit = false;
+                    log.showLog(fighterCreation.getUserName1());
                 }
                 case 5 -> {
-                    System.out.println("A newbie huh? Have fun reading haha!");
-                    System.out.println("Concatenate w/ another method that will call diff stuff");
-                    ScannerCreator.closeScanner();
+                    System.out.println("A newbie huh? Have fun reading haha!\n");
+                    showInstructions();
                     exit = false;
                 }
                 case 6 -> {
                     String output;
                     System.out.println("Wait wait wait. Let's talk about this. Are you sure you want to leave? Type Y/N");
-                    ScannerCreator.next();
+                    ScannerCreator.nextLine();
                     output = ScannerCreator.nextLine();
-                    if (output.equalsIgnoreCase("y")) {
+                    if (Objects.equals(output.toLowerCase(), "y")) {
                         System.out.println("Are you extremely sure!? Type Y/N ");
                         output = ScannerCreator.nextLine();
-                        if (output.equalsIgnoreCase("y")) {
+                        if (Objects.equals(output.toLowerCase(), "y")) {
                             System.out.println("Alright then... But come back soon!");
-                            System.out.println("Exit method here");
-                            ScannerCreator.closeScanner();
+                            exitProgram();
                             exit = false;
                         }
                     } else {
@@ -107,79 +136,86 @@ public class MainMenu {
                 }
             }
         }
-        return choice;
     }
 
     private void levelUp () {
-        String output;
+        // try - catch block to prevent the user from accessing this area when he/she still
+        // hasn't fought at least once, and therefore, Fighter has not been initialized
+        try {
+            String output;
 
-        // Consider removing the while loop or the 4th case
-        while (exit) {
-            System.out.println("Currently your Fighter Status is...\n");
-            showStats("Name", fighterCreation.getFighterName());
-            System.out.println("What stat are you willing to Level Up?\n");
-            System.out.println("1. Vitality\n" +
-                               "2. Strength\n" +
-                               "3. Dexterity\n" +
-                               "4. Exit\n");
+            // Consider removing the while loop or the 4th case
+            while (exit) {
+                System.out.println("Currently your Fighter Status is...\n");
+                showStats("FighterName", fighterCreation.getFighterName());
+                System.out.println("What stat are you willing to Level Up?\n");
+                System.out.println("1. Vitality\n" +
+                        "2. Strength\n" +
+                        "3. Dexterity\n" +
+                        "4. Exit\n");
 
-            try {
-                choice = ScannerCreator.nextInt();
-
-                while (!(1 <= choice && choice <= 3)) {
-                    System.out.println("Type a number between 1 - 4");
+                ScannerCreator.nextLine();
+                try {
                     choice = ScannerCreator.nextInt();
+
+                    while (!(1 <= choice && choice <= 4)) {
+                        System.out.println("Type a number between 1 - 4");
+                        choice = ScannerCreator.nextInt();
+                    }
+                } catch (Exception exception01) {
+                    System.out.println("Wrong input type. Please type a number between 1 - 4\n");
+                    ScannerCreator.next();
+                    continue;
                 }
-            } catch (Exception exception01) {
-                System.out.println("Wrong input type. Please type a number between 1 - 4\n");
-                ScannerCreator.next();
-                continue;
+                switch (choice) {
+                    case 1 -> {
+                        System.out.println("Redirecting...");
+                        int points = fighter1.increaseStat(fighterCreation.getFighterName(), StatType.VITALITY); // Accessing ENUM
+                        System.out.println("You have increased your Vitality by " + points + " points. Would you like to further increase your Stats? Y/N");
+                        output = ScannerCreator.nextLine();
+                        if (output.equalsIgnoreCase("y")) {
+                            levelUp();
+                        } else {
+                            chooseOption();
+                        }
+                    }
+                    case 2 -> {
+                        System.out.println("Redirecting...");
+                        int points = fighter1.increaseStat(fighterCreation.getFighterName(), StatType.STRENGTH);
+                        System.out.println("You have increased your Strength by " + points + " points. Would you like to further increase your Stats? Y/N");
+                        output = ScannerCreator.nextLine();
+                        if (output.equalsIgnoreCase("y")) {
+                            levelUp();
+                        } else {
+                            chooseOption();
+                        }
+                    }
+                    case 3 -> {
+                        System.out.println("Redirecting...");
+                        int points = fighter1.increaseStat(fighterCreation.getFighterName(), StatType.DEXTERITY);
+                        System.out.println("You have increased your Dexterity by " + points + " points. Would you like to further increase your Stats? Y/N");
+                        output = ScannerCreator.nextLine();
+                        if (output.equalsIgnoreCase("y")) {
+                            levelUp();
+                        } else {
+                            chooseOption();
+                        }
+                    }
+                    case 4 -> {
+                        System.out.println("Going back to the Main Menu");
+                        chooseOption();
+                        exit = false;
+                    }
+                }
             }
-            switch (choice) {
-                case 1 -> {
-                    System.out.println("Redirecting...");
-                    int points = statistics.increaseStat(fighterCreation.getFighterName(), StatType.VITALITY); // Accessing ENUM
-                    System.out.println("You have increased your Vitality by " + points + " points. Would you like to further increase your Stats? Y/N");
-                    output = ScannerCreator.nextLine();
-                    if (output.equalsIgnoreCase("y")) {
-                        levelUp();
-                    } else {
-                        printMainMenu();
-                    }
-                    ScannerCreator.closeScanner();
-                }
-                case 2 -> {
-                    System.out.println("Redirecting...");
-                    int points = statistics.increaseStat(fighterCreation.getFighterName(), StatType.STRENGTH);
-                    System.out.println("You have increased your Strength by " + points + " points. Would you like to further increase your Stats? Y/N");
-                    output = ScannerCreator.nextLine();
-                    if (output.equalsIgnoreCase("y")) {
-                        levelUp();
-                    } else {
-                        printMainMenu();
-                    }
-                    ScannerCreator.closeScanner();
-                }
-                case 3 -> {
-                    System.out.println("Redirecting...");
-                    int points = statistics.increaseStat(fighterCreation.getFighterName(), StatType.DEXTERITY);
-                    System.out.println("You have increased your Dexterity by " + points + " points. Would you like to further increase your Stats? Y/N");
-                    output = ScannerCreator.nextLine();
-                    if (output.equalsIgnoreCase("y")) {
-                        levelUp();
-                    } else {
-                        printMainMenu();
-                    }
-                    ScannerCreator.closeScanner();
-                }
-                case 4 -> {
-                    System.out.println("Going back to the Main Menu");
-                    ScannerCreator.closeScanner();
-                    printMainMenu();
-                    exit = false;
-                }
-            }
+        } catch (NullPointerException exception) {
+            System.out.println("You can't access the Level Up Menu yet. You must fight at least once\n" +
+                    "in order to level up");
+            System.out.println("To fight, choose option 1 in the following Menu ...\n");
+            // Initialize Fighter
+            chooseOption();
         }
+
     }
     private void showStats (String desiredFeature, String feature) {
         JsonObject jsonObject = GSONCreator.loadFile(GSONCreator.filepathJSON1);
@@ -188,6 +224,7 @@ public class MainMenu {
     private void showLog() {}
 
     private void showInstructions() {
+        ScannerCreator.nextLine();
         while (exit) {
             System.out.println("Select the Instructions that you would like to read: ");
             System.out.println( "1. Opponent Type\n" +
@@ -233,13 +270,12 @@ public class MainMenu {
                         exception03.printStackTrace();
                     }
                     System.out.println("------------------------------------------------------------------------------------");
-                    ScannerCreator.closeScanner();
-                    this.printMainMenu();
+                    chooseOption();
                 }
                 case 2 -> {
                     System.out.println("------------------------------------------------------------------------------------");
 
-                    int startLine = 20; // Modify if anything is added to the instructions.txt
+                    int startLine = 18; // Modify if anything is added to the instructions.txt
                     int endLine = 42;
 
                     try {
@@ -262,13 +298,12 @@ public class MainMenu {
                         exception04.printStackTrace();
                     }
                     System.out.println("------------------------------------------------------------------------------------");
-                    ScannerCreator.closeScanner();
-                    this.printMainMenu();
+                    chooseOption();
                 }
                 case 3 -> {
                     System.out.println("------------------------------------------------------------------------------------");
 
-                    int startLine = 47; // Modify if anything is added to the instructions.txt
+                    int startLine = 44; // Modify if anything is added to the instructions.txt
                     int endLine = 71;
 
                     try {
@@ -291,13 +326,12 @@ public class MainMenu {
                         exception05.printStackTrace();
                     }
                     System.out.println("------------------------------------------------------------------------------------");
-                    ScannerCreator.closeScanner();
-                    this.printMainMenu();
+                    chooseOption();
                 }
                 case 4 -> {
                     System.out.println("------------------------------------------------------------------------------------");
 
-                    int startLine = 76; // Modify if anything is added to the instructions.txt
+                    int startLine = 74; // Modify if anything is added to the instructions.txt
                     int endLine = 96;
 
                     try {
@@ -320,19 +354,17 @@ public class MainMenu {
                         exception06.printStackTrace();
                     }
                     System.out.println("------------------------------------------------------------------------------------");
-                    ScannerCreator.closeScanner();
-                    this.printMainMenu();
+                    chooseOption();
                 }
                 case 5 -> {
                     System.out.println("Going back to the Main Menu");
-                    ScannerCreator.closeScanner();
-                    printMainMenu();
+                    chooseOption();
                     exit = false;
                 }
             }
         }
     }
-    void exitProgram() {
+    public void exitProgram() {
         System.out.println("Heard that! Hope to see you soon again! :D\nPreparing to exit the program...\n");
         this.exitRequest = true; // Then in the Main .java do a while(!)
     }

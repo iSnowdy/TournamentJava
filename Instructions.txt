@@ -63,8 +63,8 @@ won't be lost.
 The Rankings for this Tournament are the following, from bottom to top:
 
     5. Clown
-    4. Almost-a-Human
-    3. Expert Fighter
+    4. Almost_Human
+    3. Expert_Fighter
     2. Sensei
     1. Maa
 

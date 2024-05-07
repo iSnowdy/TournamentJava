@@ -67,33 +67,6 @@ public class GSONCreator {
         }
     }
 
-    /*public void readFile(String name, JsonObject jsonObject) { // Reads a specific Fighter
-        int counter = 0;
-        try {
-            for (int i = 0; i < jsonObject.getAsJsonArray("Fighters").size(); i ++) {
-                JsonObject fighter = jsonObject.getAsJsonArray("Fighters").get(i).getAsJsonObject();
-                if (Objects.equals(fighter.get("Name").getAsString(), name)) {
-                    System.out.println("Fighter " + name + " details are:\n");
-                    System.out.println("=====================================");
-                    for (String key : fighter.keySet()) {
-                        System.out.println(key + ": " + fighter.get(key)); // Prints the thingy with format
-                    }
-                    System.out.println("=====================================");
-                    break; // So once it finds the match, it leaves the for iteration
-                }
-                counter ++;
-            }
-        } catch (Exception exception03) {
-            System.err.println("Error while trying to read " + name + ". Which is Fighter Number "
-                    + counter + "\n" + exception03.getMessage());
-            exception03.printStackTrace();
-        }
-    }*/
-    // That block probably rendered useless after adding the next method, since it covers all possible Strings
-    // Although we could also read specific values such as Vitality, Strength & Dexterity, it would be easier
-    // to implement those methods using attributes in another class, not loading them from the JSON file. I think. Probably xd
-
-
     public static void getFighterByString(String desiredFeature, String feature, JsonObject jsonObject) {
         int counter = 0; // Maybe we don't need it
         try {
@@ -101,7 +74,7 @@ public class GSONCreator {
             for (int i = 0; i < jsonObject.getAsJsonArray("Fighters").size(); i ++) {
                 JsonObject fighter = jsonObject.getAsJsonArray("Fighters").get(i).getAsJsonObject();
                 if (Objects.equals(fighter.get(desiredFeature).getAsString(), feature)) { // Example: string = Rank, desiredString = One
-                    System.out.println("Fighter of " + desiredFeature + " details are: \n");
+                    System.out.println("Fighter of " + feature + " details are: \n");
                     for (String key : fighter.keySet()) {
                         System.out.println(key + ": " + fighter.get(key));
                     }
@@ -115,21 +88,21 @@ public class GSONCreator {
         }
     }
 
-    public static int[] getFighterStats(String name, JsonObject jsonObject) { // Retrieves the stats of a specific Fighter
+    public static int[] getFighterStats(String desiredFeature, String feature, JsonObject jsonObject) { // Retrieves the stats of a specific Fighter
         int[] fighterStats = new int[3];
         int size = jsonObject.getAsJsonArray("Fighters").size();
 
         try {
             for (int i = 0; i < size; i ++) {
                 JsonObject fighter = jsonObject.getAsJsonArray("Fighters").get(i).getAsJsonObject();
-                if (Objects.equals(fighter.get("Name").getAsString(), name)) {
+                if (Objects.equals(fighter.get(desiredFeature).getAsString(), feature)) {
                     fighterStats[0] = fighter.get("Vitality").getAsInt();
                     fighterStats[1] = fighter.get("Strength").getAsInt();
                     fighterStats[2] = fighter.get("Dexterity").getAsInt();
                 }
             }
         } catch (Exception exception03) {
-            System.err.println("Error while trying to load " + name + " stats.\n" + exception03.getMessage());
+            System.err.println("Error while trying to load " + desiredFeature + " stats.\n" + exception03.getMessage());
             exception03.printStackTrace();
         }
 
@@ -140,7 +113,7 @@ public class GSONCreator {
     public static boolean fighterExists(JsonObject newFighter, JsonArray allFighters) {
         for (int i = 0; i < allFighters.size(); i++) {
             JsonObject fighter = allFighters.get(i).getAsJsonObject();
-            if (fighter.get("Name").getAsString().equals(newFighter.get("Name").getAsString())) {
+            if (fighter.get("FighterName").getAsString().equals(newFighter.get("FighterName").getAsString())) {
                 System.out.println("Fighter already exists");
                 return true;
             }
@@ -153,7 +126,7 @@ public class GSONCreator {
 
         for (int i = 0; i < fightersArray.size(); i++) {
             JsonObject fighterObject = fightersArray.get(i).getAsJsonObject();
-            if (fighterObject.get("Name").getAsString().equals(fighterName)) {
+            if (fighterObject.get("FighterName").getAsString().equals(fighterName)) {
                 fightersArray.remove(i);
                 System.out.println("Fighter has been successfully removed from the JSON File");
                 break;
@@ -163,12 +136,13 @@ public class GSONCreator {
         }
     }
 
-    public static void addNewFighter(String name, String rank, int vitality, int strength, int dexterity) {
+    public static void addNewFighter(String username, String fighterName, String rank, int vitality, int strength, int dexterity) {
         String filePath = "fighterstest.json";
         JsonObject jsonObject = GSONCreator.loadFile(GSONCreator.filepathJSON1);
         JsonObject newFighter = new JsonObject();
 
-        newFighter.addProperty("Name", name);
+        newFighter.addProperty("UserName", username);
+        newFighter.addProperty("FighterName", fighterName);
         newFighter.addProperty("Rank", rank);
         newFighter.addProperty("Type", ""); // Think about this. How to input the proper Type
         newFighter.addProperty("Vitality", vitality);
@@ -180,12 +154,12 @@ public class GSONCreator {
         // Verification if the Fighter exists already
         if (!GSONCreator.fighterExists(newFighter, fighterArray)) { // if false -> add
             FighterCreation fighterCreation = new FighterCreation();
-            String type = fighterCreation.setFighterType(name);
+            String type = fighterCreation.setFighterType(fighterName);
             newFighter.addProperty("Type", type);
             fighterArray.add(newFighter);
             System.out.println("Fighter has been successfully added to the JSON File");
         } else { // if true -> exists; remove
-            GSONCreator.removeFighter(name, jsonObject);
+            GSONCreator.removeFighter(fighterName, jsonObject);
             System.out.println("Fighter exists already. Elimination completed");
         }
         // Is the removal really needed?
@@ -232,5 +206,28 @@ public class GSONCreator {
             }
         }
         return -1;
+    }
+
+    // For the Log. Same as getFighterByString, but for the other JSON. It can be unified with the other one
+    // but fuck it
+    public static void getLogByString(String desiredFeature, String feature, JsonObject jsonObject) {
+        int counter = 0; // Maybe we don't need it
+        try {
+            System.out.println("=====================================\n");
+            for (int i = 0; i < jsonObject.getAsJsonArray("UserInfo").size(); i ++) {
+                JsonObject fighter = jsonObject.getAsJsonArray("UserInfo").get(i).getAsJsonObject();
+                if (Objects.equals(fighter.get(desiredFeature).getAsString(), feature)) { // Example: string = Rank, desiredString = One
+                    System.out.println(feature + " details are: \n");
+                    for (String key : fighter.keySet()) {
+                        System.out.println(key + ": " + fighter.get(key));
+                    }
+                    System.out.println();
+                }
+            }
+            System.out.println("=====================================\n");
+        } catch (Exception exception04) {
+            System.err.println("Error while parsing\n" + exception04.getMessage());
+            exception04.printStackTrace();
+        }
     }
 }
