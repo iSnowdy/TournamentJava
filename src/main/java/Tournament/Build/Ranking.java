@@ -31,6 +31,7 @@ public class Ranking {
         }
     }
 
+    // Takes in as parameters if the fighter won, their current rankPoints and ranks
     protected int increaseRankingPoints(boolean status, int rankPoints, String fighterRank, String fighterRankOpponent) {
         int difference = rankDifference(fighterRank, fighterRankOpponent);
         int updatedRankPoints;
@@ -72,7 +73,7 @@ public class Ranking {
     // Updates the Rankings Points to the JSON File and also returns the String
     public String setRankingPoints(String username, int rankingPoints) {
         JsonObject jsonObject = GSONCreator.loadFile(GSONCreator.filepathJSON2);
-        JsonObject user = jsonObject.getAsJsonArray("UserName").get(GSONCreator.getIndex("UserName", username, 2)).getAsJsonObject();
+        JsonObject user = jsonObject.getAsJsonArray("UserInfo").get(GSONCreator.getIndex("UserName", username, 2)).getAsJsonObject();
 
         user.addProperty("Ranking Points", rankingPoints);
         System.out.println("The Ranking Points for " + username + " has been updated to " + rankingPoints);
@@ -86,8 +87,4 @@ public class Ranking {
         }
         return fighterRank;
     }
-    public String getFighterRank() {
-        return fighterRank;
-    }
-
 }

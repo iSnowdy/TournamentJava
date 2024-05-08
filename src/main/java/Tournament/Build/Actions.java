@@ -1,9 +1,9 @@
 package Tournament.Build;
 
 public interface Actions {
-    int attack();
+    int attack(int str);
     void defend();
     boolean specialAttack();
     boolean specialDefense();
-    int dodge(int damageReceived);
+    boolean dodge(int dex);
 }

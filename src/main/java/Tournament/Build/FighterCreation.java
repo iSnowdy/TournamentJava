@@ -150,12 +150,12 @@ public class FighterCreation extends Statistics {
 
             System.out.println("Out of those fighters, what Fighter Rank are you willing to load?");
             String rank = ScannerCreator.nextLine();
+            if (!(validateRank(rank))) {
+                System.out.println("********** Please choose a valid Fighter Rank to proceed **********");
+                continue; // If and only if the rank is valid, then it will continue with the next iteration
+            }
             System.out.println("Confirm Selection. Are you sure you want to load this Fighter? Type Y/N");
             decision = ScannerCreator.nextLine();
-            if (!(validateRank(decision))) {
-                System.out.println("********** Please choose a valid Fighter Rank to proceed **********");
-            }
-
             if (Objects.equals(decision.toLowerCase(), "y")) {
                 this.rank = rank;
                 jsonObject = GSONCreator.loadFile(GSONCreator.filepathJSON1);
@@ -178,7 +178,7 @@ public class FighterCreation extends Statistics {
                 // Here we must implement somehow a way to load the characteristics of this Fighter and
                 // assign it to the user
             }
-        } while (exit && !(validateRank(decision)));
+        } while (exit);
     }
 
     private void createFighter() {

@@ -109,7 +109,8 @@ public class GSONCreator {
         return fighterStats;
     }
 
-    // Method to see if the Fighter has already been added to the JSON file
+    // Method to see if the Fighter has already been added to the JSON file. Not the UserName
+    // because maybe the same person wants to play multiple times
     public static boolean fighterExists(JsonObject newFighter, JsonArray allFighters) {
         for (int i = 0; i < allFighters.size(); i++) {
             JsonObject fighter = allFighters.get(i).getAsJsonObject();
@@ -166,6 +167,28 @@ public class GSONCreator {
 
         GSONCreator.saveFile(jsonObject, filePath); // Crucial to save the changes made to the file
         GSONCreator.readFile(filePath); // Print it. Maybe not needed
+    }
+
+    // Modifies specific parameters of a Fighter
+    public static void updateFighter(String fighterName, String stat, int value) {
+        String filePath = "fighterstest.json";
+        JsonObject jsonObject = GSONCreator.loadFile(GSONCreator.filepathJSON1);
+        JsonObject newFighter = new JsonObject();
+
+        newFighter.addProperty(stat, value);
+        JsonArray fighterArray = jsonObject.getAsJsonArray("Fighters");
+
+        // Verification if the Fighter exists already
+        if (GSONCreator.fighterExists(newFighter, fighterArray)) { // if false -> add
+            FighterCreation fighterCreation = new FighterCreation();
+            String type = fighterCreation.setFighterType(fighterName);
+            newFighter.addProperty("Type", type);
+            fighterArray.add(newFighter);
+            System.out.println("Fighter has been successfully updated in the JSON File");
+
+            GSONCreator.saveFile(jsonObject, filePath); // Crucial to save the changes made to the file
+            GSONCreator.readFile(filePath); // Print it. Maybe not needed
+        }
     }
 
     // This will loop through any JSON in the Project and return the index of the Object of the Array we are

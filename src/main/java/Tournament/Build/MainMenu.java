@@ -5,6 +5,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Objects;
+import java.util.Scanner;
 
 
 public class MainMenu {
@@ -18,12 +19,23 @@ public class MainMenu {
     private final Log log;
     private final Opponent opponent;
     private FighterCreation fighterCreation;
-    private Fighter fighter1;
+    private final TurnMiniGame turnMiniGame;
+    private final Randomizer randomizer;
+    private final Ranking ranking;
+
+
+    private Fighter fighter1 = null;
+    private Fighter fighter2 = null;
 
 
 
     public MainMenu() { // Do we need any input parameters?
         this.log = new Log();
+        this.turnMiniGame = new TurnMiniGame();
+        this.randomizer = new Randomizer();
+        this.ranking = new Ranking();
+
+
         this.opponent = new Opponent();
         String username1 = opponent.getUserName1();
         String username2 = opponent.getUserName2();
@@ -84,16 +96,98 @@ public class MainMenu {
             switch (choice) {
                 // Fight methods here
                 case 1 -> {
+                    ScannerCreator.nextLine();
+                    System.out.println("Blood for the Blood God, Skulls for the Skull Throne!\n\n\n");
+
                     if (fighter1 == null) {
                         int[] stats = fighterCreation.getStats(fighterCreation.fighterName);
                         fighter1 = new Fighter(fighterCreation.getUserName1(), fighterCreation.getFighterName(),
                                 stats[0], stats[1], stats[2], 0, fighterCreation.getRank());
+                        // CPU for now
+
+                        System.out.println("-- Null situation --");
+                        fighter2 = new Fighter("CPU", "Fighter2", 7, 12, 1, 0, "Almost_Human");
                     }
-                    System.out.println("Blood for the Blood God, Skulls for the Skull Throne!");
 
-                    System.out.println(fighter1.toString());
+                    // Find out who goes first
+                    System.out.println("You will now be playing a game of Rock-Paper-Scissors against the CPU >:D Good luck!\n\n");
 
-                    exit = false;
+                    boolean rematch = true;
+                    String winner = "";
+                    while (rematch) {
+                        System.out.println("Please input your choice: ");
+                        String turnMiniGameString = ScannerCreator.nextLine();
+                        String turnResult = turnMiniGame.declareWinner(turnMiniGameString, randomizer.turnRandomizer());
+
+                        switch (turnResult) {
+                            case "Player1":
+                                System.out.println("Congratulations! You have won. The first attack is yours!");
+                                rematch = false;
+                                winner = fighter1.getUserName1();
+                                break;
+                            case "Player2":
+                                System.out.println("Booo! You have lost. The CPU will attack first");
+                                rematch = false;
+                                winner = fighter2.getUserName1();
+                                break;
+                            case "Draw":
+                                System.out.println("It is a draw! Rematch");
+                                break;
+                        }
+                    }
+
+                    // Now we can finally get to the fighting. Although the method will (*or should*) handle everything
+
+                    String fightResult = fighter1.declareWinner(fighter1, fighter2, winner);
+                    System.out.println("Aaaand the winner is ...\n\n ¡¡¡" + fightResult + "!!!\n\n " +
+                            "PD: type anything to continue");
+
+                    // Now we update everything related to the condition of winning / losing
+
+                    if (fightResult.equals(fighter1.getFighterName1())) {
+
+                        // In order, we are updating: (1) stat points, (2) total stat points, (3) ranking points,
+                        // (4) the log with ranking points, (5) the rank position according to the current
+                        // available ranking points. 4 and 5 are done in the same sentence
+                        fighter1.setAvailableStatPoints(Statistics.pointsAwarded);
+                        fighter1.setTotalStatPoints(fighter1.getAvailableStatPoints());
+                        fighter1.setRankPoints(ranking.increaseRankingPoints(true, fighter1.getRankPoints(),
+                                fighter1.getFighterRank(), fighter2.getFighterRank()));
+                        fighter1.setFighterRank(ranking.setRankingPoints(fighter1.getUserName1(), fighter1.getRankPoints()));
+                        fighter1.setWins(1);
+
+                        System.out.println("Since you have won, you will be awarded:\n" +
+                                "Stat points to Level Up. A win is 5 points. You know have: " +
+                                fighter1.getAvailableStatPoints() + " available stat points\n" +
+                                "Ranking Points. You will gain: \n" +
+                                "Your victories log is also updated.\n\n" +
+                                "You can Level Up and check any of this information in the Main Menu");
+                    } else {
+                        // CPU does not win shit KEK. Or does it hm
+
+                        System.out.println("Inside defeat iteration " + fighter1.getUserName1());
+
+                        fighter1.setAvailableStatPoints(Statistics.pointsAwarded + 2); // 7 for a defeat
+                        fighter1.setTotalStatPoints(fighter1.getAvailableStatPoints());
+                        int rankPointsGained = ranking.increaseRankingPoints(false, fighter1.getRankPoints(),
+                                fighter1.getFighterRank(), fighter2.getFighterRank());
+                        System.out.println("Ranking points??? : " + rankPointsGained);
+                        fighter1.setRankPoints(rankPointsGained);
+                        String updatedFighterRank = ranking.setRankingPoints(fighter1.getUserName1(), fighter1.getRankPoints());
+                        fighter1.setFighterRank(updatedFighterRank);
+                        fighter1.setDefeats(1);
+
+                        System.out.println("You have lost :( But do not worry! There's always a second chance\n" +
+                                "As per the rules states, you will be given 7 stat points instead of 5 for a loss. You " +
+                                "now have: " + fighter1.getAvailableStatPoints() + " stat points to spend\n" +
+                                "However, you will be deducted Ranking Points and the defeat will be registered " +
+                                "(" + fighter1.getRankPoints() + " current Ranking Points) " +
+                                "in the Log.\n" +
+                                "You can Level Up and check any of this information in the Main Menu\n\n");
+                    }
+                    System.out.println("Wins: " + fighter1.getWins());
+                    System.out.println("Defeats: " + fighter1.getDefeats());
+                    chooseOption();
                 }
                 case 2 -> {
                     System.out.println("Let's get those Stats up!");
@@ -148,7 +242,8 @@ public class MainMenu {
             while (exit) {
                 System.out.println("Currently your Fighter Status is...\n");
                 showStats("FighterName", fighterCreation.getFighterName());
-                System.out.println("What stat are you willing to Level Up?\n");
+                System.out.println("With " + fighter1.getAvailableStatPoints() + " stat points available," +
+                        "What stat are you willing to Level Up?\n");
                 System.out.println("1. Vitality\n" +
                         "2. Strength\n" +
                         "3. Dexterity\n" +
@@ -171,6 +266,7 @@ public class MainMenu {
                     case 1 -> {
                         System.out.println("Redirecting...");
                         int points = fighter1.increaseStat(fighterCreation.getFighterName(), StatType.VITALITY); // Accessing ENUM
+                        GSONCreator.updateFighter(fighterCreation.getFighterName(), "Vitality", points);
                         System.out.println("You have increased your Vitality by " + points + " points. Would you like to further increase your Stats? Y/N");
                         output = ScannerCreator.nextLine();
                         if (output.equalsIgnoreCase("y")) {
@@ -182,6 +278,7 @@ public class MainMenu {
                     case 2 -> {
                         System.out.println("Redirecting...");
                         int points = fighter1.increaseStat(fighterCreation.getFighterName(), StatType.STRENGTH);
+                        GSONCreator.updateFighter(fighterCreation.getFighterName(), "Strength", points);
                         System.out.println("You have increased your Strength by " + points + " points. Would you like to further increase your Stats? Y/N");
                         output = ScannerCreator.nextLine();
                         if (output.equalsIgnoreCase("y")) {
@@ -193,6 +290,7 @@ public class MainMenu {
                     case 3 -> {
                         System.out.println("Redirecting...");
                         int points = fighter1.increaseStat(fighterCreation.getFighterName(), StatType.DEXTERITY);
+                        GSONCreator.updateFighter(fighterCreation.getFighterName(), "Dexterity", points);
                         System.out.println("You have increased your Dexterity by " + points + " points. Would you like to further increase your Stats? Y/N");
                         output = ScannerCreator.nextLine();
                         if (output.equalsIgnoreCase("y")) {
@@ -221,7 +319,6 @@ public class MainMenu {
         JsonObject jsonObject = GSONCreator.loadFile(GSONCreator.filepathJSON1);
         GSONCreator.getFighterByString(desiredFeature, feature, jsonObject);
     }
-    private void showLog() {}
 
     private void showInstructions() {
         ScannerCreator.nextLine();
@@ -366,6 +463,16 @@ public class MainMenu {
     }
     public void exitProgram() {
         System.out.println("Heard that! Hope to see you soon again! :D\nPreparing to exit the program...\n");
+        FeedBack feedBack = new FeedBack();
+        try {
+            if (feedBack.askFeedBack()) {
+                feedBack.addToTXT(fighter1.getUserName1());
+                this.exitRequest = true;
+            }
+        } catch (NullPointerException exception) {
+            System.out.println("Exception catched. You have not fought at least once. Exiting the program");
+            this.exitRequest = true;
+        }
         this.exitRequest = true; // Then in the Main .java do a while(!)
     }
 }

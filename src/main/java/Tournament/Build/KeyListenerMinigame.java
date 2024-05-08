@@ -13,12 +13,16 @@ public class KeyListenerMinigame extends JFrame implements KeyListener {
     private int keyPressCounter;
     private int maxInputs;
     private String input;
+    private int timer;
+    protected boolean result;
+
     private final Cron cron;
 
-    public KeyListenerMinigame(int maxInputs, String input) {
+    public KeyListenerMinigame(int maxInputs, String input, int timer) {
         this.arrowBuffer = new StringBuilder();
         this.maxInputs = maxInputs;
         this.input = input;
+        this.timer = timer;
         this.keyPressCounter = 0;
 
         // JFrame appearance
@@ -33,7 +37,7 @@ public class KeyListenerMinigame extends JFrame implements KeyListener {
             }
         });
         // Cron Set Up
-        this.cron = new Cron(10, this);
+        this.cron = new Cron(timer, this);
         cron.countDownTimer();
 
         // "this" is the way to reference the current Window running in this method so Cron can access and close it
@@ -134,9 +138,11 @@ public class KeyListenerMinigame extends JFrame implements KeyListener {
                 System.out.println("Congratulations! You have pressed all inputs correctly");
                 System.out.println("Your Fighter will now be able to attack your opponent");
                 cron.shutDownTimer();
+                this.result = true;
             } else {
                 System.out.println("You have not successfully completed the MiniGame");
                 cron.shutDownTimer();
+                this.result = false;
             }
             // Clean up the buffer
             keyPressCounter = 0;
@@ -152,5 +158,9 @@ public class KeyListenerMinigame extends JFrame implements KeyListener {
     public String getInput() {
         System.out.println("The user's input to fulfill is: ");
         return input;
+    }
+
+    public boolean getResult() {
+        return result;
     }
 }

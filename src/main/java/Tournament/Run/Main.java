@@ -48,6 +48,5 @@ public class Main {
 */
             mainMenu.exitProgram();
         } while (!mainMenu.exitRequest);
-
     }
 }

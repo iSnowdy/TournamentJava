@@ -46,13 +46,31 @@
       "Dexterity": 7
     },
     {
-      "UserName": "Andy",
-      "FighterName": "CPU-Killer",
-      "Rank": "clownsadsa",
+      "UserName": "Daaaaaandy",
+      "FighterName": "FIGHTER!",
+      "Rank": "Clown",
       "Type": "Balanced",
-      "Vitality": 0,
-      "Strength": 0,
-      "Dexterity": 0
+      "Vitality": 10,
+      "Strength": 5,
+      "Dexterity": 2
+    },
+    {
+      "UserName": "CPUIuu",
+      "FighterName": "Me",
+      "Rank": "Clown",
+      "Type": "Balanced",
+      "Vitality": 10,
+      "Strength": 5,
+      "Dexterity": 2
+    },
+    {
+      "UserName": "Dany",
+      "FighterName": "CPUASD",
+      "Rank": "Clown",
+      "Type": "Balanced",
+      "Vitality": 10,
+      "Strength": 5,
+      "Dexterity": 2
     }
   ]
 }

@@ -10,7 +10,7 @@ public class TurnMiniGame {
         output = player1choice.equals(player2choice) ? "Draw" : rules.contains(player1choice + player2choice) ? "Player1" : "Player2";
 
         // Re factor this later on to show the UserName / CPU
-        System.out.println(result);
+        // System.out.println(result);
         return output;
     }
 

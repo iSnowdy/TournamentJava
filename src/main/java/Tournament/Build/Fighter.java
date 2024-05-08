@@ -6,21 +6,15 @@ class Fighter extends Statistics implements Actions {
 
     // Attributes
 
-    private String userName1;
-    private String fighterName1;
-    private String userName2;
-    private String fighterName2;
-    private int currentHP; // Fighters always start at full HP
-    private int currentSTR;
-    private int currentDEX;
     private String fighterRank; // Consider changing to final
     private int rankPoints;
     private boolean fightResult;
     private boolean action;
+    private int wins;
+    private int defeats;
 
-    private JsonObject jsonObject;
 
-    private Randomizer randomizer;
+    private final Randomizer randomizer;
     private Ranking ranking;
     private Log log;
     private TurnMiniGame turnMiniGame;
@@ -28,88 +22,104 @@ class Fighter extends Statistics implements Actions {
 
 
     // Constructors
-    public Fighter() {}
+    public Fighter() {
+        this.randomizer = new Randomizer();
+    }
     // One user
-    public Fighter (String userName1, String fighterName1, int currentHP, int currentSTR, int currentDEX, int rankPoints, String fighterRank) {
-        super(userName1, fighterName1, currentHP, currentSTR, currentDEX, rankPoints);
+    public Fighter (String userName1, String fighterName1, int vitality, int strength, int dexterity, int rankPoints, String fighterRank) {
+        super(userName1, fighterName1, vitality, strength, dexterity, rankPoints);
         this.fighterRank = fighterRank;
-        System.out.println(toString());
 
-        System.out.println("Hello");
+        this.randomizer = new Randomizer();
+        System.out.println("Fighter " + fighterName1 + " has been created\n");
     }
 
     // Two users
 
     // Getters and Setters
 
-    public String getFighterName1() {
-        return fighterName1;
+    public String getFighterRank() {
+        return this.fighterRank;
+    }
+    public void setFighterRank(String fighterRank) {
+        this.fighterRank = fighterRank;
+    }
+    public int getWins() {
+        return this.wins;
+    }
+    public void setWins(int wins) {
+        this.wins += wins;
     }
 
-    public void setFighterName(String fighterName) {
-        this.fighterName1 = fighterName;
+    public int getDefeats() {
+        return this.defeats;
     }
-
-    public int getCurrentHealth() {
-        return currentHP;
+    public void setDefeats(int defeats) {
+        this.defeats += defeats;
     }
-    public int getCurrentSTR() {return currentSTR;}
-    public int getCurrentDEX() {return currentDEX;}
-
-
-
-
-
-
-
 
 
     // Abstract method from Statistics
     public int[] getStats(String fighterName) {
+        JsonObject jsonObject;
         jsonObject = GSONCreator.loadFile(GSONCreator.filepathJSON1);
         return GSONCreator.getFighterStats("FighterName", fighterName, jsonObject);
     }
 
+    public String declareWinner(Fighter fighter1, Fighter fighter2, String firstAttacker) { // firstAttacker calls Randomizer
 
+        // Like this we will manage the turns. They are copies of the Objects, but they will modify the OG Object
+        Fighter currentAttacker = firstAttacker.equals(fighter1.getUserName1()) ? fighter1 : fighter2;
+        Fighter currentDefender = currentAttacker == fighter1 ? fighter2 : fighter1;
 
-    public static String declareWinner(Fighter firstFighter, Fighter secondFighter, String firstAttacker) { // firstAttacker calls Randomizer
+        // So we can restore the vitality of the original Object
+        int currentAttackerOGHP = currentAttacker.getVitality();
+        int currentDefenderOGHP = currentDefender.getVitality();
 
-        // Like this we will manage the turns
-        Fighter currentAttacker = firstAttacker.equals(firstFighter.getFighterName1()) ? firstFighter : secondFighter;
-        Fighter currentDefender = currentAttacker == firstFighter ? secondFighter : firstFighter;
+        // So we can deduct the vitality with the setter
+        int attackerHP = currentAttacker.getVitality();
+        int defenderHP = currentDefender.getVitality();
+
 
         // Now we need to implement the MiniGame and the Damage to HP
         // If the MiniGame is done properly, then the current attacker/defender can attack/defend
         // Call the attack/dodge methods accordingly
 
-        while (currentAttacker.getCurrentHealth() > 0 && currentDefender.getCurrentHealth() > 0) {
-            currentDefender.currentHP -= currentAttacker.getStrength();
+        while (currentAttacker.getVitality() > 0 && currentDefender.getVitality() > 0) {
+            int timer = randomizer.timerGenerator(currentAttacker.fighterRank, currentAttacker.getDexterity());
+            String generatedArrows = randomizer.arrowGenerator(currentAttacker.fighterRank);
+            KeyListenerMinigame minigame = new KeyListenerMinigame((generatedArrows.length() / 2 + 1), generatedArrows, timer);
 
-            // Roles are swapped. This way we will simulate a turn based fight
-            Fighter temp = currentAttacker;
-            currentAttacker = currentDefender;
-            currentDefender = temp;
-
+            if (minigame.getResult()) {
+                if (!(currentDefender.dodge(currentDefender.getDexterity()))) { // dodge method; false means it didn't manage to dodge so takes the dmg
+                    defenderHP -= currentAttacker.attack(currentAttacker.getStrength()); // attack method
+                    currentDefender.setVitality(defenderHP);
+                } else {
+                    System.out.println("Your opponent has failed to dodge your attack. Damage has been inflicted");
+                    System.out.println("Your turn is over ...\n");
+                }
+            } else {
+                System.out.println("Since you have failed to do the MiniGame, you will be the one taking damage");
+                attackerHP -= currentDefender.attack(currentDefender.getStrength());
+                currentAttacker.setVitality(attackerHP);
+            }
+            // Here we swap attacker and defender roles (but without modifying original objects!)
+            // Not sure if it works
         }
 
-        if (firstFighter.currentHP <= 0) {
-            return secondFighter.fighterName1;
-        } else {
-            return firstFighter.fighterName1;
-        }
+        fighter1.setVitality(currentAttackerOGHP);
+        fighter2.setVitality(currentDefenderOGHP);
+        // Determine winner based on remaining HP
+        return attackerHP > 0 ? currentAttacker.getUserName1() : currentDefender.getUserName1();
     }
 
     @Override
-    public int attack() {
-        int healthPoints = this.getCurrentHealth();
-        int damageDealt = this.getCurrentSTR();
-        int dexterityPoints = this.getCurrentDEX();
-
+    public int attack(int str) {
         if (randomizer.generate10Probability()) {
             System.out.println("A critical hit!");
-            return damageDealt * 2;
+            return str * 2;
         } else {
-            return damageDealt;
+            return str;
         }
     }
 
@@ -131,18 +141,13 @@ class Fighter extends Statistics implements Actions {
     }
 
     @Override
-    public int dodge(int damageReceived) {
-        int healthPoints = this.getCurrentHealth();
-        int damageDealt = this.getCurrentSTR();
-        int dexterityPoints = this.getCurrentDEX();
-
-        int damageTaken = damageReceived;
-
-        if (randomizer.dodgeChance(dexterityPoints)) {
+    public boolean dodge(int dex) {
+        if (randomizer.dodgeChance(dex)) {
             System.out.println("So agile! Your Fighter has dodged that attack");
-            return damageTaken = 0;
+            return true;
         } else {
-            return damageTaken;
+            System.out.println("Failed to dodge the attack");
+            return false;
         }
     }
 
@@ -158,10 +163,10 @@ class Fighter extends Statistics implements Actions {
     @Override
     public String toString() {
         return "******* SHOWING STATS *******\n" +
-                "Your fighter " + this.fighterName1 + " statistics are:\n" +
-                "Vitality: " + this.currentHP + "\n" +
-                "Strength: " + this.currentSTR + "\n" +
-                "Dexterity: " + this.currentDEX + "\n" +
+                "Your fighter " + this.getFighterName1() + " statistics are:\n" +
+                "Vitality: " + this.getVitality() + "\n" +
+                "Strength: " + this.getStrength() + "\n" +
+                "Dexterity: " + this.getDexterity() + "\n" +
                 "Furthermore, you have a total of " + getTotalStatPoints() +
                 " stat points. Of those, you have " + getAvailableStatPoints() +
                 " available stat points to spend\n" +

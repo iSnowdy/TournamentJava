@@ -52,8 +52,38 @@
       ]
     },
     {
-      "UserName": "Andy",
-      "FighterName": "CPU-Killer",
+      "UserName": "Daaaaaandy",
+      "FighterName": "FIGHTER!",
+      "Wins": 0,
+      "Loses": 0,
+      "Ranking Points": 0,
+      "Opponents": [
+        {
+          "Opponent Name": "",
+          "WinsVS": 2,
+          "LosesVS": 1,
+          "FighterRank": "Three"
+        }
+      ]
+    },
+    {
+      "UserName": "CPUIuu",
+      "FighterName": "Me",
+      "Wins": 0,
+      "Loses": 0,
+      "Ranking Points": 0,
+      "Opponents": [
+        {
+          "Opponent Name": "",
+          "WinsVS": 2,
+          "LosesVS": 1,
+          "FighterRank": "Three"
+        }
+      ]
+    },
+    {
+      "UserName": "Dany",
+      "FighterName": "CPUASD",
       "Wins": 0,
       "Loses": 0,
       "Ranking Points": 0,

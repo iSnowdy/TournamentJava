@@ -1,6 +1,7 @@
 package Tournament.Build;
 
 import java.io.*;
+import java.util.Objects;
 import java.util.Scanner;
 
 public class FeedBack { // Consider making this static
@@ -16,10 +17,13 @@ public class FeedBack { // Consider making this static
 
     public FeedBack() {}
 
-    public void askFeedBack() {
-        System.out.println("Please write in a line your thoughts about this MiniGame. It will greatly help to improve" +
-                "the program later on. Any kind of advice is appreciated.\nThank you.");
-        line = ScannerCreator.nextLine();
+    public boolean askFeedBack() {
+        System.out.println("Before you leave, would you like to leave some suggestions? FeedBack is always appreciated. Y/N ");
+        String decision = ScannerCreator.nextLine();
+        if (Objects.equals(decision.toLowerCase(), "y")) {
+            return true;
+        }
+        return false;
     }
 
     private void createTXT() {
@@ -37,7 +41,7 @@ public class FeedBack { // Consider making this static
         }
     }
 
-    private void addToTXT(String userName) { // This *should* work... Should KEKW
+    public void addToTXT(String userName) { // This *should* work... Should KEKW
         try {
             System.out.println("Please write in a line your thoughts about this MiniGame. It will greatly help to improve" +
                     "the program later on. Any kind of advice is appreciated.\nThank you.");
@@ -57,12 +61,11 @@ public class FeedBack { // Consider making this static
 
             printWriter.close();
             fileWriter.close();
-            fileReader.close();
 
             System.out.println("FeedBack has been successfully added. Thank you very much :) Hope to see you back!");
-        } catch (IOException exception) {
+        } catch (IOException exception1) {
             System.out.println("Error while trying to add the FeedBack .txt");
-            exception.printStackTrace();
+            exception1.printStackTrace();
         }
     }
 
@@ -111,8 +114,8 @@ public class FeedBack { // Consider making this static
                     }
                 }
             }
-        } catch (IOException exception2) {
-            exception2.printStackTrace();
+        } catch (IOException exception3) {
+            exception3.printStackTrace();
             System.out.println("Error while reading FeedBack.txt");
         }
     }
