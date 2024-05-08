@@ -155,6 +155,7 @@ public class MainMenu {
                                 fighter1.getFighterRank(), fighter2.getFighterRank()));
                         fighter1.setFighterRank(ranking.setRankingPoints(fighter1.getUserName1(), fighter1.getRankPoints()));
                         fighter1.setWins(1);
+                        log.addToLog(fighter1.getUserName1(), fighter1.getFighterName1(), fighter1.getWins(), fighter1.getDefeats(), fighter1.getRankPoints());
 
                         System.out.println("Since you have won, you will be awarded:\n" +
                                 "Stat points to Level Up. A win is 5 points. You know have: " +
@@ -167,15 +168,13 @@ public class MainMenu {
 
                         System.out.println("Inside defeat iteration " + fighter1.getUserName1());
 
-                        fighter1.setAvailableStatPoints(Statistics.pointsAwarded + 2); // 7 for a defeat
+                        fighter1.setAvailableStatPoints(Statistics.pointsAwarded + 2);
                         fighter1.setTotalStatPoints(fighter1.getAvailableStatPoints());
-                        int rankPointsGained = ranking.increaseRankingPoints(false, fighter1.getRankPoints(),
-                                fighter1.getFighterRank(), fighter2.getFighterRank());
-                        System.out.println("Ranking points??? : " + rankPointsGained);
-                        fighter1.setRankPoints(rankPointsGained);
-                        String updatedFighterRank = ranking.setRankingPoints(fighter1.getUserName1(), fighter1.getRankPoints());
-                        fighter1.setFighterRank(updatedFighterRank);
+                        fighter1.setRankPoints(ranking.increaseRankingPoints(false, fighter1.getRankPoints(),
+                                fighter1.getFighterRank(), fighter2.getFighterRank()));
+                        fighter1.setFighterRank(ranking.setRankingPoints(fighter1.getUserName1(), fighter1.getRankPoints()));
                         fighter1.setDefeats(1);
+                        log.addToLog(fighter1.getUserName1(), fighter1.getFighterName1(), fighter1.getWins(), fighter1.getDefeats(), fighter1.getRankPoints());
 
                         System.out.println("You have lost :( But do not worry! There's always a second chance\n" +
                                 "As per the rules states, you will be given 7 stat points instead of 5 for a loss. You " +

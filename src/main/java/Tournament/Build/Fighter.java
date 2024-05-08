@@ -105,8 +105,11 @@ class Fighter extends Statistics implements Actions {
             }
             // Here we swap attacker and defender roles (but without modifying original objects!)
             // Not sure if it works
-        }
 
+            Fighter tempFighter = currentAttacker;
+            currentAttacker = currentDefender;
+            currentDefender = tempFighter;
+        }
         fighter1.setVitality(currentAttackerOGHP);
         fighter2.setVitality(currentDefenderOGHP);
         // Determine winner based on remaining HP

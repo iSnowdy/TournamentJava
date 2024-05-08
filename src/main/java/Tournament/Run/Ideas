@@ -6,3 +6,12 @@ una racha de victorias/derrotas, sea posible otorgar algun tipo de recompensa/pe
 es especifica para cada usuario, se deberá de pedir el nombre del usuario o del luchador, dependiendo de lo que se requiera.
 Por si el usuario no se acuerda de alguno de los dos Strings, pues ha de ser exactamente igual al del JSON para no generar errores,
 se deberá de imprimir de alguna forma la informacion de ese usuario
+- Log se duplica al añadir
+- Fighter turns mal
+- Se duplican ventanas de KeyListener
+- Cronometro va loco
+- Los puntos de stats no se suman correctamente si el usuario decide no subir nivel entre peleas
+- Los puntos de stats se suman muy mal :D problema en el algoritmo? probablemente no se aaaaaaaa
+- Los puntos de stats no se actualizan en el GSON por alguna razon. De hecho da NullPointerException.
+Pero es pillado con un catch
+- PvP? not found
