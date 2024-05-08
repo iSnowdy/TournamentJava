@@ -1,181 +1,149 @@
 # Java Project - Martial Arts Tournament
 
-Minijuego de pelea/luchadores 
+## Fight Tournament
 
-Descripción 
+### Introduction
 
-Se tiene un simulador de pelea entre combatientes. Los jugadores (humanos) pueden elegir entre pelear entre ellos (PvP) o bien contra la máquina (PvE). 
+This is a school project with the purpose of learning about Java Object Oriented Programming. It is not by any means a guide on the subject. Its purely for learning purposes, so its bound to have many mistakes.
 
-Las peleas se realizarán o bien tomando una serie de letras aleatorias (String) como input o si se puede, detectar teclas de movimiento con las flechas del teclado (Up, Down, Left, Right). Los combatientes dispondrán de un tiempo limitado (cronometrado) para introducir la secuencia correcta. 
+The project will keep growing, adding new features and fixing bugs. The final objective is to have a running program with GUI, showcasing a wide range of Java's utilities.
 
-En caso de que la secuencia no sea correcta, el combatiente recibirá un daño X que vendrá definido por las estadísticas del personaje (Luchador) que haya creado/seleccionado. Si la secuencia introducida es correcta, el jugador será el que inflija daño a la máquina/jugador contrario.  
+### Description
 
-Los personajes tendrán estadísticas. Las estadísticas se suben gastando puntos de poder. Para conseguir puntos de poder se ha de luchar. Tanto victorias como derrotas otorgan puntos de poder. Las derrotas otorgan ligeramente más. 
+The project is a simulation of fights between two Fighters. The Fighter can either be a human being or the CPU. Resulting in a **PvE / PvP simulation** depending on how many people are willing to play.
 
-Los luchadores tienen un rango. El ranking está predefinido y se divide en 5 niveles. Los luchadores predefinidos están ya posicionados en el ranking. La máquina no puede subir de ranking. Los jugadores al conseguir victorias ganarán puntos de rangos con los cuales podrán subir en el rango. Si se sufren derrotas, se perderán puntos de rango. 
+At the beginning you are going to be asked if you want to fight against a fellow human or against the CPU. CPU actions are randomized within certain parameters. Once you have decided, you will be directed to a **Character Creation Menu**.
 
-Habrá un historial. El historial guardará el log de victorias, derrotas, contra quién se ha luchado y qué tipo de oponente (humano/máquina). 
+In this menu you are going to have two options. (1) Create your Character/Fighter from scrath or (2) load an already built-in Fighter. Any option is viable.
 
+When one or both players are done with creating the Fighter, you will be redirected to the **Main Menu**. This menu will control the flow of the program. **You can start the fights, level up your Fighter, load the Instructions, load the Log or exit the program**.
+
+Fights between fighter will involve two MiniGames. The first MiniGame is a Rock-Paper-Scissors implementation to decide who is going first. After that, both Fighter instances will take turns to play the second MiniGame, a KeyListener. Users will be given a string of characters composed of a randomized sequence of arrows *( ↑ → ↓ ← )*. If the user is able to input all of the arrows correctly and in the alloted time, he/she will be able to assert the attack to the opponent and inflict a certain amount of damage. On the other hand, if it is failed, then the damage will be reversed to him/her.
+
+**After each Fight, the user will be awarded Statistics Points to Level Up the Fighter stats and also Ranking Points**. Rankings Points will count towards an Internal Ranking that depending on specific ranges the Fighter will be assigned a Rank. If its possible to both climb up the ladder but also fall down.
+
+The final objective of the program is to reach the highest rank.
+
+The stats of the Fighter and the log of wins, losses and some other details will be recorded in .json files that can be consulted in the MainMenu.
+
+## Classes
+
+### ScannerCreation
+
+It is a *utility class* with the sole purpose of initializing a static Scanner to use across the Project. It also contains critical methods needed for user inputs, such as nextInt(), nextLine(), next() and closeScanner().
+
+### GSONCreator
+
+A *utility class* with the objective of controlling everything related to the JSON files that are implemented in the program. Amongst the things it can do are: instantiate GSON class, load, read, modify & print .json files. 
+
+* Instantiate GSON.
+* Load .json files. Either the full file or specific data.
+* Read .json files.
+* Modify .json files. Thanks to the parameters entered it can modify anything in the JSON file. It will also save the changes.
+* Read .json files. Either the full .json or specific things about it.
+* Add new Fighters to the file.
+
+### Log
+
+A class purely designed to register in a .json file the trails of the user. It includes: username, fightername, wins, loses, ranking points and the opponents they have fought against.
+
+When the Fighter is created it will be registered to the Log. Also every time a fight is over it will be updated with fresh data.
+
+### FeedBack
+
+When the user decides to leave the program, they will be asked to leave a FeedBack. It will be registered in a separate .txt file and can be consulted any time. The user name will also be recorded.
+
+### Randomizer
+
+Its purpose is to return randomized Strings and integers to randomize certain actions while the fight is going on and also the decisions taken by the CPU.
+
+### Ranking
+
+Will manage everything related to the Ranking Points. Initializing the values, increasing/decreasing the Ranking Points (win/lose), calculating the Ranking Difference and receveing the updated values.
+
+The Ranking Difference is needed because the user is able to fighter against higher ranked Fighters. If the Ranking Difference is <= 1, he/she will receive greater rewards. However, if the Ranking Difference is >= 2, upon suffering a defeat, all Ranking Point will be lost.
+
+The Ranks are the following, from highest to lowest:
+
+1. Maa.
+2. Sensei.
+3. Expert_Fighter.
+4. Almost_Human.
+5. Clown.
+
+### StatType & Ranks
+
+EnumType classes to restrict some entry values.
+
+### Opponent
+
+It will be the first Menu that the user will see. It is going to offer the option to either fight against the CPU or against another player (PvE / PvP mode).
+
+### Fighter Creation
+
+Menu to create or load the Fighter. First of all, the user will be asked to name their future Fighter.
+
+If the user decides to **create a new Fighter** from scratch, it will ask the user the appoint the stats. Every stat will start at 1 and the user will be given a certain number of stat points to increase the statistics however he/she wants.
+
+On the other hand, if the user decides to **load a fighter from the database**, an already created instance will be loaded and assigned the user's name and fighter's name previously allocated.
+
+It will also assign and update the Fighter Type. It is an attribute that using an algorithm based on the spectrum of the statistics of the Fighter will assign the pre-defined values of types of Fighters.
+
+### Main Menu
+
+Main class in charge of handling the flow of the program. Here the user can choose to:
+
+1. Fight.
+2. Level Up. After each Fight, a certain number of stat points will be awarded to level up the Fighter's statistics. Here the user will be able to allocate them to strengthen their Fighter.
+3. Show Stats. Shows the current stats of the Fighter.
+4. Show Log. Shows the current Log of the Fighter. Specific information about the user, not the whole Log file.
+5. Instructions. Prints the different array of instructions. They can be about:
+      * Opponent Type.
+      * Stats Explanation.
+      * Tournament Format Explanation.
+      * MiniGames.
+6. Exit. Leaves the program. FeedBack will be asked (optional).
+
+### Actions, StatsManager & Statistics
+
+Actions and StatsManager are interfaces. Their purpose is solely to make sure that their methods are implemented in their child classes.
+
+Statistics on the contrary is an abstract class. It is designed to handle everything related to the statistics. From initiating them to their increase and update. It has an abstract method that will be inherited to FighterCreation and Fighter.
+
+Notice that stat points are gained both with victories and defeats. In fact, defeats give a higher amount of stat points.
+
+Further information about how exactly the statistics work can be found inside the project (Instructions.txt).
+
+### Fighter
+
+The Fighter class is in charge of running the actual fight between the Fighters. It uses a number of methods and calls to other classes to accomplish this.
+
+### TurnMinigame
+
+A very simple MiniGame of Rock-Paper-Scissors with the sole purpose of adressing who goes first in the first round of the Fight.
+
+### Cron & KeyListenerMiniGame
+
+The **Cron class will start a cronometer based on a timer**. This timer is set depending on the difficulty level of the Fight that will be held up. The difficulty varies depending on the Ranks of both Fighters. The higher the difficulty, less time for the user to input the String.
+
+Once the timer is over, the class, thanks to taking as a parameter the Window (created in the KeyListener MiniGame), will be able to close that Window, signalling the failure of completing the MiniGame in time.
+
+The CPU on the other hand since it can't input the parameters, will be given an increased amount of success chance with every difficulty level. So at the lowest Rank, it will have a relatively low chance of succeeding the MiniGame. However, on the highest rank, it will be almost impossible for it to actually fail the MiniGame.
+
+The KeyListenerMiniGame class uses a combination of the libraries JFrame and KeyListener to implement a simple User Interface and a KeyListener.
+
+The User Interface will show the user what combination of arrows they must input. Finally, the KeyListener is in charge of taking in, recording and printing the actual keys pressed by the user.
+
+It is also responsible for initializing the cronometer and deciding wether the user input is right or wrong.
  
+## List of things learnt throughout the project:
 
- 
+* Item 1.
+* Item 2.
+* Item ...
 
-Luchadores 
+## Some of the websites visited used as references:
 
-Habrá 2 modelos de luchadores. Los predefinidos (ya construidos) y los personalizados. 
-
-Los luchadores predefinidos vendrán cargados a partir de un JSON con sus características. Se deberán de crear 3 tipos de luchadores por Rango. 
-
-Los luchadores personalizados son aquellos que el propio jugador crea con nombre y estadísticas personalizadas. A ser posible, se ha de poder guardar la configuración del luchador para cargarla a posteriori. 
-
-Los luchadores tienen 3 tipos según las estadísticas que posean. 
- 
-	1. Luchadores centrados en vitalidad o tanques. Serán aquellos que dispongan de más puntos de vitalidad que los otros. Se caracterizan por poder aguantar más golpes. 
-	2. Luchadores centrados en fuerza o Glass-Cannons. Serán aquellos que dispongan de más puntos de fuerza que los otros. Se caracterizan por poder infligir una gran cantidad de daño, pero a cambio aguantan poco. 
-	3. Luchadores centrados en destreza o ratas. Serán aquellos que dispongan de más puntos de destreza que los otros. Se caracterizan por disponer de más tiempo para poder introducir inputs y tener una mayor probabilidad de esquivar golpes. 
- 
-
- 
-
- 
-
-Ranking 
-
-El ranking se verá compuesto de 5 rangos: 
- 
-	1. Gusano. 
-	2. Desecho. 
-	3. Aprendiz. 
-	4. Luchador. 
-	5. Sensei. 
- 
-
-Habrá 3 luchadores predefinidos por cada rango. Se empezará con 15 luchadores de base. 
-
-Para subir en el ranking, se deberán de ganar puntos de rango. 
-
-Para ganar puntos de rango los jugadores deberán de ganar peleas contra otros jugadores o bien contra la máquina.  
-
-Se pueden perder puntos de rango si los jugadores pierden contra otros jugadores o bien contra la máquina. 
-
-La máquina no puede perder puntos. 
-
-Los combates serán por defecto contra jugadores/máquina del mismo nivel que el del personaje del jugador. 
-
-Es posible para el jugador combatir contra otros luchadores de mayor rango. Deberá de especificar en este caso si quiere y además contra qué rango. Si gana, obtendrá más puntos de clasificación. Pero si pierde perderá todos sus puntos. 
-
- 
-
- 
-
-Estadísticas 
-
-Los luchadores tendrán 3 estadísticas: Vitalidad, Fuerza y Destreza. 
-
-Vitalidad: determinará la cantidad de puntos de vida que el luchador tiene. A mayor vitalidad, más golpes podrá aguantar antes de caer al suelo. 
-
-Fuerza: determinará la fuerza/puntos de daño que el luchador inflingirá si realiza el minijuego correctamente. 
-
-Destreza: le otorgará al luchador una cantidad x adicional de segundos para realizar el minijuego y además una pequeña posibilidad de esquivar el golpe del rival. 
-
-Las estadísticas de los luchadores se suben usando puntos de poder. 
-
-Un luchador personalizado tendrá todas las estadísticas en 1 y una cantidad fija de puntos de poder con los que el usuario podrá subir las estadísticas de la forma que le parezca. 
-
-Los luchadores predefinidos tienen unas estadísticas fijas. No las podrán subir a menos que sea el jugador el que seleccione a dicho luchador predefinido y lo utilice. 
-
-Los puntos de poder para subir las estadísticas de los luchadores se podrán obtener luchando, ya sea PvE o PvP. Tanto las victorias como las derrotas otorgarán puntos de poder. Las derrotas otorgan más puntos de poder que las victorias. 
-
- 
-
-Relación puntos de poder y estadísticas: 
-
- 
-
- 
-
-Jugadores 
-
-Los jugadores (humanos) se les dará primero que nada la opción de luchar contra otro jugador o contra la máquina. 
-
-Los jugadores, una vez elegido el tipo de contrincante, deberán de crear un luchador personalizado (nombre, estadísticas) o seleccionar uno de los luchadores predefinidos. 
-
-Es posible para el jugador elegir un luchador predefinido del rango 1-5. Pero si crea uno personalizado, deberá empezar desde el rango 1.  
-
-Si se elige combatir contra otro jugador, una vez que el Jugador 1 haya terminado la configuración básica de su personaje, se le dará paso al Jugador 2 para que también lo haga. 
-
-Si se elige combatir contra la máquina, se le asignará un oponente al Jugador 1. El oponente será en base a la dificultad que el jugador haya elegido. Por defecto será un luchador predefinido del mismo rango que el del jugador. Si elige combatir contra uno de mayor rango, se le asignará un luchador predefinido de la máquina del rango seleccionado. 
-
- 
-
- 
-
-Máquina  
-
-Las acciones de la máquina estarán todas randomizadas dentro de unos valores predefinidos. 
-
-Acciones posibles a llevar a cabo por la máquina: 
- 
-	- Minijuego. Según el rango del luchador de la máquina, tendrá un % determinado de tener éxito. 
-	- En caso de que haga falta, la selección del minijuego de piedra, papel o tijeras también será aleatoria. 
-	-  
-
- 
-
- 
-
-Minijuego 
-
-El minijuego mostrará por pantalla una serie de inputs (flechas direccionales) y el jugador tendrá que introducir esa serie exactamente como es en un tiempo cronometrado. 
-
-Si no hay fallo alguno en el input por parte del jugador, podrá infligir daño al oponente. Debido a las características de la estadística Destreza, aunque se acierte el minijuego, habrá una posibilidad de que no inflija daño en base a un % determinado por el nivel de Destreza. 
-
-Si hay algún fallo en el input por parte del jugador, tomará daño del rival y el turno irá hacia este. 
-
-Si el tiempo llega a su fin, se dará contará como fallo. 
-
-Si la vida del contrincante llega a 0, contará como victoria. Ganará puntos de rango y puntos de poder. 
-
-Si la vida del jugador llega a 0, contará como derrota. Perderá puntos de rango (todos si es contra un adversario de mayor rango) y ganará puntos de poder (más que con una victoria). 
-
- 
-
-Otros 
-
-El orden será determinado por un minijuego de piedra, papel o tijeras. Podrá darse PvE o PvP. 
-
-Historial. Consistirá en un log de las victorias, derrotas y luchadores (especificará si PvE o PvP) del jugador/luchador. 
-
-Implementar un sistema de recompensas por logros, como alcanzar cierto número de victorias consecutivas o derrotar a oponentes de mayor rango. 
-
-Desarrollar un algoritmo para que la IA de la máquina sea desafiante pero justa. Puedes ajustar la dificultad basándote en el rango del jugador y su historial de batalla. 
-
-Feedback. 
-
-Asegúrate de incluir validación de entrada para garantizar que las estadísticas introducidas por el jugador para los luchadores personalizados estén dentro de rangos razonables y no provoquen desequilibrios en el juego. 
-
-Considerar la posibilidad de que los jugadores puedan ver el progreso a través de los diferentes rangos y los luchadores asociados a cada uno. 
-
-Aunque no se utilice una interfaz gráfica, puedes diseñar una salida en consola que muestre el ranking actualizado de los luchadores. 
-
-Proporciona opciones para que los jugadores puedan ver su posición en el ranking y el progreso hacia el siguiente rango. 
-
- 
-
- 
-
-Flujo de juego claro y fluido. Diseña un flujo de juego intuitivo y fácil de entender que guíe a los jugadores a través de las diferentes opciones y acciones disponibles. 
-
- 
-
-Interrogantes 
-
-Cómo registrar los inputs direccionales. 
-
-Cómo guardar luchadores predefinidos. 
-
-Cómo guardar luchadores personalizados. 
-
-Historial. Cómo especificar si es PvE o PvP. Cómo guardar los registros. 
-
- 
+* Item 1.
+* item 2.
+* Item ...
