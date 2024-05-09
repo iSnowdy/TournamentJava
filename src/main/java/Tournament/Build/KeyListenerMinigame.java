@@ -62,7 +62,6 @@ public class KeyListenerMinigame extends JFrame implements KeyListener {
     }
     private void createTextLabel(String input) {
         Font font = new Font("DejaVu sans", Font.PLAIN, 20);
-        // input String example: "→ ↑ ↓ ↓ ↑ → ↑ ↑ ↑ → → → ↓ ← ↓ ↑ ↑ ↓ ↓ ←"
         this.displayLabel = new JLabel(input);
         this.displayLabel.setFont(font);
         add(displayLabel);
@@ -73,7 +72,7 @@ public class KeyListenerMinigame extends JFrame implements KeyListener {
         setLocationRelativeTo(null); // Window pop up in the middle of the screen
     }
 
-    // Interface Methods from KeyLister
+    // Interface Methods from KeyListener
     @Override
     public void keyTyped(KeyEvent event) {} // No need for this method
 
@@ -113,16 +112,6 @@ public class KeyListenerMinigame extends JFrame implements KeyListener {
         return arrowBuffer;
     }
 
-    /*private void processArrowInputs () {
-        if (this.arrowBuffer.length() > maxInputs) {
-            System.out.println("All arrows pressed: " + this.arrowBuffer.toString());
-            this.keyPressCounter = 0;
-            this.arrowBuffer.setLength(0); // Restart the buffer
-            dispose(); // To close the Window
-        } else {
-            System.out.println("Arrow pressed: " + this.arrowBuffer.toString());
-        }
-    }*/
     private void processArrowInputs () {
         if (this.arrowBuffer.length() >= maxInputs * 2) { // 2 because there are empty spaces in between each arrow
             int matches = 0;
@@ -133,7 +122,6 @@ public class KeyListenerMinigame extends JFrame implements KeyListener {
                     matches++;
                 }
             }
-
             if (matches == maxInputs) {
                 System.out.println("Congratulations! You have pressed all inputs correctly");
                 System.out.println("Your Fighter will now be able to attack your opponent");
@@ -159,7 +147,6 @@ public class KeyListenerMinigame extends JFrame implements KeyListener {
         System.out.println("The user's input to fulfill is: ");
         return input;
     }
-
     public boolean getResult() {
         return result;
     }

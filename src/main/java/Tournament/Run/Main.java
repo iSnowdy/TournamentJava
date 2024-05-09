@@ -26,26 +26,6 @@ public class Main {
         MainMenu mainMenu;
         do {
             mainMenu = new MainMenu();
-            /*Opponent opponent = new Opponent();
-            String username1 = opponent.getUserName1();
-            String username2 = opponent.getUserName2();
-
-            FighterCreation fighterCreation;
-            // This is a way to handle if we are going to be playing against one or two players
-            if (!Objects.equals(username1, "default") && !Objects.equals(username2, "CPU")) {
-                System.out.println(username1);
-                System.out.println(username2);
-                System.out.println("Two users");
-                fighterCreation = new FighterCreation(opponent.getUserName1(), opponent.getUserName2());
-                mainMenu.chooseOption();
-            } else if (!Objects.equals(username1, "default") || !Objects.equals(username2, "CPU")) {
-                System.out.println(username1);
-                System.out.println(username2);
-                System.out.println("One user");
-                fighterCreation = new FighterCreation(opponent.getUserName1());
-                mainMenu.chooseOption();
-            }
-*/
             mainMenu.exitProgram();
         } while (!mainMenu.exitRequest);
     }

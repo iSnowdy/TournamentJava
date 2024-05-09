@@ -38,6 +38,7 @@ public class ScannerCreator {
         return scanner.next();
     }
 
-    // Consider adding hasNextLine too >.>
-
+    public static boolean hasNextLine() {
+        return scanner.hasNextLine();
+    }
 }

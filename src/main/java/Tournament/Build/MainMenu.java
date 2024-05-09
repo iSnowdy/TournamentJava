@@ -5,12 +5,9 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Objects;
-import java.util.Scanner;
-
 
 public class MainMenu {
     private int choice;
-    private String name;
     private boolean exit = true;
     public boolean exitRequest = false;
     private final String plainFilePath = "Instructions.txt";
@@ -57,11 +54,9 @@ public class MainMenu {
         System.out.println(fighterCreation.getFighterName());
     }
 
-
     // Methods
     // No need to really show the current user. But if an option that is specific to username is triggered, then
     // we must ask that person's username
-
 
     public void printMainMenu() {
         System.out.println("=================================================");
@@ -79,7 +74,6 @@ public class MainMenu {
     public void chooseOption() {
         while (exit) {
             printMainMenu();
-
             try {
                 choice = ScannerCreator.nextInt();
 
@@ -236,7 +230,6 @@ public class MainMenu {
         // hasn't fought at least once, and therefore, Fighter has not been initialized
         try {
             String output;
-
             // Consider removing the while loop or the 4th case
             while (exit) {
                 System.out.println("Currently your Fighter Status is...\n");
@@ -247,7 +240,6 @@ public class MainMenu {
                         "2. Strength\n" +
                         "3. Dexterity\n" +
                         "4. Exit\n");
-
                 ScannerCreator.nextLine();
                 try {
                     choice = ScannerCreator.nextInt();
@@ -312,8 +304,8 @@ public class MainMenu {
             // Initialize Fighter
             chooseOption();
         }
-
     }
+
     private void showStats (String desiredFeature, String feature) {
         JsonObject jsonObject = GSONCreator.loadFile(GSONCreator.filepathJSON1);
         GSONCreator.getFighterByString(desiredFeature, feature, jsonObject);
@@ -328,7 +320,6 @@ public class MainMenu {
                                 "3. Tournament Format Explanation\n" +
                                 "4. MiniGames\n" +
                                 "5. Exit\n");
-
             try {
                 choice = ScannerCreator.nextInt();
 
@@ -341,7 +332,6 @@ public class MainMenu {
                 ScannerCreator.next();
                 continue;
             }
-
             switch (choice) {
                 case 1 -> {
                     System.out.println("------------------------------------------------------------------------------------");
@@ -460,6 +450,7 @@ public class MainMenu {
             }
         }
     }
+
     public void exitProgram() {
         System.out.println("Heard that! Hope to see you soon again! :D\nPreparing to exit the program...\n");
         FeedBack feedBack = new FeedBack();

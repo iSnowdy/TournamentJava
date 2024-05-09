@@ -96,9 +96,6 @@ public class Opponent {
                         exception02.printStackTrace();
                     }
                     System.out.println("------------------------------------------------------------------------------------");
-
-                    // We have no interest in returning choice = 3 since it does not affect the Constructor
-                    // Similar logic to closing the Scanner. We can't close it since option 3 is intended to loop
                 }
             }
         }

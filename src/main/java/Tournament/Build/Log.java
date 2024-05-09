@@ -4,9 +4,6 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 public class Log {
-    private Fighter fighter;
-    private FighterCreation fighterCreation;
-
     public Log() {}
 
     void showLog() {

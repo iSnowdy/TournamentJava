@@ -43,7 +43,6 @@ public abstract class Statistics implements StatsManager {
         this.rankPoints = rankPoints;
     }
 
-
     // Getters & Setters
 
     public String getFighterName1() {

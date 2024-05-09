@@ -60,7 +60,6 @@ public class Randomizer {
                 timer = 10;
                 break;
         }
-
         return (int) (timer + (dex * 0.1)); // Every point in dexterity gives a boost of 0.1 seconds
     }
 
