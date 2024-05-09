@@ -68,7 +68,7 @@ class Fighter extends Statistics implements Actions {
 
     public String declareWinner(Fighter fighter1, Fighter fighter2, String firstAttacker) { // firstAttacker calls Randomizer
 
-        // Like this we will manage the turns. They are copies of the Objects, but they will modify the OG Object
+        // Like this we will manage who goes first. They are copies of the Objects, but they will modify the OG Object
         Fighter currentAttacker = firstAttacker.equals(fighter1.getUserName1()) ? fighter1 : fighter2;
         Fighter currentDefender = currentAttacker == fighter1 ? fighter2 : fighter1;
 
@@ -76,10 +76,7 @@ class Fighter extends Statistics implements Actions {
         int currentAttackerOGHP = currentAttacker.getVitality();
         int currentDefenderOGHP = currentDefender.getVitality();
 
-        // So we can deduct the vitality with the setter
-        int attackerHP = currentAttacker.getVitality();
-        int defenderHP = currentDefender.getVitality();
-
+        String winner;
 
         // Now we need to implement the MiniGame and the Damage to HP
         // If the MiniGame is done properly, then the current attacker/defender can attack/defend
@@ -91,29 +88,39 @@ class Fighter extends Statistics implements Actions {
             KeyListenerMinigame minigame = new KeyListenerMinigame((generatedArrows.length() / 2 + 1), generatedArrows, timer);
 
             if (minigame.getResult()) {
-                if (!(currentDefender.dodge(currentDefender.getDexterity()))) { // dodge method; false means it didn't manage to dodge so takes the dmg
-                    defenderHP -= currentAttacker.attack(currentAttacker.getStrength()); // attack method
-                    currentDefender.setVitality(defenderHP);
-                } else {
-                    System.out.println("Your opponent has failed to dodge your attack. Damage has been inflicted");
-                    System.out.println("Your turn is over ...\n");
+                if (!(currentDefender.dodge(currentDefender.getDexterity()))) {
+                    int damageDealt = currentAttacker.attack(currentAttacker.getStrength());
+                    currentDefender.setVitality(currentDefender.getVitality() - damageDealt); // attack method
                 }
             } else {
-                System.out.println("Since you have failed to do the MiniGame, you will be the one taking damage");
-                attackerHP -= currentDefender.attack(currentDefender.getStrength());
-                currentAttacker.setVitality(attackerHP);
+                System.out.println("Since you have failed to do the MiniGame, " + currentAttacker.getUserName1() + " will be the one taking damage");
+                int damageDealt = currentDefender.attack(currentDefender.getStrength());
+                currentAttacker.setVitality(currentAttacker.getVitality() - damageDealt); // attack method
             }
-            // Here we swap attacker and defender roles (but without modifying original objects!)
+
+
+            System.out.println("Damage dealt by attacker: " + currentAttacker.attack(currentAttacker.getStrength()));
+            System.out.println("Damage dealt by defender: " + currentDefender.attack(currentDefender.getStrength()));
+            System.out.println("Current attacker HP: " + currentAttacker.getVitality());
+            System.out.println("Current defender HP: " + currentDefender.getVitality());
+
+            // Here we swap attacker and defender roles
             // Not sure if it works
 
             Fighter tempFighter = currentAttacker;
             currentAttacker = currentDefender;
             currentDefender = tempFighter;
         }
+        // Determine winner based on remaining HP before resetting HP
+        if (fighter1.getVitality() <= 0) {
+            winner = fighter2.getUserName1();
+        } else {
+            winner = fighter1.getUserName1();
+        }
+
         fighter1.setVitality(currentAttackerOGHP);
         fighter2.setVitality(currentDefenderOGHP);
-        // Determine winner based on remaining HP
-        return attackerHP > 0 ? currentAttacker.getUserName1() : currentDefender.getUserName1();
+        return winner;
     }
 
     @Override

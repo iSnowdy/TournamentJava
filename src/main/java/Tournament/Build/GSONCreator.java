@@ -169,26 +169,37 @@ public class GSONCreator {
         GSONCreator.readFile(filePath); // Print it. Maybe not needed
     }
 
-    // Modifies specific parameters of a Fighter
-    public static void updateFighter(String fighterName, String stat, int value) {
-        String filePath = "fighterstest.json";
+    // Modifies specific parameters of a Fighter (previous methods were adding a whole new Object to the JSON
+    // file instead of editing an already existing one
+    public static void updateFighterStat(String fighterName, String stat, int value) {
         JsonObject jsonObject = GSONCreator.loadFile(GSONCreator.filepathJSON1);
-        JsonObject newFighter = new JsonObject();
-
-        newFighter.addProperty(stat, value);
         JsonArray fighterArray = jsonObject.getAsJsonArray("Fighters");
 
-        // Verification if the Fighter exists already
-        if (GSONCreator.fighterExists(newFighter, fighterArray)) { // if false -> add
-            FighterCreation fighterCreation = new FighterCreation();
-            String type = fighterCreation.setFighterType(fighterName);
-            newFighter.addProperty("Type", type);
-            fighterArray.add(newFighter);
-            System.out.println("Fighter has been successfully updated in the JSON File");
-
-            GSONCreator.saveFile(jsonObject, filePath); // Crucial to save the changes made to the file
-            GSONCreator.readFile(filePath); // Print it. Maybe not needed
+        for (JsonElement fighterElement : fighterArray) {
+            JsonObject fighter = fighterElement.getAsJsonObject();
+            if (fighter.get("FighterName").getAsString().equals(fighterName)) {
+                fighter.addProperty(stat, value);
+                break;
+            }
         }
+        // Save changes
+        GSONCreator.saveFile(jsonObject, GSONCreator.filepathJSON1);
+    }
+
+    // Modifies the Rank in the JSON
+    public static void updateFighterRank(String fighterName, String newRank) {
+        JsonObject jsonObject = GSONCreator.loadFile(GSONCreator.filepathJSON1);
+        JsonArray fighterArray = jsonObject.getAsJsonArray("Fighters");
+
+        for (JsonElement fighterElement : fighterArray) {
+            JsonObject fighter = fighterElement.getAsJsonObject();
+            if (fighter.get("FighterName").getAsString().equals(fighterName)) {
+                fighter.addProperty("Rank", newRank);
+                break;
+            }
+        }
+        // Save changes
+        GSONCreator.saveFile(jsonObject, GSONCreator.filepathJSON1);
     }
 
     // This will loop through any JSON in the Project and return the index of the Object of the Array we are

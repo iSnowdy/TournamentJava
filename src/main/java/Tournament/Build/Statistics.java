@@ -74,7 +74,13 @@ public abstract class Statistics implements StatsManager {
     }
 
     public void setRankPoints(int rankPoints) {
-        this.rankPoints = rankPoints;
+        if (rankPoints >= 0) {
+            this.rankPoints = rankPoints;
+        } else {
+            this.rankPoints = 0;
+            System.out.println("Ranking Points setting to 0...");
+        }
+
     }
 
     public int getVitality() {

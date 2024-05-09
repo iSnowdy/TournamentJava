@@ -100,7 +100,8 @@ public class MainMenu {
                         // CPU for now
 
                         System.out.println("-- Null situation --");
-                        fighter2 = new Fighter("CPU", "Fighter2", 7, 12, 1, 0, "Almost_Human");
+                        fighter2 = new Fighter("CPU", "Fighter2",
+                                7, 5, 1, 0, "Almost_Human");
                     }
 
                     // Find out who goes first
@@ -111,7 +112,9 @@ public class MainMenu {
                     while (rematch) {
                         System.out.println("Please input your choice: ");
                         String turnMiniGameString = ScannerCreator.nextLine();
-                        String turnResult = turnMiniGame.declareWinner(turnMiniGameString, randomizer.turnRandomizer());
+                        String turnCPU = randomizer.turnRandomizer();
+                        String turnResult = turnMiniGame.declareWinner(turnMiniGameString, turnCPU);
+                        System.out.println("User choice: " + turnMiniGameString + ". CPU choice: " + turnCPU);
 
                         switch (turnResult) {
                             case "Player1":
@@ -138,16 +141,19 @@ public class MainMenu {
 
                     // Now we update everything related to the condition of winning / losing
 
-                    if (fightResult.equals(fighter1.getFighterName1())) {
+                    if (Objects.equals(fightResult, fighter1.getUserName1())) {
+
+                        System.out.println("Inside win iteration for " + fighter1.getUserName1());
 
                         // In order, we are updating: (1) stat points, (2) total stat points, (3) ranking points,
                         // (4) the log with ranking points, (5) the rank position according to the current
                         // available ranking points. 4 and 5 are done in the same sentence
-                        fighter1.setAvailableStatPoints(Statistics.pointsAwarded);
+                        fighter1.setAvailableStatPoints(fighter1.getAvailableStatPoints() + Statistics.pointsAwarded);
                         fighter1.setTotalStatPoints(fighter1.getAvailableStatPoints());
-                        fighter1.setRankPoints(ranking.increaseRankingPoints(true, fighter1.getRankPoints(),
-                                fighter1.getFighterRank(), fighter2.getFighterRank()));
+                        fighter1.setRankPoints(fighter1.getRankPoints() + (ranking.increaseRankingPoints(true, fighter1.getRankPoints(),
+                                fighter1.getFighterRank(), fighter2.getFighterRank())));
                         fighter1.setFighterRank(ranking.setRankingPoints(fighter1.getUserName1(), fighter1.getRankPoints()));
+                        GSONCreator.updateFighterRank(fighter1.getFighterName1(), fighter1.getFighterRank());
                         fighter1.setWins(1);
                         log.addToLog(fighter1.getUserName1(), fighter1.getFighterName1(), fighter1.getWins(), fighter1.getDefeats(), fighter1.getRankPoints());
 
@@ -158,15 +164,16 @@ public class MainMenu {
                                 "Your victories log is also updated.\n\n" +
                                 "You can Level Up and check any of this information in the Main Menu");
                     } else {
-                        // CPU does not win shit KEK. Or does it hm
+                        // CPU does not win shit KEK. Or does it hmmm
 
                         System.out.println("Inside defeat iteration " + fighter1.getUserName1());
 
-                        fighter1.setAvailableStatPoints(Statistics.pointsAwarded + 2);
+                        fighter1.setAvailableStatPoints(fighter1.getAvailableStatPoints() + (Statistics.pointsAwarded + 2));
                         fighter1.setTotalStatPoints(fighter1.getAvailableStatPoints());
-                        fighter1.setRankPoints(ranking.increaseRankingPoints(false, fighter1.getRankPoints(),
-                                fighter1.getFighterRank(), fighter2.getFighterRank()));
+                        fighter1.setRankPoints(fighter1.getRankPoints() + (ranking.increaseRankingPoints(false, fighter1.getRankPoints(),
+                                fighter1.getFighterRank(), fighter2.getFighterRank())));
                         fighter1.setFighterRank(ranking.setRankingPoints(fighter1.getUserName1(), fighter1.getRankPoints()));
+                        GSONCreator.updateFighterRank(fighter1.getFighterName1(), fighter1.getFighterRank());
                         fighter1.setDefeats(1);
                         log.addToLog(fighter1.getUserName1(), fighter1.getFighterName1(), fighter1.getWins(), fighter1.getDefeats(), fighter1.getRankPoints());
 
@@ -235,7 +242,7 @@ public class MainMenu {
                 System.out.println("Currently your Fighter Status is...\n");
                 showStats("FighterName", fighterCreation.getFighterName());
                 System.out.println("With " + fighter1.getAvailableStatPoints() + " stat points available," +
-                        "What stat are you willing to Level Up?\n");
+                        " what stat are you willing to Level Up?\n");
                 System.out.println("1. Vitality\n" +
                         "2. Strength\n" +
                         "3. Dexterity\n" +
@@ -257,7 +264,7 @@ public class MainMenu {
                     case 1 -> {
                         System.out.println("Redirecting...");
                         int points = fighter1.increaseStat(fighterCreation.getFighterName(), StatType.VITALITY); // Accessing ENUM
-                        GSONCreator.updateFighter(fighterCreation.getFighterName(), "Vitality", points);
+                        GSONCreator.updateFighterStat(fighterCreation.getFighterName(), "Vitality", fighter1.getVitality());
                         System.out.println("You have increased your Vitality by " + points + " points. Would you like to further increase your Stats? Y/N");
                         output = ScannerCreator.nextLine();
                         if (output.equalsIgnoreCase("y")) {
@@ -269,7 +276,7 @@ public class MainMenu {
                     case 2 -> {
                         System.out.println("Redirecting...");
                         int points = fighter1.increaseStat(fighterCreation.getFighterName(), StatType.STRENGTH);
-                        GSONCreator.updateFighter(fighterCreation.getFighterName(), "Strength", points);
+                        GSONCreator.updateFighterStat(fighterCreation.getFighterName(), "Strength", fighter1.getStrength());
                         System.out.println("You have increased your Strength by " + points + " points. Would you like to further increase your Stats? Y/N");
                         output = ScannerCreator.nextLine();
                         if (output.equalsIgnoreCase("y")) {
@@ -281,7 +288,7 @@ public class MainMenu {
                     case 3 -> {
                         System.out.println("Redirecting...");
                         int points = fighter1.increaseStat(fighterCreation.getFighterName(), StatType.DEXTERITY);
-                        GSONCreator.updateFighter(fighterCreation.getFighterName(), "Dexterity", points);
+                        GSONCreator.updateFighterStat(fighterCreation.getFighterName(), "Dexterity", fighter1.getDexterity());
                         System.out.println("You have increased your Dexterity by " + points + " points. Would you like to further increase your Stats? Y/N");
                         output = ScannerCreator.nextLine();
                         if (output.equalsIgnoreCase("y")) {
@@ -452,17 +459,19 @@ public class MainMenu {
     }
 
     public void exitProgram() {
+        ScannerCreator.nextLine();
         System.out.println("Heard that! Hope to see you soon again! :D\nPreparing to exit the program...\n");
         FeedBack feedBack = new FeedBack();
+        boolean feedBackAnswer = feedBack.askFeedBack();
+
         try {
-            if (feedBack.askFeedBack()) {
+            if (feedBackAnswer) {
                 feedBack.addToTXT(fighter1.getUserName1());
                 this.exitRequest = true;
-            }
+            } else this.exitRequest = true;
         } catch (NullPointerException exception) {
             System.out.println("Exception catched. You have not fought at least once. Exiting the program");
             this.exitRequest = true;
         }
-        this.exitRequest = true; // Then in the Main .java do a while(!)
     }
 }

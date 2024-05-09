@@ -45,7 +45,7 @@ public class Ranking {
                 updatedRankPoints = - (9999); // You lose all points
             }
         }
-        return rankPoints += updatedRankPoints; // Gives back the updated rankingPoints. So we must first retrieve the current Ranking Points from the Fighter
+        return updatedRankPoints; // Gives back the updated rankingPoints. So we must first retrieve the current Ranking Points from the Fighter
     }
 
     // Calculates the difference in the Rankings between the 2 Fighters and gives back the result as an int
