@@ -149,7 +149,7 @@ It is also responsible for initializing the cronometer and deciding wether the u
 * ENUM.
 * ThreadSleep. Usage to stop/restart the flow of the program.
 * Navigating through the flow of a program.
-* Java Oriented Programming. Which was the main objective of the project.
+* Java Object Oriented Programming. Which was the main objective of the project.
 * The process of starting with nothing but a: "Do a project". Phases of thinking on what to do, how to do it, how to implement all those things and so on. Transforming just an idea to documentation, diagrams, code and a functioning program.
 
 ## Some of the reference sources/websites visited to help with the Code:
