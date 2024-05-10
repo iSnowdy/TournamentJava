@@ -34,7 +34,7 @@ public class Randomizer {
     public boolean dodgeChance(int dexterity) {
         double randomNumber = random.nextDouble();;
         randomNumber *= (dexterity/10.0);
-        return randomNumber < 0.3; // So if the random + dexterity added is less than 0.3, it will be true
+        return randomNumber < 0.1; // So if the random + dexterity added is less than 0.3, it will be true
     }
 
     public int timerGenerator(String rank, int dex) {

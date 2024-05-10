@@ -87,6 +87,12 @@ class Fighter extends Statistics implements Actions {
             String generatedArrows = randomizer.arrowGenerator(currentAttacker.fighterRank);
             KeyListenerMinigame minigame = new KeyListenerMinigame((generatedArrows.length() / 2 + 1), generatedArrows, timer);
 
+            try{
+                Thread.sleep(timer * 1000);
+            } catch (Exception e){
+                System.out.println(e);
+            }
+
             if (minigame.getResult()) {
                 if (!(currentDefender.dodge(currentDefender.getDexterity()))) {
                     int damageDealt = currentAttacker.attack(currentAttacker.getStrength());

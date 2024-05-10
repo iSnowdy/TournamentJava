@@ -44,6 +44,42 @@
       "Vitality": 21,
       "Strength": 19,
       "Dexterity": 7
+    },
+    {
+      "UserName": "Dan",
+      "FighterName": "sidjasid",
+      "Rank": "Clown",
+      "Type": "Balanced",
+      "Vitality": 10,
+      "Strength": 5,
+      "Dexterity": 2
+    },
+    {
+      "UserName": "Dandy",
+      "FighterName": "DandyFi",
+      "Rank": "Clown",
+      "Type": "Balanced",
+      "Vitality": 10,
+      "Strength": 5,
+      "Dexterity": 2
+    },
+    {
+      "UserName": "DADADASDS",
+      "FighterName": "dsdasdasd",
+      "Rank": "Clown",
+      "Type": "Balanced",
+      "Vitality": 10,
+      "Strength": 5,
+      "Dexterity": 2
+    },
+    {
+      "UserName": "Thread",
+      "FighterName": "Killer",
+      "Rank": "Clown",
+      "Type": "Balanced",
+      "Vitality": 10,
+      "Strength": 5,
+      "Dexterity": 2
     }
   ]
 }
