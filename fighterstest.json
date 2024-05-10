@@ -5,8 +5,8 @@
       "FighterName": "Fighter1",
       "Rank": "Clown",
       "Type": "Vitality Oriented",
-      "Vitality": 10,
-      "Strength": 5,
+      "Vitality": 5,
+      "Strength": 3,
       "Dexterity": 2
     },
     {
@@ -14,72 +14,36 @@
       "FighterName": "Fighter2",
       "Rank": "Almost_Human",
       "Type": "Glass Cannon",
-      "Vitality": 7,
+      "Vitality": 5,
       "Strength": 12,
-      "Dexterity": 1
+      "Dexterity": 3
     },
     {
       "UserName": "",
       "FighterName": "Fighter3",
       "Rank": "Expert_Fighter",
       "Type": "Agile",
-      "Vitality": 3,
-      "Strength": 6,
-      "Dexterity": 15
+      "Vitality": 10,
+      "Strength": 5,
+      "Dexterity": 25
     },
     {
       "UserName": "",
       "FighterName": "Fighter4",
       "Rank": "Sensei",
       "Type": "Strength Oriented",
-      "Vitality": 7,
-      "Strength": 12,
-      "Dexterity": 6
+      "Vitality": 20,
+      "Strength": 35,
+      "Dexterity": 5
     },
     {
       "UserName": "",
       "FighterName": "Fighter5",
       "Rank": "Maa",
       "Type": "Vitality Oriented",
-      "Vitality": 21,
-      "Strength": 19,
-      "Dexterity": 7
-    },
-    {
-      "UserName": "Dan",
-      "FighterName": "sidjasid",
-      "Rank": "Clown",
-      "Type": "Balanced",
-      "Vitality": 10,
-      "Strength": 5,
-      "Dexterity": 2
-    },
-    {
-      "UserName": "Dandy",
-      "FighterName": "DandyFi",
-      "Rank": "Clown",
-      "Type": "Balanced",
-      "Vitality": 10,
-      "Strength": 5,
-      "Dexterity": 2
-    },
-    {
-      "UserName": "DADADASDS",
-      "FighterName": "dsdasdasd",
-      "Rank": "Clown",
-      "Type": "Balanced",
-      "Vitality": 10,
-      "Strength": 5,
-      "Dexterity": 2
-    },
-    {
-      "UserName": "Thread",
-      "FighterName": "Killer",
-      "Rank": "Clown",
-      "Type": "Balanced",
-      "Vitality": 10,
-      "Strength": 5,
-      "Dexterity": 2
+      "Vitality": 40,
+      "Strength": 20,
+      "Dexterity": 10
     }
   ]
 }

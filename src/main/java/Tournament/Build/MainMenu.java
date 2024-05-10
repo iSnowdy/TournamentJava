@@ -99,7 +99,7 @@ public class MainMenu {
                                 stats[0], stats[1], stats[2], 0, fighterCreation.getRank());
                         // CPU for now
 
-                        System.out.println("-- Null situation --");
+                        // System.out.println("-- Null situation --");
                         fighter2 = new Fighter("CPU", "Fighter2",
                                 7, 5, 1, 0, "Almost_Human");
                     }
@@ -133,29 +133,42 @@ public class MainMenu {
                         }
                     }
 
+                    System.out.println("In 5 seconds you will be redirected to the Fight itself ...\n\n");
+                    try{
+                        Thread.sleep(5000);
+                    } catch (Exception exception){
+                        System.err.println(exception);
+                    }
+
                     // Now we can finally get to the fighting. Although the method will (*or should*) handle everything
 
                     String fightResult = fighter1.declareWinner(fighter1, fighter2, winner);
-                    System.out.println("Aaaand the winner is ...\n\n ¡¡¡" + fightResult + "!!!\n\n " +
-                            "PD: type anything to continue");
+                    System.out.println("Aaaand the winner is ...\n\n ¡¡¡" + fightResult + "!!!\n\n ");
 
                     // Now we update everything related to the condition of winning / losing
 
                     if (Objects.equals(fightResult, fighter1.getUserName1())) {
 
-                        System.out.println("Inside win iteration for " + fighter1.getUserName1());
+                        // System.out.println("Inside win iteration for " + fighter1.getUserName1());
 
                         // In order, we are updating: (1) stat points, (2) total stat points, (3) ranking points,
-                        // (4) the log with ranking points, (5) the rank position according to the current
+                        // (4) fighter rank in the Object, (5 and 6) Fighter Rank / Type in the GSON and Object (6),
+                        // (7) the wins/defeats, (8) the log with everything about the user/opponent, (9) the rank position according to the current
                         // available ranking points. 4 and 5 are done in the same sentence
                         fighter1.setAvailableStatPoints(fighter1.getAvailableStatPoints() + Statistics.pointsAwarded);
                         fighter1.setTotalStatPoints(fighter1.getAvailableStatPoints());
                         fighter1.setRankPoints(fighter1.getRankPoints() + (ranking.increaseRankingPoints(true, fighter1.getRankPoints(),
                                 fighter1.getFighterRank(), fighter2.getFighterRank())));
                         fighter1.setFighterRank(ranking.setRankingPoints(fighter1.getUserName1(), fighter1.getRankPoints()));
-                        GSONCreator.updateFighterRank(fighter1.getFighterName1(), fighter1.getFighterRank());
+                        GSONCreator.updateFighterString(fighter1.getFighterName1(),"Rank", fighter1.getFighterRank());
+                        GSONCreator.updateFighterString(fighter1.getFighterName1(), "Type", fighter1.typeUpdate(fighter1.getFighterName1()));
                         fighter1.setWins(1);
-                        log.addToLog(fighter1.getUserName1(), fighter1.getFighterName1(), fighter1.getWins(), fighter1.getDefeats(), fighter1.getRankPoints());
+                        System.out.println("****************************");
+                        System.out.println("User " + fighter1.getUserName1() + " wins/defeats: " + fighter1.getWins() + "/" + fighter1.getDefeats());
+                        System.out.println("User " + fighter2.getUserName1() + " wins/defeats: " + fighter2.getWins() + "/" + fighter2.getDefeats());
+                        System.out.println("****************************");
+                        log.updateLog(fighter1.getUserName1(), fighter1.getFighterName1(), fighter1.getWins(), fighter1.getDefeats(), fighter1.getRankPoints(),
+                                fighter2.getUserName1(), fighter2.getWins(), fighter2.getDefeats(), fighter2.getFighterRank());
 
                         System.out.println("Since you have won, you will be awarded:\n" +
                                 "Stat points to Level Up. A win is 5 points. You know have: " +
@@ -166,27 +179,33 @@ public class MainMenu {
                     } else {
                         // CPU does not win shit KEK. Or does it hmmm
 
-                        System.out.println("Inside defeat iteration " + fighter1.getUserName1());
+                        // System.out.println("Inside defeat iteration " + fighter1.getUserName1());
 
                         fighter1.setAvailableStatPoints(fighter1.getAvailableStatPoints() + (Statistics.pointsAwarded + 2));
                         fighter1.setTotalStatPoints(fighter1.getAvailableStatPoints());
                         fighter1.setRankPoints(fighter1.getRankPoints() + (ranking.increaseRankingPoints(false, fighter1.getRankPoints(),
                                 fighter1.getFighterRank(), fighter2.getFighterRank())));
                         fighter1.setFighterRank(ranking.setRankingPoints(fighter1.getUserName1(), fighter1.getRankPoints()));
-                        GSONCreator.updateFighterRank(fighter1.getFighterName1(), fighter1.getFighterRank());
+                        GSONCreator.updateFighterString(fighter1.getFighterName1(), "Rank", fighter1.getFighterRank());
+                        GSONCreator.updateFighterString(fighter1.getFighterName1(), "Type", fighter1.typeUpdate(fighter1.getFighterName1()));
                         fighter1.setDefeats(1);
-                        log.addToLog(fighter1.getUserName1(), fighter1.getFighterName1(), fighter1.getWins(), fighter1.getDefeats(), fighter1.getRankPoints());
+                        System.out.println("****************************");
+                        System.out.println("User " + fighter1.getUserName1() + " wins/defeats: " + fighter1.getWins() + "/" + fighter1.getDefeats());
+                        System.out.println("User " + fighter2.getUserName1() + " wins/defeats: " + fighter2.getWins() + "/" + fighter2.getDefeats());
+                        System.out.println("****************************");
+                        log.updateLog(fighter1.getUserName1(), fighter1.getFighterName1(), fighter1.getWins(), fighter1.getDefeats(), fighter1.getRankPoints(),
+                                fighter2.getUserName1(), fighter2.getWins(), fighter2.getDefeats(), fighter2.getFighterRank());
 
                         System.out.println("You have lost :( But do not worry! There's always a second chance\n" +
-                                "As per the rules states, you will be given 7 stat points instead of 5 for a loss. You " +
+                                "As per the rules states, you will be given 7 stat points instead of 5 for a defeat. You " +
                                 "now have: " + fighter1.getAvailableStatPoints() + " stat points to spend\n" +
                                 "However, you will be deducted Ranking Points and the defeat will be registered " +
                                 "(" + fighter1.getRankPoints() + " current Ranking Points) " +
                                 "in the Log.\n" +
                                 "You can Level Up and check any of this information in the Main Menu\n\n");
                     }
-                    System.out.println("Wins: " + fighter1.getWins());
-                    System.out.println("Defeats: " + fighter1.getDefeats());
+                    /*System.out.println("Wins: " + fighter1.getWins());
+                    System.out.println("Defeats: " + fighter1.getDefeats());*/
                     chooseOption();
                 }
                 case 2 -> {

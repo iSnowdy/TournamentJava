@@ -218,6 +218,7 @@ public class FighterCreation extends Statistics {
 
         // We add the Fighter to the JSON File. But it is still not created inside the program! (Fighter class)
         GSONCreator.addNewFighter(this.username1, fighterName, rank, vitPoints + 1, strPoints + 1, dexPoints + 1);
+        log.addToLog(this.username1, this.fighterName, 0, 0, 0);
         // Heavily consider changing the way parameters are given. I don't like adding that + 1 there
     }
 
@@ -261,22 +262,63 @@ public class FighterCreation extends Statistics {
         double vitalityRatio = (double)vitality / totalPoints;
         double strengthRatio = (double)strength / totalPoints;
         double dexterityRatio = (double)dexterity / totalPoints;
+
+        double maxStat = Math.max(Math.max(vitalityRatio, strengthRatio), dexterityRatio);
         // Now we determine the FighterType according to the difference between the stats
-        if (vitalityRatio >= 0.6) {
-            return fighterType = "Tank";
-        } else if (strengthRatio >= 0.6) {
-            return fighterType = "Glass Cannon";
-        } else if (dexterityRatio >= 0.6) {
-            return fighterType = "Agile";
-        } else if (vitalityRatio >= 0.4) {
-            return fighterType = "Vitality Oriented";
-        } else if (strengthRatio >= 0.4) {
-            return fighterType = "Strength Oriented";
-        } else if (dexterityRatio >= 0.4) {
-            return fighterType = "Dexterity Oriented";
-        } else {
-            return fighterType = "Balanced";
+        // Yes it is ugly af. This needs to be improved kek
+        if (maxStat == vitalityRatio) {
+            // System.out.println("Vitality loop");
+            if (vitalityRatio >= 0.6) {
+                return fighterType = "Tank";
+            } else if (strengthRatio >= 0.6) {
+                return fighterType = "Glass Cannon";
+            } else if (dexterityRatio >= 0.6) {
+                return fighterType = "Agile";
+            } else if (vitalityRatio >= 0.4) {
+                return fighterType = "Vitality Oriented";
+            } else if (strengthRatio >= 0.4) {
+                return fighterType = "Strength Oriented";
+            } else if (dexterityRatio >= 0.4) {
+                return fighterType = "Dexterity Oriented";
+            } else {
+                return fighterType = "Balanced";
+            }
+        } else if (maxStat == strengthRatio) {
+            // System.out.println("Strength loop");
+            if (strengthRatio >= 0.6) {
+                return fighterType = "Glass Cannon";
+            } else if (vitalityRatio >= 0.6) {
+                return fighterType = "Tank";
+            } else if (dexterityRatio >= 0.6) {
+                return fighterType = "Agile";
+            } else if (strengthRatio >= 0.4) {
+                return fighterType = "Strength Oriented";
+            } else if (vitalityRatio >= 0.4) {
+                return fighterType = "Vitality Oriented";
+            } else if (dexterityRatio >= 0.4) {
+                return fighterType = "Dexterity Oriented";
+            } else {
+                return fighterType = "Balanced";
+            }
+        } else if (maxStat == dexterityRatio) {
+            // System.out.println("Dexterity loop");
+            if (dexterityRatio >= 0.6) {
+                return fighterType = "Agile";
+            } else if (strengthRatio >= 0.6) {
+                return fighterType = "Glass Cannon";
+            } else if (vitalityRatio >= 0.6) {
+                return fighterType = "Tank";
+            } else if (dexterityRatio >= 0.4) {
+                return fighterType = "Dexterity Oriented";
+            } else if (strengthRatio >= 0.4) {
+                return fighterType = "Strength Oriented";
+            } else if (vitalityRatio >= 0.4) {
+                return fighterType = "Vitality Oriented";
+            } else {
+                return fighterType = "Balanced";
+            }
         }
+        return "Invalid option";
     }
 
     // Re factoring must be done on these methods down here

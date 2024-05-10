@@ -58,7 +58,7 @@ public class GSONCreator {
         try {
             FileReader fileReader = new FileReader(filePath);
             JsonObject jsonObject = gson.fromJson(fileReader, JsonObject.class);
-            System.out.println("Reading JSON... \n\n");
+            System.out.println("Reading JSON... \n");
             System.out.println(gson.toJson(jsonObject)); // Must print the object, not the fileReader too KEK
             fileReader.close();
         } catch (IOException exception02) {
@@ -160,13 +160,19 @@ public class GSONCreator {
             fighterArray.add(newFighter);
             System.out.println("Fighter has been successfully added to the JSON File");
         } else { // if true -> exists; remove
-            GSONCreator.removeFighter(fighterName, jsonObject);
-            System.out.println("Fighter exists already. Elimination completed");
+            System.out.println("A Fighter with the same information has been found. Type 'Y' to delete it. Type 'N' to use it");
+            String choice = ScannerCreator.nextLine();
+            if (Objects.equals(choice.toLowerCase(), "y")) {
+                GSONCreator.removeFighter(fighterName, jsonObject);
+                System.out.println("Fighter exists already. Elimination completed");
+            } else {
+                System.out.println("Missing things here");
+            }
+
         }
         // Is the removal really needed?
 
         GSONCreator.saveFile(jsonObject, filePath); // Crucial to save the changes made to the file
-        GSONCreator.readFile(filePath); // Print it. Maybe not needed
     }
 
     // Modifies specific parameters of a Fighter (previous methods were adding a whole new Object to the JSON
@@ -187,14 +193,14 @@ public class GSONCreator {
     }
 
     // Modifies the Rank in the JSON
-    public static void updateFighterRank(String fighterName, String newRank) {
+    public static void updateFighterString(String fighterName, String desiredFeature, String feature) {
         JsonObject jsonObject = GSONCreator.loadFile(GSONCreator.filepathJSON1);
         JsonArray fighterArray = jsonObject.getAsJsonArray("Fighters");
 
         for (JsonElement fighterElement : fighterArray) {
             JsonObject fighter = fighterElement.getAsJsonObject();
             if (fighter.get("FighterName").getAsString().equals(fighterName)) {
-                fighter.addProperty("Rank", newRank);
+                fighter.addProperty(desiredFeature, feature);
                 break;
             }
         }

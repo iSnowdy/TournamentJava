@@ -16,11 +16,11 @@ public class Ranking {
     }
 
     private void setRankingCorrelation() {
-        this.rankingCorrelation.put("Clown", 0);
-        this.rankingCorrelation.put("Almost-a-Human", 20);
-        this.rankingCorrelation.put("Expert Fighter", 40);
-        this.rankingCorrelation.put("Sensei", 60);
-        this.rankingCorrelation.put("Maa", 100);
+        this.rankingCorrelation.put("Clown", 0); // 10 points
+        this.rankingCorrelation.put("Almost-a-Human", 20); // 30 points
+        this.rankingCorrelation.put("Expert Fighter", 40); // 50 points
+        this.rankingCorrelation.put("Sensei", 60); // 70 points
+        this.rankingCorrelation.put("Maa", 100); // 90 points
     }
 
     public void getRankingCorrelation() {
@@ -40,7 +40,7 @@ public class Ranking {
             updatedRankPoints = 10 + (difference * 5); // 10 points are given per Victory + if there's a difference in rankings, 5 per ranking difference
         } else { // Defeat
             if (difference <= 1) {
-                updatedRankPoints = - (10 + difference * 10); // 10 points are deducted per Loss + if there's a difference <= 1, 10 per rank difference
+                updatedRankPoints = - (10 + difference * 10); // 10 points are deducted per defeat + if there's a difference <= 1, 10 per rank difference
             } else {
                 updatedRankPoints = - (9999); // You lose all points
             }

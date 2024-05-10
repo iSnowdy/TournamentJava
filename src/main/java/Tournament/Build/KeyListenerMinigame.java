@@ -17,6 +17,7 @@ public class KeyListenerMinigame extends JFrame implements KeyListener {
     protected boolean result;
 
     private final Cron cron;
+    private boolean gameStatus = false;
 
     public KeyListenerMinigame(int maxInputs, String input, int timer) {
         this.arrowBuffer = new StringBuilder();
@@ -86,7 +87,7 @@ public class KeyListenerMinigame extends JFrame implements KeyListener {
                 keyCode == KeyEvent.VK_DOWN ||
                 keyCode == KeyEvent.VK_RIGHT ||
                 keyCode == KeyEvent.VK_LEFT) {
-            System.out.println("You have pressed: " + KeyEvent.getKeyText(keyCode));
+            // System.out.println("You have pressed: " + KeyEvent.getKeyText(keyCode));
         }
         // Only the pressed Key Inputs will be printed
         // Consider printing on the textField only the Arrow inputs
@@ -149,5 +150,10 @@ public class KeyListenerMinigame extends JFrame implements KeyListener {
     }
     public boolean getResult() {
         return result;
+    }
+
+    public boolean getGameStatus() {
+        this.gameStatus = true;
+        return gameStatus;
     }
 }

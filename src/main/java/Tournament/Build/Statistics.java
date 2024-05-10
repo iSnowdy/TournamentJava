@@ -168,7 +168,7 @@ public abstract class Statistics implements StatsManager {
             availableStatPoints -= statPoints;
 
             // Most likely will need a way to check that if there is no stat points available then get out of here
-            System.out.println("Now your " + statName + " is " + statValue + statPoints);
+            System.out.println("Now your " + statName + " is " + (statValue + statPoints));
             if (this.getAvailableStatPoints() > 0) {
                 System.out.println("Would you like to further increase it? Y/N");
                 ScannerCreator.nextLine();
@@ -176,7 +176,7 @@ public abstract class Statistics implements StatsManager {
                 if (Objects.equals(output.toLowerCase(), "n")) {
                     exit = false;
                 }
-            }
+            } else exit = false;
         }
 
         switch (statType) {

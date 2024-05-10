@@ -16,6 +16,29 @@ se deberá de imprimir de alguna forma la informacion de ese usuario
 Pero es pillado con un catch
 - PvP? not found
 
+
+**** Manejar Doble Jugadores ****
+
+- El Main Menu hacer que si es para dos jugadores se cambie la bienvenida y sea de los nombres de
+ambos jugadores y sus luchadores
+
+- Luego para cada opcion del log se haria una pregunta sobre quién es el que quier hacer qué y dependiendo
+de la respuesta con un switch, se modificarían las cosas para una instancia de fighter u otra
+
+Esto haría falta para:
+    - Level Up
+    - Show Stats
+    - Show Log
+
+**** Manejar Doble Jugadores ****
+
+- Considerar ir mejorando la CPU a medida que va ganando/perdiendo incluso aunque sea un PvE
+- Arreglar el puto print de Opponent joder
+- GSONCreator LoadFile carga desde el final, no desde el principio. Y si luego se pilla un rango
+que ya se ha mejorado, viene con las stats chetas
+
+
+
 WORKING:
 
 public String declareWinner(Fighter fighter1, Fighter fighter2, String firstAttacker) { // firstAttacker calls Randomizer
