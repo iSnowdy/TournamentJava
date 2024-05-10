@@ -138,12 +138,31 @@ It is also responsible for initializing the cronometer and deciding wether the u
  
 ## List of things learnt throughout the project:
 
-* Item 1.
-* Item 2.
-* Item ...
+* Linking Multiple Menus.
+* Usage of Scanner as a Utility Class.
+* Usage of GSON Library to load, read, modify and save into .json files.
+* Usage of Files (.txt) to load, read, modify and save changes into .txt files.
+* Implementation of utility classes.
+* Static property. Usage across the project.
+* KeyListener. "Hearing" inputs from the User.
+* Cron. A way to set-up a cronometer in Java. Highly customizable.
+* ENUM.
+* ThreadSleep. Usage to stop/restart the flow of the program.
+* Navigating through the flow of a program.
+* Java Object Oriented Programming. Which was the main objective of the project.
+* The process of starting with nothing but a: "Do a project". Phases of thinking on what to do, how to do it, how to implement all those things and so on. Transforming just an idea to documentation, diagrams, code and a functioning program.
 
-## Some of the websites visited used as references:
+## Some of the reference sources/websites visited to help with the Code:
 
-* Item 1.
-* item 2.
-* Item ...
+* [Stat Balance](https://upcommons.upc.edu/bitstream/handle/2117/393564/311_Memoria_TFG.pdf?sequence=2&isAllowed=y)
+* [KeyListener](https://www.geeksforgeeks.org/java-keylistener-in-awt/)
+* [Cron](https://www.delftstack.com/es/howto/java/countdown-timer-java/)
+* [JFrame - Interface](https://www.jairogarciarincon.com/clase/interfaces-de-usuario-con-java-swing/componentes-jtextfield-y-jtextarea)
+* [JFrame - Focusing Window](https://docs.oracle.com/javase/tutorial/uiswing/misc/focus.html)
+* [Static Concept](https://codegym.cc/es/groups/posts/es.141.10-cosas-que-debes-saber-sobre-el-modificador-estatico-en-java)
+* [Similar Example of a Fight with Characters and Levels](https://aprenderaprogramar.com/foros/index.php?topic=7893.0)
+* [Polymorphism](https://www3.uji.es/~belfern/Docencia/Presentaciones/ProgramacionAvanzada/Tema1/conceptosPolimorfismoSobrecarga.html#8)
+* [Multiple Line Scanner](https://stackoverflow.com/questions/46769218/java-multiline-scanner-input)
+* [GSON Library 1](https://howtodoinjava.com/gson/gson/)
+* [GSON Library 2](https://jarroba.com/gson-json-java-ejemplos/)
+* [GSON Library 3](https://www.tutorialspoint.com/gson/gson_quick_guide.htm)
